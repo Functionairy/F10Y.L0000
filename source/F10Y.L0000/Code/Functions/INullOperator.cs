@@ -8,6 +8,26 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface INullOperator
     {
+        public bool Is_NotNull<T>(T value)
+            where T : class
+        {
+            // A great, quick null check.
+            var output = value is object;
+            return output;
+        }
+
+        public bool Is_Null<T>(T value)
+            where T : class
+        {
+            // Use "is" instead of:
+            // * == null - Equality operator eventually just uses Object.ReferenceEquals().
+            // * Object.Equals() - Should be Object.ReferenceEquals() instead.
+            // * Object.ReferenceEquals() - IDE0041 message is produced, indicating preference for "is null".
+
+            var output = value is null;
+            return output;
+        }
+
         /// <inheritdoc cref="NullCheckDeterminesEquality{T}(T, T, out bool)"/>
         public bool NullCheckDeterminesEquality_Else<T>(T a, T b,
             Func<T, T, bool> equality)

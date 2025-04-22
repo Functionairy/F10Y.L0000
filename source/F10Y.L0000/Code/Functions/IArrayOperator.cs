@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 
+using F10Y.L0000.Extensions;
 using F10Y.T0002;
 
 
@@ -68,6 +69,19 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        public T Get_First<T>(T[] array)
+        {
+            // Could be either a zero- (C# standard) or one-based (some MS Office interop scenarios) array.
+            var index_First = this.Get_Index_First(array);
+
+            var output = array[index_First];
+            return output;
+        }
+
+        public int Get_Index_First<T>(T[] array)
+            // Even if the array is one-based, its dimensions are zero-based.
+            => array.GetLowerBound(Instances.Indices.Zero);
 
         /// <summary>
         /// Handles null check.

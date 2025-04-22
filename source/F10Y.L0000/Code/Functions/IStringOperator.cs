@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using F10Y.T0002;
 
@@ -9,6 +10,67 @@ namespace F10Y.L0000
     public partial interface IStringOperator
     {
         /// <summary>
+        /// Uses the provided <paramref name="caseStandardization_Function"/> to standardized case before comparing.
+        /// </summary>
+        public bool Are_Equal_CaseInsensitive(
+            string a,
+            string b,
+            Func<string, string> caseStandardization_Function)
+        {
+            var a_Invariant = caseStandardization_Function(a);
+            var b_Invariant = caseStandardization_Function(b);
+
+            var output = this.Are_Equal_CaseSensitive(a_Invariant, b_Invariant);
+            return output;
+        }
+
+        /// <summary>
+        /// Uses <see cref="To_Lower_Invariant(string)"/> as the case standardization function.
+        /// </summary>
+        public bool Are_Equal_CaseInsensitive(
+            string a,
+            string b)
+            => this.Are_Equal_CaseInsensitive(
+                a,
+                b,
+                this.To_Lower_Invariant);
+
+
+        public bool Are_Equal_CaseSensitive(
+            string a,
+            string b)
+        {
+            var output = a == b;
+            return output;
+        }
+
+        /// <summary>
+        /// A quality-of-life over for <see cref="Are_Equal_CaseSensitive(string, string)"/>.
+        /// </summary>
+        public bool Are_Equal_Exact(
+            string a,
+            string b)
+            => this.Are_Equal_CaseSensitive(
+                a,
+                b);
+
+        /// <summary>
+        /// Chooses <see cref="Are_Equal_CaseSensitive(string, string)"/> as the default.
+        /// </summary>
+        public bool Are_Equal(
+            string a,
+            string b)
+            => this.Are_Equal_CaseSensitive(
+                a,
+                b);
+
+        public string Concatenate(params string[] strings)
+            => String.Concat(strings);
+
+        public string Concatenate(IEnumerable<string> strings)
+            => String.Concat(strings);
+
+        /// <summary>
         /// Ensure the first and last characters of a string are a <inheritdoc cref="ICharacters.QuotationMark" path="descendant::name"/> (<inheritdoc cref="ICharacters.QuotationMark" path="descendant::value"/>)
         /// by adding characters if necessary.
         /// </summary>
@@ -17,12 +79,15 @@ namespace F10Y.L0000
             var firstChar = this.Get_Character_First(@string);
             var lastChar = this.Get_Character_Last(@string);
 
-            var firstQuotationMarkToken = firstChar == Instances.Characters.QuotationMark
+            var firstChar_IsQuotationMark = firstChar == Instances.Characters.QuotationMark;
+            var lastChar_IsQuotationMark = lastChar == Instances.Characters.QuotationMark;
+
+            var firstQuotationMarkToken = firstChar_IsQuotationMark
                 ? Instances.Strings.Empty
                 : Instances.Strings.Quote
                 ;
 
-            var lastQuotationMarkToken = lastChar == Instances.Characters.QuotationMark
+            var lastQuotationMarkToken = lastChar_IsQuotationMark
                 ? Instances.Strings.Empty
                 : Instances.Strings.Quote
                 ;
@@ -31,16 +96,26 @@ namespace F10Y.L0000
             return output;
         }
 
-        /// <summary>
-        /// Returns the character at the provided index.
-        /// </summary>
-        public char Get_Character(
-            string @string,
-            int index)
+        public string Format_WithTemplate(
+            string template,
+            params object[] objects)
         {
-            var output = @string[index];
+            var output = String.Format(
+                template,
+                objects);
+
             return output;
         }
+
+        /// <summary>
+        /// Chooses <see cref="Format_WithTemplate(string, object[])"/> as the default.
+        /// </summary>
+        public string Format(
+            string template,
+            params object[] objects)
+            => this.Format_WithTemplate(
+                template,
+                objects);
 
         public char Get_Character_First(string @string)
             => this.Get_Character(
@@ -58,6 +133,17 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Returns the character at the provided index.
+        /// </summary>
+        public char Get_Character(
+            string @string,
+            int index)
+        {
+            var output = @string[index];
+            return output;
+        }
+
         public int Get_IndexOf_Last(string @string)
         {
             var length = this.Get_Length(@string);
@@ -68,5 +154,48 @@ namespace F10Y.L0000
 
         public int Get_Length(string @string)
             => @string.Length;
+
+        /// <summary>
+        /// Determines if the input is specifically the <see cref="IStrings.Empty"/> string.
+        /// </summary>
+        public bool Is_Empty(string value)
+        {
+            var isEmpty = value == Instances.Strings.Empty;
+            return isEmpty;
+        }
+
+        public bool Is_NotNull(string @string)
+            => Instances.NullOperator.Is_NotNull(@string);
+
+        public bool Is_Null(string @string)
+            => Instances.NullOperator.Is_Null(@string);
+
+        public bool Is_NullOrEmpty(string @string)
+            => String.IsNullOrEmpty(@string);
+
+        public string Join(
+            char separator,
+            IEnumerable<string> strings)
+            => String.Join(separator, strings);
+
+        public string Join(
+            string separator,
+            IEnumerable<string> strings)
+            => String.Join(separator, strings);
+
+        /// <summary>
+        /// Returns the lowered version of a string.
+        /// </summary>
+        /// <remarks>
+        /// Returns the result of <see cref="String.ToLowerInvariant"/>.
+        /// </remarks>
+        public string To_Lower_Invariant(string @string)
+            => @string.ToLowerInvariant();
+
+        /// <summary>
+        /// Chooses <see cref="To_Lower_Invariant(string)"/> as the default.
+        /// </summary>
+        public string To_Lower(string @string)
+            => this.To_Lower_Invariant(@string);
     }
 }
