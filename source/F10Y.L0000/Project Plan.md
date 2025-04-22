@@ -85,3 +85,9 @@ Disallowed Opinions:
 ## Internal Structure
 
 Because this library is so strictly specified, this library follows a single project approach (with no multi-library project internal structure).
+
+
+## Notes
+
+- Do not put extensions in system namespaces in this library. (Like IEnumerable\<T> extensions in System.Linq.) A platform library can do this, using the enumerable operator from this library.
+	For this library, extensions are simply placed in an "Extensions" namespace.
