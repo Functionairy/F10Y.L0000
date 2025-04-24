@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 using F10Y.T0002;
 
@@ -144,6 +145,34 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// The default <see cref="String.GetHashCode()"/> is non-deterministic.
+        /// This method provides a deterministic implementation.
+        /// </summary>
+        /// <remarks>
+        /// Source: https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/#a-deterministic-gethashcode-implementation
+        /// </remarks>
+        public int Get_HashCode_Deterministic(string @string)
+        {
+            unchecked
+            {
+                int hash1 = (5381 << 16) + 5381;
+                int hash2 = hash1;
+
+                for (int i = 0; i < @string.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ @string[i];
+
+                    if (i == @string.Length - 1)
+                        break;
+
+                    hash2 = ((hash2 << 5) + hash2) ^ @string[i + 1];
+                }
+
+                return hash1 + (hash2 * 1566083941);
+            }
+        }
+
         public int Get_IndexOf_Last(string @string)
         {
             var length = this.Get_Length(@string);
@@ -197,5 +226,36 @@ namespace F10Y.L0000
         /// </summary>
         public string To_Lower(string @string)
             => this.To_Lower_Invariant(@string);
+
+        public string To_Lower(
+            string @string,
+            CultureInfo cultureInfo)
+        {
+            var output = @string.ToLower(cultureInfo);
+            return output;
+        }
+
+        /// <summary>
+        /// Returns the uppered version of a string.
+        /// </summary>
+        /// <remarks>
+        /// Returns the result of <see cref="String.ToUpperInvariant"/>.
+        /// </remarks>
+        public string To_Upper_Invariant(string @string)
+            => @string.ToUpperInvariant();
+
+        /// <summary>
+        /// Chooses <see cref="To_Upper_Invariant(string)"/> as the default.
+        /// </summary>
+        public string To_Upper(string @string)
+            => this.To_Upper_Invariant(@string);
+
+        public string To_Upper(
+            string @string,
+            CultureInfo cultureInfo)
+        {
+            var output = @string.ToUpper(cultureInfo);
+            return output;
+        }
     }
 }

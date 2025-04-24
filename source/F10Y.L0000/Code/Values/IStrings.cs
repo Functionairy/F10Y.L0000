@@ -47,6 +47,47 @@ namespace F10Y.L0000
         public string Space => IStrings.Space_Constant;
 
 
+        #region Alphabet - Lowercase
+
+
+        #endregion
+
+
+        #region Alphabet - Uppercase
+
+        /// <inheritdoc cref="StringsDocumentation.For_A"/>
+        public const string A_Constant = "A";
+
+        /// <inheritdoc cref="A_Constant"/>
+        public string A => IStrings.A_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_B"/>
+        public const string B_Constant = "B";
+
+        /// <inheritdoc cref="B_Constant"/>
+        public string B => IStrings.B_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_C"/>
+        public const string C_Constant = "C";
+
+        /// <inheritdoc cref="C_Constant"/>
+        public string C => IStrings.C_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_D"/>
+        public const string D_Constant = "D";
+
+        /// <inheritdoc cref="D_Constant"/>
+        public string D => IStrings.D_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_E"/>
+        public const string E_Constant = "E";
+
+        /// <inheritdoc cref="E_Constant"/>
+        public string E => IStrings.E_Constant;
+
+
+        #endregion
+
 
         /// <inheritdoc cref="StringsDocumentation.For_False_Lowercase"/>
         public const string False_Lowercase_Constant = "false";

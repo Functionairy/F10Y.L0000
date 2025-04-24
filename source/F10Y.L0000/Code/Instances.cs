@@ -33,6 +33,7 @@ namespace F10Y.L0000
         public static INullOperator NullOperator => L0000.NullOperator.Instance;
         public static IPathOperator PathOperator => L0000.PathOperator.Instance;
         public static IProcessOperator ProcessOperator => L0000.ProcessOperator.Instance;
+        public static IRandomOperator RandomOperator => L0000.RandomOperator.Instance;
         public static IStreamWriterOperator StreamWriterOperator => L0000.StreamWriterOperator.Instance;
         public static IStringOperator StringOperator => L0000.StringOperator.Instance;
         public static IStrings Strings => L0000.Strings.Instance;

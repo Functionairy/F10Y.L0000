@@ -9,6 +9,207 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IVersionOperator
     {
+        /// <summary>
+        /// Produces a version that has all the same values as the input version,
+        /// except with the provided major value.
+        /// </summary>
+        public Version Change_MajorValue(
+            Version version,
+            int majorValue)
+        {
+            var output = this.New_IgnoreOutOfRangeValues(
+                majorValue,
+                version.Minor,
+                version.Build,
+                version.Revision);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Produces a version that has all the same values as the input version,
+        /// except with the provided major value.
+        /// </summary>
+        public Version Change_MinorValue(
+            Version version,
+            int minorValue)
+        {
+            var output = this.New_IgnoreOutOfRangeValues(
+                version.Major,
+                minorValue,
+                version.Build,
+                version.Revision);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Produces a version that has all the same values as the input version,
+        /// except with the provided major value.
+        /// </summary>
+        public Version Change_BuildValue(
+            Version version,
+            int buildValue)
+        {
+            var output = this.New_IgnoreOutOfRangeValues(
+                version.Major,
+                version.Minor,
+                buildValue,
+                version.Revision);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Produces a version that has all the same values as the input version,
+        /// except with the provided major value.
+        /// </summary>
+        public Version Change_RevisionValue(
+            Version version,
+            int revisionValue)
+        {
+            var output = this.New_IgnoreOutOfRangeValues(
+                version.Major,
+                version.Minor,
+                version.Build,
+                revisionValue);
+
+            return output;
+        }
+
+        /// <inheritdoc cref="Version(string)"/>
+        public Version From(string version)
+        {
+            var output = new Version(version);
+            return output;
+        }
+
+        public Version From(
+            int major,
+            int minor)
+        {
+            var output = new Version(
+                major,
+                minor);
+
+            return output;
+        }
+
+        public Version From(
+            int major,
+            int minor,
+            int build)
+        {
+            var output = new Version(
+                major,
+                minor,
+                build);
+
+            return output;
+        }
+
+        public Version From(
+            int major,
+            int minor,
+            int build,
+            int revision)
+        {
+            var output = new Version(
+                major,
+                minor,
+                build,
+                revision);
+
+            return output;
+        }
+
+        public int[] Get_AllTokens(Version version)
+        {
+            var tokens = new[]
+            {
+                version.Major,
+                version.Minor,
+                version.Build,
+                version.Revision,
+            };
+
+            return tokens;
+        }
+
+        public int Get_DefinedTokenCount(Version version)
+        {
+            var undefinedVersionValue = this.Get_UndefinedVersionPropertyValue();
+
+            var tokens = this.Get_AllTokens(version);
+
+            var definedTokenCount = tokens
+                .Where(this.Is_DefinedVersionPropertyValue)
+                .Count();
+
+            return definedTokenCount;
+        }
+
+        /// <summary>
+        /// Returns the value of undefined version properties (which is -1, negative one).
+        /// </summary>
+        public int Get_UndefinedVersionPropertyValue()
+        {
+            var output = Instances.Values.Version_UndefinedPropertyValue;
+            return output;
+        }
+
+        public Version Increment_MajorValue(
+            Version version,
+            int increment = IIntegers.One_Constant)
+        {
+            var majorValue_New = version.Major + increment;
+
+            var output = this.Change_MajorValue(
+                version,
+                majorValue_New);
+
+            return output;
+        }
+
+        public Version Increment_MinorValue(
+            Version version,
+            int increment = IIntegers.One_Constant)
+        {
+            var minorValue_New = version.Minor + increment;
+
+            var output = this.Change_MinorValue(
+                version,
+                minorValue_New);
+
+            return output;
+        }
+
+        public Version Increment_BuildValue(
+            Version version,
+            int increment = IIntegers.One_Constant)
+        {
+            var buildValue_New = version.Build + increment;
+
+            var output = this.Change_BuildValue(
+                version,
+                buildValue_New);
+
+            return output;
+        }
+
+        public Version Increment_RevisionValue(
+            Version version,
+            int increment = IIntegers.One_Constant)
+        {
+            var revisionValue_New = version.Revision + increment;
+
+            var output = this.Change_RevisionValue(
+                version,
+                revisionValue_New);
+
+            return output;
+        }
+
         public bool Is_OutOfRange(int versionPropertyValue)
             => Instances.IntegerOperator.Is_LessThanZero(versionPropertyValue);
 
@@ -58,6 +259,26 @@ namespace F10Y.L0000
                     major,
                     minor);
             }
+        }
+
+        public Version Parse(string version)
+        {
+            var output = Version.Parse(version);
+            return output;
+        }
+
+        public string To_String(Version version)
+        {
+            var output = version.ToString();
+            return output;
+        }
+
+        public string To_String(
+            Version version,
+            int fieldCount)
+        {
+            var output = version.ToString(fieldCount);
+            return output;
         }
 
         /// <summary>
@@ -117,41 +338,6 @@ namespace F10Y.L0000
                 var outputVersion = new Version(defaultVersionPropertyValue, defaultVersionPropertyValue, defaultVersionPropertyValue);
                 return outputVersion;
             }
-        }
-
-        public int[] Get_AllTokens(Version version)
-        {
-            var tokens = new[]
-            {
-                version.Major,
-                version.Minor,
-                version.Build,
-                version.Revision,
-            };
-
-            return tokens;
-        }
-
-        public int Get_DefinedTokenCount(Version version)
-        {
-            var undefinedVersionValue = this.Get_UndefinedVersionPropertyValue();
-
-            var tokens = this.Get_AllTokens(version);
-
-            var definedTokenCount = tokens
-                .Where(this.Is_DefinedVersionPropertyValue)
-                .Count();
-
-            return definedTokenCount;
-        }
-
-        /// <summary>
-        /// Returns the value of undefined version properties (which is -1, negative one).
-        /// </summary>
-        public int Get_UndefinedVersionPropertyValue()
-        {
-            var output = Instances.Values.Version_UndefinedPropertyValue;
-            return output;
         }
 
         /// <summary>
