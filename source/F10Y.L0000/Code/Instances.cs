@@ -37,6 +37,8 @@ namespace F10Y.L0000
         public static IStreamWriterOperator StreamWriterOperator => L0000.StreamWriterOperator.Instance;
         public static IStringOperator StringOperator => L0000.StringOperator.Instance;
         public static IStrings Strings => L0000.Strings.Instance;
+        public static ITaskOperator TaskOperator => L0000.TaskOperator.Instance;
+        public static IUriSchemes UriSchemes => L0000.UriSchemes.Instance;
         public static IValues Values => L0000.Values.Instance;
         public static IXAttributeOperator XAttributeOperator => L0000.XAttributeOperator.Instance;
         public static IXContainerOperator XContainerOperator => L0000.XContainerOperator.Instance;

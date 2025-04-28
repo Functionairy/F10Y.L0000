@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using F10Y.L0000.Extensions;
@@ -70,6 +71,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        public T[] Empty<T>()
+            => Array.Empty<T>();
+
         public T Get_First<T>(T[] array)
         {
             // Could be either a zero- (C# standard) or one-based (some MS Office interop scenarios) array.
@@ -100,5 +104,8 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        public T[] To_Array<T>(IEnumerable<T> enumerable)
+            => enumerable.ToArray();
     }
 }

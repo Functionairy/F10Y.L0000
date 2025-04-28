@@ -28,6 +28,12 @@ namespace F10Y.L0000
         /// <inheritdoc cref="NewLine_Constant"/>
         public string NewLine => IStrings.NewLine_Constant;
 
+        /// <inheritdoc cref="StringsDocumentation.For_Null"/>
+        public const string Null_Constant = null;
+
+        /// <inheritdoc cref="Null_Constant"/>
+        public string Null => IStrings.Null_Constant;
+
         /// <inheritdoc cref="StringsDocumentation.For_QuotationMark"/>
         public const string QuotationMark_Constant = "\"";
 

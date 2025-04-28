@@ -22,6 +22,17 @@ namespace F10Y.L0000
 
         public string EmptyCommandArguments => IValues.EmptyCommandArguments_Constant;
 
+
+        /// <summary>
+        /// <para><value>true</value></para>
+        /// By default, we ensure a successful status code for HTTP responses.
+        /// </summary>
+        public const bool EnsureSuccessStatusCode_Default_Constant = true;
+
+        /// <inheritdoc cref="EnsureSuccessStatusCode_Default_Constant"/>
+        public bool EnsureSuccessStatusCode_Default => IValues.EnsureSuccessStatusCode_Default_Constant;
+
+
         /// <summary>
         /// <para><value>true</value></para>
         /// By default, files are overwritten.

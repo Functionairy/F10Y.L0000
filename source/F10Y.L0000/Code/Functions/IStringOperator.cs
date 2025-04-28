@@ -65,6 +65,12 @@ namespace F10Y.L0000
                 a,
                 b);
 
+        public bool Are_Equal(
+            string a,
+            string b,
+            StringComparison stringComparison)
+            => a.Equals(b, stringComparison);
+
         public string Concatenate(params string[] strings)
             => String.Concat(strings);
 
@@ -117,6 +123,14 @@ namespace F10Y.L0000
             => this.Format_WithTemplate(
                 template,
                 objects);
+
+        public Func<string, bool> Get_Equals_Predicate(
+            string b,
+            StringComparison comparison)
+            => a => this.Are_Equal(
+                a,
+                b,
+                comparison);
 
         public char Get_Character_First(string @string)
             => this.Get_Character(

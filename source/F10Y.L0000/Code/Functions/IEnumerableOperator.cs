@@ -24,6 +24,9 @@ namespace F10Y.L0000
                 enumerable,
                 appendix);
 
+        public IEnumerable<T> Enumerate_Distinct<T>(IEnumerable<T> enumerable)
+            => enumerable.Distinct();
+
         public IEnumerable<T> Empty<T>()
             => Enumerable.Empty<T>();
 

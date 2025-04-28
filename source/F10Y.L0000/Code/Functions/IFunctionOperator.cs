@@ -8,6 +8,9 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFunctionOperator
     {
+        public T Return<T>(T value)
+            => value;
+
         /// <summary>
 		/// Chooses <see cref="Run_Function_OkIfDefault{T, TOutput}(T, Func{T, TOutput})"/> as the default.
 		/// </summary>
