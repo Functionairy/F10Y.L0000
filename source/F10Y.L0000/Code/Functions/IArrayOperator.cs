@@ -74,6 +74,9 @@ namespace F10Y.L0000
         public T[] Empty<T>()
             => Array.Empty<T>();
 
+        public T[] From<T>(params T[] values)
+            => values;
+
         public T Get_First<T>(T[] array)
         {
             // Could be either a zero- (C# standard) or one-based (some MS Office interop scenarios) array.
