@@ -77,6 +77,9 @@ namespace F10Y.L0000
         public T[] From<T>(params T[] values)
             => values;
 
+        public int Get_Count<T>(T[] array)
+            => array.Length;
+
         public T Get_First<T>(T[] array)
         {
             // Could be either a zero- (C# standard) or one-based (some MS Office interop scenarios) array.
