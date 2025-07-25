@@ -35,6 +35,12 @@ namespace F10Y.L0000
         }
 
         /// <summary>
+        /// Quality-of-life overload for <see cref="Get_Value(XAttribute)"/>.
+        /// </summary>
+        public string Get_Value_AsString(XAttribute attribute)
+            => this.Get_Value(attribute);
+
+        /// <summary>
         /// A helpfully named wrapper for <see cref="XAttribute.SetValue(object)"/>.
         /// </summary>
         public void Set_Value(XAttribute attribute, object value)
@@ -52,6 +58,19 @@ namespace F10Y.L0000
             var output = Instances.XNameOperator.Is_Name(
                 name,
                 attributeName);
+
+            return output;
+        }
+
+        public bool Is_Value(
+            XAttribute attribute,
+            string value)
+        {
+            var value_Found = this.Get_Value(attribute);
+
+            var output = Instances.StringOperator.Are_Equal(
+                value,
+                value_Found);
 
             return output;
         }

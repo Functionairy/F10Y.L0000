@@ -6,6 +6,9 @@ using F10Y.T0002;
 
 namespace F10Y.L0000
 {
+    /// <summary>
+    /// .NET Standard 2.1 foundation library.
+    /// </summary>
     [FunctionsMarker]
     public partial interface IVersionOperator
     {

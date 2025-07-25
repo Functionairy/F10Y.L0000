@@ -18,7 +18,6 @@
     <ProjectReference Include="..\..\..\F10Y.Y0000\source\F10Y.Y0000\F10Y.Y0000.csproj" />
     <ProjectReference Include="..\..\..\F10Y.T0002\source\F10Y.T0002\F10Y.T0002.csproj" />
     <ProjectReference Include="..\..\..\F10Y.T0003\source\F10Y.T0003\F10Y.T0003.csproj" />
-    <ProjectReference Include="..\..\..\F10Y.T0004\source\F10Y.T0004\F10Y.T0004.csproj" />
     <ProjectReference Include="..\..\..\F10Y.T0011\source\F10Y.T0011\F10Y.T0011.csproj" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,14 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IEnvironmentOperator
     {
+        /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate"/>
+        public char Get_DirectorySeparator_Alternate()
+            => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate();
+
+        /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment"/>
+        public char Get_DirectorySeparator()
+            => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment();
+
         /// <inheritdoc cref="Environment.GetCommandLineArgs"/>
         public string[] Get_CommandLineArguments()
             => Environment.GetCommandLineArgs();
@@ -32,6 +40,26 @@ namespace F10Y.L0000
         {
             // In .NET, the file path for the currently executing executable is the first argument.
             var output = Instances.ArrayOperator.Get_First(commandLineArguments);
+            return output;
+        }
+
+        /// <summary>
+        /// Gets the name of the current environment.
+        /// </summary>
+        public string Get_Name()
+        {
+            var os = this.Get_OperatingSystem();
+
+            var output = os.ToString();
+            return output;
+        }
+
+        public string Get_NewLine()
+            => Environment.NewLine;
+
+        public OperatingSystem Get_OperatingSystem()
+        {
+            var output = Environment.OSVersion;
             return output;
         }
     }

@@ -128,6 +128,15 @@ namespace F10Y.L0000
         public string Read_AllText_Synchronous(string filePath)
             => File.ReadAllText(filePath);
 
+        public Task<byte[]> Read_Bytes(string filePath)
+        {
+            var output = File.ReadAllBytesAsync(filePath);
+            return output;
+        }
+
+        public Task<string[]> Read_Lines(string filePath)
+            => File.ReadAllLinesAsync(filePath);
+
         /// <summary>
         /// Chooses <see cref="Verify_Files_AreEqual_ByteLevel(string, string)"/> as the default.
         /// </summary>
@@ -197,6 +206,28 @@ namespace F10Y.L0000
                 lines);
 
             return File.WriteAllTextAsync(
+                textFilePath,
+                text);
+        }
+
+        public Task Write_Text(
+            string textFilePath,
+            string text)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            return File.WriteAllTextAsync(
+                textFilePath,
+                text);
+        }
+
+        public void Write_Text_Synchronous(
+            string textFilePath,
+            string text)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            File.WriteAllText(
                 textFilePath,
                 text);
         }

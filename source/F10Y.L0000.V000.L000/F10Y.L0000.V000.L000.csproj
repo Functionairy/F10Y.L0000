@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Main">
+    <TargetFramework>net8.0</TargetFramework>
+    <NoWarn>CS1573;CS1587;CS1591;IDE0130</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Label="Package">
+    <Version>0.0.1</Version>
+    <Authors>DCoats</Authors>
+    <Copyright>Copyright (c) Functionairy 2025</Copyright>
+    <Description>Test article and test fixture definitions for the F10Y.L0000.V000 testing project.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\F10Y.NG0001\source\F10Y.NG0001\F10Y.NG0001.csproj" />
+    <ProjectReference Include="..\..\..\F10Y.T0010\source\F10Y.T0010\F10Y.T0010.csproj" />
+    <ProjectReference Include="..\..\..\F10Y.T0013\source\F10Y.T0013\F10Y.T0013.csproj" />
+    <ProjectReference Include="..\F10Y.L0000\F10Y.L0000.csproj" />
+  </ItemGroup>
+</Project>

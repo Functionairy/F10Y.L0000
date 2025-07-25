@@ -8,6 +8,7 @@ namespace F10Y.L0000.V000
     //using X = Func<string, string>;
     using Ensure_Enquoted = Func<string, string>;
 
+
     [FunctionsMarker]
     public partial interface ITestMethods
     {

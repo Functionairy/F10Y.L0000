@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Main">
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <NoWarn>CS1573;CS1587;CS1591;IDE0130</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Label="Package">
+    <Version>0.0.1</Version>
+    <Authors>DCoats</Authors>
+    <Copyright>Copyright (c) Functionairy 2025</Copyright>
+    <Description>Low-dependency examinations (explorations, experiments, and demonstrations) library for the F10Y.L0000 netstandard2.1 foundation library project.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\F10Y.L0001\source\F10Y.L0001.L000\F10Y.L0001.L000.csproj" />
+    <ProjectReference Include="..\..\..\F10Y.T0006\source\F10Y.T0006\F10Y.T0006.csproj" />
+    <ProjectReference Include="..\..\..\F10Y.T0014\source\F10Y.T0014.T001\F10Y.T0014.T001.csproj" />
+    <ProjectReference Include="..\F10Y.L0000.Z000\F10Y.L0000.Z000.csproj" />
+    <ProjectReference Include="..\F10Y.L0000\F10Y.L0000.csproj" />
+  </ItemGroup>
+</Project>

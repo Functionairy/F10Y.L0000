@@ -17,6 +17,12 @@ namespace F10Y.L0000
 #pragma warning restore IDE1006 // Naming Styles
 
 
+        /// <inheritdoc cref="Raw.IVersions._0_0_1"/>
+        public Version _0_0_1 => _Raw._0_0_1;
+
+        /// <inheritdoc cref="Raw.IVersions._1_0_0"/>
+        public Version _1_0_0 => _Raw._1_0_0;
+
         /// <summary>
         /// The default version (for assuming when no version is present).
         /// <para><inheritdoc cref="Raw.IVersions._1_0_0" path="/summary"/></para>

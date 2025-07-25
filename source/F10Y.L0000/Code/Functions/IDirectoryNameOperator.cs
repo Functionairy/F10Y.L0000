@@ -14,5 +14,15 @@ namespace F10Y.L0000
             var output = directoryName;
             return output;
         }
+
+        public bool Is_SpecialDirectoryName(string directoryName)
+        {
+            var output = false
+                || directoryName == Instances.DirectoryNames.Current
+                || directoryName == Instances.DirectoryNames.Parent
+                ;
+
+            return output;
+        }
     }
 }

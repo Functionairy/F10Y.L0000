@@ -9,6 +9,9 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IDefaultOperator
     {
+        public IDefaultOperator<T> For<T>()
+            => DefaultOperator<T>.Instance;
+
         public T Get_Default<T>()
         {
             T output = default;
@@ -51,5 +54,12 @@ namespace F10Y.L0000
                 throw new Exception("Default value encountered.");
             }
         }
+    }
+
+
+    [FunctionsMarker]
+    public partial interface IDefaultOperator<T>
+    {
+        T Value => default;
     }
 }

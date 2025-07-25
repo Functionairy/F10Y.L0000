@@ -11,6 +11,12 @@ namespace F10Y.L0000
         // Need an attribute that explicitly states what this value is.
         public IFunctions<T> For<T>() => Functions<T>.Instance;
 
+        /// <summary>
+        /// Simply returns the input value.
+        /// </summary>
+        /// <remarks>
+        /// This can be useful as the selector argument value for a higher-order function (functions taking a function as an input).
+        /// </remarks>
         // Need an attribute that explicitly states what this value is.
         public T Return<T>(T value)
             => value;

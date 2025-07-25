@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 using F10Y.T0002;
+using F10Y.T0011;
 
 using F10Y.L0000.Extensions;
 
@@ -14,8 +15,17 @@ using F10Y.L0000.Extensions;
 namespace F10Y.L0000
 {
     [FunctionsMarker]
-    public partial interface IXElementOperator
+    public partial interface IXElementOperator :
+        IXContainerOperator
     {
+#pragma warning disable IDE1006 // Naming Styles
+
+        [Ignore]
+        public IXContainerOperator _XContainerOperator => XContainerOperator.Instance;
+
+#pragma warning restore IDE1006 // Naming Styles
+
+
         /// <summary>
         /// Acquires an attribute with the specified name.
         /// </summary>
@@ -40,18 +50,73 @@ namespace F10Y.L0000
 
         public XElement Acquire_Child(
             XElement element,
+            Func<XElement, XElement> select_Child_OrDefault,
+            string childName)
+        {
+            var child_OrDefault = select_Child_OrDefault(element);
+
+            var is_Default = Instances.DefaultOperator.Is_Default(child_OrDefault);
+
+            var output = is_Default
+                ? this.Append_Child(
+                    element,
+                    childName)
+                : child_OrDefault
+                ;
+
+            return output;
+        }
+
+        public XElement Acquire_ChildOfChild(
+            XElement element,
+            Func<XElement, XElement> select_Child_OrDefault,
+            string childName,
+            string childOfChildName)
+        {
+            var child = this.Acquire_Child(
+                element,
+                select_Child_OrDefault,
+                childName);
+
+            var output = this.Acquire_Child(
+                child,
+                childOfChildName);
+
+            return output;
+        }
+
+        public XElement Acquire_Child(
+            XElement element,
             string childElementName)
             => Instances.XContainerOperator.Acquire_Child(
                 element,
                 childElementName);
 
-        public XAttribute Add_Attribute(XElement element, string attributeName)
+        public XAttribute Add_Attribute(
+            XElement element,
+            string attributeName)
         {
             var attribute = Instances.XAttributeOperator.New_Attribute(attributeName);
 
             element.Add(attribute);
 
             return attribute;
+        }
+
+        public XAttribute Add_Attribute(
+            XElement element,
+            string attributeName,
+            string attributeValue)
+        {
+            var output = this.Add_Attribute(
+                element,
+                attributeName);
+
+            Instances.XAttributeOperator.Set_Value(
+                output,
+                attributeValue);
+
+            return output;
         }
 
         /// <summary>
@@ -142,6 +207,19 @@ namespace F10Y.L0000
                 childName,
                 childActions);
 
+        public IEnumerable<XAttribute> Enumerate_Attrbutes(XElement element)
+            => element.Attributes();
+
+        public IEnumerable<XAttribute> Enumerate_Attrbutes(
+            XElement element,
+            string attributeName)
+            => element.Attributes(attributeName);
+
+        public IEnumerable<XAttribute> Enumerate_Attrbutes(
+            XElement element,
+            XName attributeName)
+            => element.Attributes(attributeName);
+
         public Action<XElement> Get_Add_Child(
             string childName,
             params Action<XElement>[] childActions)
@@ -174,9 +252,41 @@ namespace F10Y.L0000
             return attribute;
         }
 
-        public IEnumerable<XAttribute> Get_Attributes(XElement element)
+        public TValue Get_Attribute_Value<TValue>(
+            XElement element,
+            string attributeName,
+            Func<XAttribute, TValue> valueSelector)
         {
-            return element.Attributes();
+            var attribute = this.Get_Attribute(
+                element,
+                attributeName);
+
+            var output = valueSelector(attribute);
+            return output;
+        }
+
+        public string Get_Attribute_Value(
+            XElement element,
+            string attributeName)
+            => this.Get_Attribute_Value(
+                element,
+                attributeName,
+                Instances.XAttributeOperator.Get_Value_AsString);
+
+        public IEnumerable<XAttribute> Get_Attributes(XElement element)
+            => element.Attributes();
+
+        public bool Has_Attribute_First(
+            XElement element,
+            string attributeName,
+            out XAttribute attribute_OrDefault)
+        {
+            attribute_OrDefault = this.Get_Attributes(element)
+                .Where_NameIs(attributeName)
+                .FirstOrDefault();
+
+            var output = Instances.DefaultOperator.Is_NotDefault(attribute_OrDefault);
+            return output;
         }
 
         /// <summary>
@@ -186,22 +296,100 @@ namespace F10Y.L0000
             XElement element,
             string attributeName,
             out XAttribute attribute_OrDefault)
-        {
-            return this.Has_Attribute_First(element, attributeName, out attribute_OrDefault);
-        }
+            => this.Has_Attribute_First(
+                element,
+                attributeName,
+                out attribute_OrDefault);
 
-        public bool Has_Attribute_First(
+        public bool Has_AttributeValue(
             XElement element,
             string attributeName,
-            out XAttribute attributeOrDefault)
+            out string value_OrDefault)
         {
-            attributeOrDefault = this.Get_Attributes(element)
-                .Where_NameIs(attributeName)
-                .FirstOrDefault();
+            var has_Attribute = this.Has_Attribute(
+                element,
+                attributeName,
+                out var attribute_OrDefault);
 
-            var output = Instances.DefaultOperator.Is_NotDefault(attributeOrDefault);
+            value_OrDefault = has_Attribute
+                ? Instances.XAttributeOperator.Get_Value(attribute_OrDefault)
+                : default
+                ;
+
+            return has_Attribute;
+        }
+
+        public bool Has_AttributeValue<TValue>(
+            XElement element,
+            string attributeName,
+            out TValue value_OrDefault,
+            Func<string, TValue> converter)
+        {
+            var has_Attribute = this.Has_AttributeValue(
+                element,
+                attributeName,
+                out var value_OrDefault_AsString);
+
+            value_OrDefault = has_Attribute
+                ? converter(value_OrDefault_AsString)
+                : default
+                ;
+
+            return has_Attribute;
+        }
+
+        public bool Has_AttributeWithValue_Any(
+            XElement element,
+            string attributeName,
+            string attributeValue)
+        {
+            var attibutes = this.Enumerate_Attrbutes(
+                element,
+                attributeName);
+
+            var output = attibutes
+                .Where(Instances.XAttributeOperations.Is_Value(attributeValue))
+                .Any();
+
             return output;
         }
+
+        /// <summary>
+        /// Chooses <see cref="Has_AttributeWithValue_Any(XElement, string, string)"/> as the default.
+        /// </summary>
+        public bool Has_AttributeWithValue(
+            XElement element,
+            string attributeName,
+            string attributeValue)
+            => this.Has_AttributeWithValue_Any(element, attributeName, attributeValue);
+
+        public bool Has_AttributeWithValue_First(
+            XElement element,
+            string attributeName,
+            string attributeValue,
+            out XAttribute attribute_OrDefault)
+        {
+            var attibutes = this.Enumerate_Attrbutes(
+                element,
+                attributeName);
+
+            attribute_OrDefault = attibutes
+                .Where(Instances.XAttributeOperations.Is_Value(attributeValue))
+                .FirstOrDefault();
+
+            var output = Instances.DefaultOperator.Is_NotDefault(attribute_OrDefault);
+            return output;
+        }
+
+        /// <summary>
+        /// Constructs a new <see cref="XElement"/> using the default XElement name (<see cref="IValues.XElementName_Default"/>).
+        /// XElements cannot be constructed without a name, but you can change the name after construction.
+        /// You might want to just construct an element, then set its name (as in this method).
+        /// The default name is used to allow this.
+        /// </summary>
+        public XElement New()
+            => new XElement(
+                Instances.Values.XElementName_Default);
 
         public XElement New(string elementName)
             => new XElement(elementName);
@@ -237,6 +425,20 @@ namespace F10Y.L0000
         /// </summary>
         public XElement Create_Element(string elementName)
             => this.Create_Element_FromName(elementName);
+
+        public XElement Create_Element(
+            string elementName,
+            IEnumerable<Action<XElement>> elementActions)
+            => this.New(
+                elementName,
+                elementActions);
+
+        public XElement Create_Element(
+            string elementName,
+            params Action<XElement>[] elementActions)
+            => this.New(
+                elementName,
+                elementActions);
 
         /// <summary>
         /// Loads while preserving insignificant whitespace. (<see cref="LoadOptions.PreserveWhitespace"/>)
@@ -305,8 +507,8 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Parse_PreserveWhitespace(string)"/> as the default.
         /// </summary>
-        public XElement Parse(string text)
-            => this.Parse_PreserveWhitespace(text);
+        public XElement Parse(string xmlText)
+            => this.Parse_PreserveWhitespace(xmlText);
 
         /// <summary>
         /// Uses <see cref="IXmlWriterSettingsSet.OmitXmlDeclaration_Asynchronous"/>.
@@ -318,6 +520,17 @@ namespace F10Y.L0000
                 element,
                 xmlFilePath,
                 Instances.XmlWriterSettingsSet.OmitXmlDeclaration_Asynchronous);
+
+        /// <summary>
+        /// Uses <see cref="IXmlWriterSettingsSet.OmitXmlDeclaration_Fragment_Asynchronous"/>.
+        /// </summary>
+        public Task Save_WithoutXmlDeclaration(
+            IEnumerable<XElement> elements,
+            string xmlFilePath)
+            => this.Save(
+                elements,
+                xmlFilePath,
+                Instances.XmlWriterSettingsSet.OmitXmlDeclaration_Fragment_Asynchronous);
 
         /// <summary>
         /// Chooses <see cref="Save_WithoutXmlDeclaration(XElement, string)"/> as the default.
@@ -342,6 +555,52 @@ namespace F10Y.L0000
                 xmlWriter,
                 Instances.CancellationTokens.None);
         }
+
+        public async Task Save(
+            IEnumerable<XElement> elements,
+            string xmlFilePath,
+            XmlWriterSettings xmlWriterSettings,
+            XText elementSeparator)
+        {
+            using var xmlWriter = Instances.XmlWriterOperator.Create(
+                xmlFilePath,
+                xmlWriterSettings);
+
+            var elements_Joined = Instances.EnumerableOperator.Join<XNode>(
+                elements,
+                elementSeparator);
+
+            foreach (var element in elements_Joined)
+            {
+                element.WriteTo(xmlWriter);
+            }
+
+            await xmlWriter.FlushAsync();
+        }
+
+        /// <summary>
+        /// Uses <see cref="F10Y.L0000.IStrings.NewLine_ForEnvironment"/> as the element separator.
+        /// </summary>
+        public Task Save(
+            IEnumerable<XElement> elements,
+            string xmlFilePath,
+            XmlWriterSettings xmlWriterSettings)
+            => this.Save(
+                elements,
+                xmlFilePath,
+                xmlWriterSettings,
+                Instances.XTextOperator.From(
+                    Instances.Strings.NewLine_ForEnvironment));
+
+        /// <summary>
+        /// Chooses <see cref="Save_WithoutXmlDeclaration(IEnumerable{XElement}, string)"/> as the default.
+        /// </summary>
+        public Task Save(
+            IEnumerable<XElement> elements,
+            string xmlFilePath)
+            => this.Save_WithoutXmlDeclaration(
+                elements,
+                xmlFilePath);
 
         /// <summary>
         /// Quality-of-life overload for <see cref="Save(XElement, string, XmlWriterSettings)"/>.
@@ -456,6 +715,18 @@ namespace F10Y.L0000
             string value)
             => element.Value = value;
 
+        public void Set_Value<TValue>(
+            XElement element,
+            TValue value,
+            Func<TValue, string> converter)
+        {
+            var value_AsString = converter(value);
+
+            this.Set_Value(
+                element,
+                value_AsString);
+        }
+
         public Action<XElement> Get_Set_Attribute_Value(
             string attributeName,
             string attributeValue)
@@ -463,6 +734,61 @@ namespace F10Y.L0000
                 element,
                 attributeName,
                 attributeValue);
+
+        /// <summary>
+        /// Gets the inner text of the element, without any XML tags.
+        /// To get the inner XML of the element (text including XML tags), use <see cref="Get_InnerXml(XElement)"/>.
+        /// </summary>
+        public string Get_Value(XElement element)
+        {
+            var output = element.Value;
+            return output;
+        }
+
+        public bool Get_Value_AsBoolean(XElement element)
+        {
+            var value = this.Get_Value(element);
+
+            var output = Instances.BooleanOperator.From(value);
+            return output;
+        }
+
+        public Version Get_Value_AsVersion(XElement element)
+        {
+            var value = this.Get_Value(element);
+
+            var output = Instances.VersionOperator.From(value);
+            return output;
+        }
+
+        /// <summary>
+        /// Overload of <see cref="Get_Value(XElement)"/>.
+        /// </summary>
+        public string Get_Value_AsString(XElement element)
+            => this.Get_Value(element);
+
+        /// <summary>
+        /// Quality-of-life overload for <see cref="Get_Value(XElement)"/>
+        /// </summary>
+        public string Get_InnerText(XElement element)
+            => this.Get_Value(element);
+
+        /// <summary>
+        /// Gets the inner XML of the element (text including XML tags).
+        /// To get the inner text of the element, without any XML tags, use <see cref="Get_Value(XElement)"/>.
+        /// </summary>
+        /// <remarks>
+        /// Source: https://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
+        /// </remarks>
+        public string Get_InnerXml(XElement element)
+        {
+            using var reader = element.CreateReader();
+
+            reader.MoveToContent();
+
+            var output = reader.ReadInnerXml();
+            return output;
+        }
 
         /// <summary>
         /// A quality-of-life overload for <see cref="Save_WithoutXmlDeclaration(XElement, string)"/>.
@@ -503,17 +829,6 @@ namespace F10Y.L0000
         public string To_String(XElement xElement)
             => xElement.ToString();
 
-        public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, string elementName)
-        {
-            var predicate = this.Get_Is_Name(elementName);
-
-            var output = elements
-                .Where(predicate)
-                ;
-
-            return output;
-        }
-
         public Func<XElement, bool> Get_Is_Name(string elementName)
             => this.Get_Is_LocalName(elementName);
 
@@ -549,5 +864,24 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, string elementName)
+        {
+            var predicate = this.Get_Is_Name(elementName);
+
+            var output = elements
+                .Where(predicate)
+                ;
+
+            return output;
+        }
+
+        //public IEnumerable<XElement> Where_HasAttibuteWithValue(
+        //    IEnumerable<XElement> elements,
+        //    string attributeName,
+        //    string attibuteValue)
+        //{
+
+        //}
     }
 }

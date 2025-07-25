@@ -48,6 +48,22 @@ namespace F10Y.L0000
         };
 
         /// <summary>
+        /// Omit the XML declaration for asynchronous operations.
+        /// Sets:
+        /// <list type="bullet">
+        /// <item><see cref="XmlWriterSettings.Async"/></item>
+        /// <item><see cref="XmlWriterSettings.ConformanceLevel"/></item>
+        /// <item><see cref="XmlWriterSettings.OmitXmlDeclaration"/></item>
+        /// </list>
+        /// </summary>
+        public XmlWriterSettings OmitXmlDeclaration_Fragment_Asynchronous => new XmlWriterSettings
+        {
+            Async = true,
+            ConformanceLevel = ConformanceLevel.Fragment,
+            OmitXmlDeclaration = true,
+        };
+
+        /// <summary>
         /// Chooses <see cref="OmitXmlDeclaration_Asynchronous"/> as the default,
         /// because synchronous operations do no care about the <see cref="XmlWriterSettings.Async"/> setting.
         /// </summary>

@@ -16,4 +16,19 @@ namespace F10Y.L0000
 
         #endregion
     }
+
+
+    public class DefaultOperator<T> : IDefaultOperator<T>
+    {
+        #region Infrastructure
+
+        public static IDefaultOperator<T> Instance { get; } = new DefaultOperator<T>();
+
+
+        private DefaultOperator()
+        {
+        }
+
+        #endregion
+    }
 }

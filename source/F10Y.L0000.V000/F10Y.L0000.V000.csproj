@@ -17,17 +17,20 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.8.3" />
-    <!--Needed, even though this package comes in via a recursive reference to F10Y.NG0001,
-    because Visual Studio Test Explorer will find tests, but *not* actually run them if it's missing.-->
-    <PackageReference Include="MSTest.TestFramework" Version="3.8.3" />
-    <PackageReference Include="coverlet.collector" Version="6.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <!--
+    Version must match MSTest.TestFramework version in the dependency providing the MSTest.TestFramework package (F10Y.NG0001).
+    Else, Visual Studio will find your tests, but REFUSE to run them.
+    You can also just re-reference the MSTest.TestAdapter package in this project to get a matching version.
+    -->
+    <!--
+    Additionally, you may have to update the version to work with an update of Visual Studio.
+    -->
+    <PackageReference Include="MSTest.TestAdapter" Version="3.9.3" />
+    <!--<PackageReference Include="MSTest.TestFramework" Version="3.9.3" />-->
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\F10Y.L0000.V000.L000\F10Y.L0000.V000.L000.csproj" />
     <ProjectReference Include="..\F10Y.L0000.Z000\F10Y.L0000.Z000.csproj" />
     <ProjectReference Include="..\F10Y.L0000\F10Y.L0000.csproj" />
     <ProjectReference Include="..\..\..\F10Y.T0010\source\F10Y.T0010\F10Y.T0010.csproj" />

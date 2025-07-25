@@ -9,15 +9,21 @@ namespace F10Y.L0000
     public partial interface INullOperator
     {
         public bool Is_NotNull<T>(T value)
-            where T : class
         {
             // A great, quick null check.
             var output = value is object;
             return output;
         }
 
+        /// <summary>
+        /// Deteremines if the given value is null.
+        /// </summary>
+        /// <typeparam name="T">Can be either a reference or value type.</typeparam>
+        /// <remarks>
+        /// Note: there is no requirement for the generic type parameter to be a reference type.
+        /// The is-operator with "is null" will only return true if the generic type is a reference type.
+        /// </remarks>
         public bool Is_Null<T>(T value)
-            where T : class
         {
             // Use "is" instead of:
             // * == null - Equality operator eventually just uses Object.ReferenceEquals().

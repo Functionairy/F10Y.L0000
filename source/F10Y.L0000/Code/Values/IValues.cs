@@ -32,6 +32,14 @@ namespace F10Y.L0000
         /// <inheritdoc cref="EnsureSuccessStatusCode_Default_Constant"/>
         public bool EnsureSuccessStatusCode_Default => IValues.EnsureSuccessStatusCode_Default_Constant;
 
+        /// <summary>
+        /// <para>When a character is not found (for example, when a string is too short) this character is returned.</para>
+        /// <inheritdoc cref="ICharacters.Null_Constant" path="/summary"/>
+        /// </summary>
+        public const char NotFound_Character_Constant = ICharacters.Null_Constant;
+
+        /// <inheritdoc cref="IValues.NotFound_Character_Constant"/>
+        public char NotFound_Character => IValues.NotFound_Character_Constant;
 
         /// <summary>
         /// <para><value>true</value></para>
@@ -63,5 +71,16 @@ namespace F10Y.L0000
         /// The default working directory is the empty string.
         /// </summary>
         public string WorkingDirectory_Default => Instances.Strings.Empty;
+
+        /// <summary>
+        /// <inheritdoc cref="IStrings.DEFAULT_Constant" path="descendant::value"/>
+        /// </summary>
+        /// <remarks>
+        /// <see cref="System.Xml.Linq.XElement"/>s cannot be constructed without a name,
+        /// but you can change the element's name after construction.
+        /// You might want to just construct an element, and then set its name.
+        /// This value is used by <see cref="IXElementOperator.New()"/> to do this.
+        /// </remarks>
+        public string XElementName_Default => IStrings.DEFAULT_Constant;
     }
 }
