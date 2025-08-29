@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using F10Y.T0002;
 
 
@@ -67,7 +68,7 @@ namespace F10Y.L0000
         }
 
         /// <summary>
-        /// 
+        /// Creates an ANY predicate from a collection of predicates.
         /// </summary>
         /// <remarks>
         /// <inheritdoc cref="And{T}(ICollection{Func{T, bool}})" path="/remarks/use-collection"/>
@@ -158,5 +159,10 @@ namespace F10Y.L0000
             => this.If_TypeIs_ElseFalse(
                 @object,
                 predicate);
+
+        public IEnumerable<T> Where<T>(
+            Func<T, bool> predicate,
+            IEnumerable<T> values)
+            => values.Where(predicate);
     }
 }

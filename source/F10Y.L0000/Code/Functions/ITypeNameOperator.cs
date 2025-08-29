@@ -8,6 +8,14 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ITypeNameOperator
     {
+        public string Append_NestedTypeName(
+            string nestedParentTypeName,
+            string typeName)
+        {
+            var output = $"{nestedParentTypeName}{Instances.TokenSeparators.NestedTypeNameTokenSeparator}{typeName}";
+            return output;
+        }
+
         public string Get_TypeName_Full(Type type)
         {
             var output = type.FullName;

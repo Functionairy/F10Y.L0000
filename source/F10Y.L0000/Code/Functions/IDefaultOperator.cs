@@ -9,6 +9,24 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IDefaultOperator
     {
+        /// <summary>
+        /// If the value is not the default, then run the converter on the value.
+        /// Otherwise return the default for the converted type.
+        /// </summary>
+        public T2 Convert<T1, T2>(
+            T1 value,
+            Func<T1, T2> converter)
+        {
+            var isDefault = this.Is_Default(value);
+
+            var output = isDefault
+                ? this.Get_Default<T2>()
+                : converter(value)
+                ;
+
+            return output;
+        }
+
         public IDefaultOperator<T> For<T>()
             => DefaultOperator<T>.Instance;
 

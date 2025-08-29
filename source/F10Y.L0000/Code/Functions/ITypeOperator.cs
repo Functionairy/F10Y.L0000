@@ -1,5 +1,6 @@
 using System;
-
+using System.Reflection;
+using System.Threading.Tasks.Sources;
 using F10Y.T0002;
 
 
@@ -15,6 +16,55 @@ namespace F10Y.L0000
             var output = a.Equals(b);
             return output;
         }
+
+        public Assembly Get_AssemblyForType(Type type)
+        {
+            var output = type.Assembly;
+            return output;
+        }
+
+        /// <summary>
+        /// Note, includes the generic parameter count. Example: ExampleClass01`1.
+        /// <para>Gets the <see cref="MemberInfo.Name"/> of the type.</para>
+        /// </summary>
+        public string Get_Name(Type type)
+            => type.Name;
+
+        /// <summary>
+        /// Includes the generic parameter count (example: R5T.T0140.ExampleClass01`1),
+        /// and handles nested types (example: R5T.T0225.T000.NestedType_001_Parent+NestedType_001_Child).
+        /// <para>This replicates the behavior of <see cref="Type.FullName"/>.</para>
+        /// </summary>
+        /// <remarks>
+        /// Can handle nested types, using the nested type name separator used by <see cref="Type.FullName"/> (which is <see cref="ITokenSeparators.NestedTypeNameTokenSeparator"/>).
+        /// </remarks>
+        public string Get_NamespacedTypeName(Type type)
+        {
+            var isNestedType = this.Is_NestedType(type);
+            if (isNestedType)
+            {
+                var parentNamespacedTypeName = this.Get_NamespacedTypeName(type.DeclaringType);
+
+                var basicTypeName = this.Get_Name(type);
+
+                var output = $"{parentNamespacedTypeName}{Instances.TokenSeparators.NestedTypeNameTokenSeparator}{basicTypeName}";
+                return output;
+            }
+            else
+            {
+                var namespaceName = this.Get_NamespaceName(type);
+                var typeName = this.Get_Name(type);
+
+                var namespacedTypeName = Instances.NamespacedTypeNameOperator.Get_NamespacedTypeName(
+                    namespaceName,
+                    typeName);
+
+                return namespacedTypeName;
+            }
+        }
+
+        public string Get_NamespaceName(Type type)
+            => type.Namespace;
 
         public string Get_TypeName_Full(Type type)
         {
@@ -137,6 +187,15 @@ namespace F10Y.L0000
         public Type Get_Type<T>()
             => this.Get_Type_DeclaredType<T>();
 
+        /// <summary>
+        /// Quality-of-life overload for <see cref="Get_Type_DeclaredType{T}()"/>.
+        /// <para>
+        /// <inheritdoc cref="Get_Type_DeclaredType{T}()" path="/summary"/>
+        /// </para>
+        /// </summary>
+        public Type Get_TypeOf<T>()
+            => this.Get_Type_DeclaredType<T>();
+
         public Func<Type, bool> Get_TypeEquals_Predicate(Type type)
         {
             bool Internal(Type other)
@@ -216,6 +275,16 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Returns <see cref="Type.IsGenericParameter"/>,
+        /// whic is true for both generic type parameter types and generic method parameter types.
+        /// </summary>
+        public bool Is_GenericParameter(Type type)
+        {
+            var output = type.IsGenericParameter;
+            return output;
+        }
+
         public bool Is_ImplementationType(
             object @object,
             Type type,
@@ -276,6 +345,42 @@ namespace F10Y.L0000
                 type,
                 out _);
 
+            return output;
+        }
+
+        public bool Is_OfType<TInstance>(
+            TInstance instance,
+            Type type)
+        {
+            var type_OfInstance = this.Get_Type_ImplementationType(instance);
+
+            var output = this.Are_Equal(
+                type_OfInstance,
+                type);
+
+            return output;
+        }
+
+        public bool Is_NestedType(Type type)
+        {
+            var output = Instances.NullOperator.Is_NotNull(type.DeclaringType);
+            return output;
+        }
+
+        public bool Is_Type<T>(Type type)
+        {
+            var declaredType = this.Get_Type_DeclaredType<T>();
+
+            var output = this.Is_Type(
+                type,
+                declaredType);
+
+            return output;
+        }
+
+        public bool Is_Type(Type a, Type b)
+        {
+            var output = a == b;
             return output;
         }
 
@@ -365,6 +470,41 @@ namespace F10Y.L0000
 
                 throw new Exception(message);
             }
+        }
+
+        /// <summary>
+        /// Use the type returned by the <see cref="Get_Type_ImplementationType{T}(T)"/> method of each instance to determine type by equality.
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Y0000.Documentation.TypeCheckDeterminesEquality" path="/summary"/>
+        /// </remarks>
+        public bool TypeCheckDeterminesEquality_Instance<T>(
+            T a,
+            T b,
+            out bool typesAreEqual)
+        {
+            var typeA = this.Get_Type_ImplementationType(a);
+            var typeB = this.Get_Type_ImplementationType(b);
+
+            typesAreEqual = typeA == typeB;
+
+            var typeDeterminesEquality = !typesAreEqual;
+            return typeDeterminesEquality;
+        }
+
+        /// <summary>
+        /// Chooses <see cref="TypeCheckDeterminesEquality_Instance{T}(T, T, out bool)"/> as the default.
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Y0000.Documentation.TypeCheckDeterminesEquality" path="/summary"/>
+        /// </remarks>
+        public bool TypeCheckDeterminesEquality<T>(
+            T a,
+            T b,
+            out bool typesAreEqual)
+        {
+            var output = this.TypeCheckDeterminesEquality_Instance(a, b, out typesAreEqual);
+            return output;
         }
 
         public void Verify_Is_DeclaredType<T>(

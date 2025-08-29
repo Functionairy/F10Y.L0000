@@ -220,6 +220,56 @@ namespace F10Y.L0000
             XName attributeName)
             => element.Attributes(attributeName);
 
+        public IEnumerable<XElement> Enumerate_ChildElements(XElement element)
+        {
+            var output = element.Elements();
+            return output;
+        }
+
+        public IEnumerable<XNode> Enumerate_ChildNodes(XElement element)
+        {
+            var output = element.Nodes();
+            return output;
+        }
+
+        public IEnumerable<TNode> Enumerate_ChildNodesOfType<TNode>(XElement element)
+            where TNode : XNode
+        {
+            var output = this.Enumerate_ChildNodes(element)
+                .OfType<TNode>()
+                ;
+
+            return output;
+        }
+
+        public IEnumerable<XElement> Enumerate_DescendantElements(XElement element)
+        {
+            var output = element.Descendants();
+            return output;
+        }
+
+        public IEnumerable<XNode> Enumerate_DescendantNodes(XElement element)
+        {
+            var output = element.DescendantNodes();
+            return output;
+        }
+
+        public IEnumerable<TNode> Enumerate_DescendantNodesOfType<TNode>(XElement element)
+            where TNode : XNode
+        {
+            var output = this.Enumerate_DescendantNodes(element)
+                .OfType<TNode>()
+                ;
+
+            return output;
+        }
+
+        public IEnumerable<XText> Enumerate_DescendantTextNodes(XElement element)
+        {
+            var output = this.Enumerate_DescendantNodesOfType<XText>(element);
+            return output;
+        }
+
         public Action<XElement> Get_Add_Child(
             string childName,
             params Action<XElement>[] childActions)
@@ -381,6 +431,23 @@ namespace F10Y.L0000
             return output;
         }
 
+        public bool Has_FirstChildNode(
+            XElement element,
+            out XNode firstChildNode_OrDefault)
+        {
+            firstChildNode_OrDefault = this.Enumerate_ChildNodes(element)
+                .FirstOrDefault();
+
+            var output = Instances.DefaultOperator.Is_NotDefault(firstChildNode_OrDefault);
+            return output;
+        }
+
+        /// <inheritdoc cref="Is_Name(XElement, string)"/>
+        public bool Name_Is(XElement element, string elementName)
+        {
+            return this.Is_Name(element, elementName);
+        }
+
         /// <summary>
         /// Constructs a new <see cref="XElement"/> using the default XElement name (<see cref="IValues.XElementName_Default"/>).
         /// XElements cannot be constructed without a name, but you can change the name after construction.
@@ -415,6 +482,20 @@ namespace F10Y.L0000
         }
 
         /// <summary>
+        /// Creates a separate, but identical instance.
+        /// <para>Same as <see cref="Deep_Copy(XElement)"/></para>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Y0000.Documentation.For_Xml.WhichXObjectsAreCloneable" path="/summary"/>
+        /// </remarks>
+        public XElement Clone(XElement element)
+        {
+            // Use the constructor.
+            var output = new XElement(element);
+            return output;
+        }
+
+        /// <summary>
         /// Quality-of-life overload for <see cref="New(string)"/>.
         /// </summary>
         public XElement Create_Element_FromName(string elementName)
@@ -439,6 +520,18 @@ namespace F10Y.L0000
             => this.New(
                 elementName,
                 elementActions);
+
+        /// <summary>
+        /// Creates a copy of the element, and all child-nodes.
+        /// <para>Same as <see cref="Clone(XElement)"/></para>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Y0000.Documentation.For_Xml.WhichXObjectsAreCloneable" path="/summary"/>
+        /// </remarks>
+        public XElement Deep_Copy(XElement element)
+        {
+            return this.Clone(element);
+        }
 
         /// <summary>
         /// Loads while preserving insignificant whitespace. (<see cref="LoadOptions.PreserveWhitespace"/>)
@@ -768,6 +861,48 @@ namespace F10Y.L0000
             => this.Get_Value(element);
 
         /// <summary>
+        /// Chooses <see cref="Get_ChildElement_ByLocalName(XElement, string)"/> as the default.
+        /// </summary>
+        public XElement Get_ChildElement(
+            XElement element,
+            string childName)
+        {
+            var output = this.Get_ChildElement_ByLocalName(
+                element,
+                childName);
+
+            return output;
+        }
+
+        public XElement Get_ChildElement_ByLocalName(
+            XElement element,
+            string childName)
+        {
+            var output = this.Enumerate_ChildElements(element)
+                .Where_NameIs(childName)
+                .FirstOrDefault();
+
+            return output;
+        }
+
+        public TNode[] Get_DescendantNodesOfType<TNode>(XElement element)
+            where TNode : XNode
+        {
+            var output = this.Enumerate_DescendantNodesOfType<TNode>(element)
+                .ToArray();
+
+            return output;
+        }
+
+        public XText[] Get_DescendantTextNodes(XElement element)
+        {
+            var output = this.Enumerate_DescendantTextNodes(element)
+                .ToArray();
+
+            return output;
+        }
+
+        /// <summary>
         /// Quality-of-life overload for <see cref="Get_Value(XElement)"/>
         /// </summary>
         public string Get_InnerText(XElement element)
@@ -826,6 +961,32 @@ namespace F10Y.L0000
         public string To_Text(XElement element)
             => this.To_Text_WithoutXmlDeclaration(element);
 
+        public string[] To_Text_AsLines(
+            XElement element,
+            XmlWriterSettings xmlWriterSettings)
+        {
+            var text = this.To_Text(
+                element,
+                xmlWriterSettings);
+
+            var lines = Instances.StringOperator.Split_Lines(
+                text,
+                xmlWriterSettings.NewLineChars);
+
+            return lines;
+        }
+
+        public string[] To_Text_AsLines_WithoutXmlDeclaration(XElement element)
+            => this.To_Text_AsLines(
+                element,
+                Instances.XmlWriterSettingsSet.OmitXmlDeclaration_Synchronous);
+
+        /// <summary>
+        /// Chooses <see cref="To_Text_AsLines_WithoutXmlDeclaration(XElement)"/> as the default.
+        /// </summary>
+        public string[] To_Text_AsLines(XElement element)
+            => this.To_Text_AsLines_WithoutXmlDeclaration(element);
+
         public string To_String(XElement xElement)
             => xElement.ToString();
 
@@ -865,6 +1026,12 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Uses the <see cref="XName.LocalName"/> property to avoid the crazed namespace BS.
+        /// </summary>
+        public bool Is_Name(XElement element, string elementName)
+            => this.Is_LocalName(element, elementName);
+
         public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, string elementName)
         {
             var predicate = this.Get_Is_Name(elementName);
@@ -874,6 +1041,22 @@ namespace F10Y.L0000
                 ;
 
             return output;
+        }
+
+        public void Verify_NameIs(
+            XElement element,
+            string name)
+        {
+            var nameIs = this.Name_Is(
+                element,
+                name);
+
+            if (!nameIs)
+            {
+                var actualName = this.Get_Name(element);
+
+                throw new Exception($"Element did not have expected name '{name}'; name was '{actualName}'.");
+            }
         }
 
         //public IEnumerable<XElement> Where_HasAttibuteWithValue(

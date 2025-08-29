@@ -264,6 +264,18 @@ namespace F10Y.L0000
         public T[] Empty<T>()
             => Array.Empty<T>();
 
+        public T[] Empty_IfNull<T>(T[] array)
+        {
+            var isNull = Instances.NullOperator.Is_Null(array);
+
+            var output = isNull
+                ? this.Empty<T>()
+                : array
+                ;
+
+            return output;
+        }
+
         public T[] From<T>(params T[] values)
             => values;
 
@@ -332,6 +344,12 @@ namespace F10Y.L0000
             // Even if the array is one-based, its dimensions are zero-based.
             => array.GetLowerBound(Instances.Indices.Zero);
 
+        public int Get_IndexOfLast(Array array)
+        {
+            var output = array.Length - 1;
+            return output;
+        }
+
         public T Get_Last<T>(T[] arrary)
         {
             var output = arrary[^1];
@@ -341,6 +359,12 @@ namespace F10Y.L0000
         public bool Is_Empty(Array array)
         {
             var output = array.Length == 0;
+            return output;
+        }
+
+        public bool Is_NotEmpty(Array array)
+        {
+            var output = array.Length > 0;
             return output;
         }
 
@@ -371,6 +395,18 @@ namespace F10Y.L0000
 
         public T[] New<T>(int length)
             => new T[length];
+
+        public T[] Null_IfEmpty<T>(T[] array)
+        {
+            var isEmpty = this.Is_Empty(array);
+
+            var output = isEmpty
+                ? null
+                : array
+                ;
+
+            return output;
+        }
 
         public T[] To_Array<T>(IEnumerable<T> enumerable)
             => enumerable.ToArray();

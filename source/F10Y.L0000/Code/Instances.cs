@@ -7,6 +7,8 @@ namespace F10Y.L0000
     {
         public static IActionOperator ActionOperator => L0000.ActionOperator.Instance;
         public static IArrayOperator ArrayOperator => L0000.ArrayOperator.Instance;
+        public static IAssemblyOperator AssemblyOperator => L0000.AssemblyOperator.Instance;
+        public static IAttributeOperator AttributeOperator => L0000.AttributeOperator.Instance;
         public static IBooleanOperator BooleanOperator => L0000.BooleanOperator.Instance;
         public static IByteOperator ByteOperator => L0000.ByteOperator.Instance;
         public static ICancellationTokens CancellationTokens => L0000.CancellationTokens.Instance;
@@ -15,8 +17,11 @@ namespace F10Y.L0000
         public static ICollectionOperator CollectionOperator => L0000.CollectionOperator.Instance;
         public static IComparisonResults ComparisonResults => L0000.ComparisonResults.Instance;
         public static IConsoleOperator ConsoleOperator => L0000.ConsoleOperator.Instance;
+        public static ICultureInfos CultureInfos => L0000.CultureInfos.Instance;
+        public static IDateTimeFormats DateTimeFormats => L0000.DateTimeFormats.Instance;
         public static IDateTimeOperator DateTimeOperator => L0000.DateTimeOperator.Instance;
         public static IDefaultOperator DefaultOperator => L0000.DefaultOperator.Instance;
+        public static IDictionaryOperator DictionaryOperator => L0000.DictionaryOperator.Instance;
         public static IDirectoryInfoOperator DirectoryInfoOperator => L0000.DirectoryInfoOperator.Instance;
         public static IDirectoryNameOperator DirectoryNameOperator => L0000.DirectoryNameOperator.Instance;
         public static IDirectoryNames DirectoryNames => L0000.DirectoryNames.Instance;
@@ -33,7 +38,11 @@ namespace F10Y.L0000
         public static IExecutablePathOperator ExecutablePathOperator => L0000.ExecutablePathOperator.Instance;
         public static IExitCodeOperator ExitCodeOperator => L0000.ExitCodeOperator.Instance;
         public static IExitCodes ExitCodes => L0000.ExitCodes.Instance;
+        public static IFileExtensionOperator FileExtensionOperator => L0000.FileExtensionOperator.Instance;
+        public static IFileExtensions FileExtensions => L0000.FileExtensions.Instance;
+        public static IFileInfoOperator FileInfoOperator => L0000.FileInfoOperator.Instance;
         public static IFileModeOperator FileModeOperator => L0000.FileModeOperator.Instance;
+        public static IFileNameOperator FileNameOperator => L0000.FileNameOperator.Instance;
         public static IFileOperator FileOperator => L0000.FileOperator.Instance;
         public static IFileStreamOperator FileStreamOperator => L0000.FileStreamOperator.Instance;
         public static IFileSystemOperator FileSystemOperator => L0000.FileSystemOperator.Instance;
@@ -47,10 +56,14 @@ namespace F10Y.L0000
         public static IListOperator ListOperator => L0000.ListOperator.Instance;
         public static ILoadOptionsSet LoadOptionsSet => L0000.LoadOptionsSet.Instance;
         public static IMemoryStreamOperator MemoryStreamOperator => L0000.MemoryStreamOperator.Instance;
+        public static IMethodBaseOperator MethodBaseOperator => L0000.MethodBaseOperator.Instance;
+        public static INamespacedTypeNameOperator NamespacedTypeNameOperator => L0000.NamespacedTypeNameOperator.Instance;
         public static INullOperator NullOperator => L0000.NullOperator.Instance;
         public static IPathOperator PathOperator => L0000.PathOperator.Instance;
         public static IProcessOperator ProcessOperator => L0000.ProcessOperator.Instance;
         public static IRandomOperator RandomOperator => L0000.RandomOperator.Instance;
+        public static ISearchPatternOperator SearchPatternOperator => L0000.SearchPatternOperator.Instance;
+        public static ISearchPatterns SearchPatterns => L0000.SearchPatterns.Instance;
         public static IStreamOperator StreamOperator => L0000.StreamOperator.Instance;
         public static IStreamReaderOperator StreamReaderOperator => L0000.StreamReaderOperator.Instance;
         public static IStreamWriterOperator StreamWriterOperator => L0000.StreamWriterOperator.Instance;
@@ -59,6 +72,8 @@ namespace F10Y.L0000
         public static IStrings Strings => L0000.Strings.Instance;
         public static ISwitchOperator SwitchOperator => L0000.SwitchOperator.Instance;
         public static ITaskOperator TaskOperator => L0000.TaskOperator.Instance;
+        public static ITokenSeparators TokenSeparators => L0000.TokenSeparators.Instance;
+        public static ITypeInfoOperator TypeInfoOperator => L0000.TypeInfoOperator.Instance;
         public static ITypeNameOperator TypeNameOperator => L0000.TypeNameOperator.Instance;
         public static ITypeOperator TypeOperator => L0000.TypeOperator.Instance;
         public static IUriSchemes UriSchemes => L0000.UriSchemes.Instance;

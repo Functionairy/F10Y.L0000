@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using F10Y.T0006;
+using F10Y.T0014.T001;
 
 
 namespace F10Y.L0000.Q000
 {
     [DemonstrationsMarker]
-    public partial interface IVersionDemonstrations
+    public partial interface IVersionDemonstrations :
+        IScriptTextOutputInfrastructure_Definition
     {
         public async Task Increment_MajorVersion()
         {
@@ -16,7 +18,6 @@ namespace F10Y.L0000.Q000
             var version =
                 Instances.Versions.Example
                 ;
-            var output_TextFilePath = Instances.FilePaths.Output_TextFilePath;
 
 
             /// Run.
@@ -38,11 +39,7 @@ namespace F10Y.L0000.Q000
                 .Append($"{version_Incremented_RevisionValue_String}: increment revision")
                 ;
 
-            await Instances.FileOperator.Write_Lines(
-                output_TextFilePath,
-                lines_ForOutput);
-
-            Instances.NotepadPlusPlusOperator.Open(output_TextFilePath);
+            await this.Write_Lines_AndOpen(lines_ForOutput);
         }
     }
 }

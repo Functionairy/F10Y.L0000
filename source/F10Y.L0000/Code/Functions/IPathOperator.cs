@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -31,6 +32,28 @@ namespace F10Y.L0000
             return output;
         }
 
+        public IEnumerable<string> Ensure_AreDirectoryIndicated(IEnumerable<string> paths)
+            => paths
+                .Select(this.Ensure_IsDirectoryIndicated)
+                ;
+
+        /// <summary>
+		/// Ensures the path ends with a directory separator.
+		/// The directory separator to use is detected within the path.
+		/// </summary>
+        /// <inheritdoc cref="Make_DirectoryIndicated(string)" path="/remarks"/>
+		public string Ensure_IsDirectoryIndicated(string pathPart)
+        {
+            var isDirectoryIndicated = this.Is_DirectoryIndicated(pathPart);
+
+            var output = isDirectoryIndicated
+                ? pathPart
+                : this.Make_DirectoryIndicated(pathPart)
+                ;
+
+            return output;
+        }
+
         public string Get_DirectoryName(string directoryPath)
         {
             var directoryInfo = Instances.DirectoryInfoOperator.From(directoryPath);
@@ -43,10 +66,31 @@ namespace F10Y.L0000
             string baseDirectoryPath,
             string relativeDirectoryPath)
         {
-            var output = this.Get_Path(
+            var output_Variable = this.Get_Path(
                 baseDirectoryPath,
                 relativeDirectoryPath);
 
+            var output = this.Ensure_IsDirectoryIndicated(output_Variable);
+            return output;
+        }
+
+        /// <summary>
+        /// Gets the file name of a file path.
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Implementations.IPathOperator.Get_FileName_ViaLastPathPart(string)"/> as the default implementation.
+        /// </remarks>
+        public string Get_FileName(string filePath)
+        {
+            var output = _Implementations.Get_FileName_ViaLastPathPart(filePath);
+            return output;
+        }
+
+        public string Get_FileNameStem(string filePath)
+        {
+            var fileName = this.Get_FileName(filePath);
+
+            var output = Instances.FileNameOperator.Get_FileNameStem(fileName);
             return output;
         }
 
@@ -91,6 +135,14 @@ namespace F10Y.L0000
             return output;
         }
 
+        public string Get_PathPart_Last(string path)
+        {
+            var pathParts = this.Get_PathParts_NonEmpty(path);
+
+            var fileName = Instances.ArrayOperator.Get_Last(pathParts);
+            return fileName;
+        }
+
         public string[] Get_PathParts_NonEmpty(string path)
         {
             var directorySeparators = Instances.DirectorySeparators.Both;
@@ -125,6 +177,17 @@ namespace F10Y.L0000
                 pathB);
 
             return output;
+        }
+
+        public bool Has_FileExtension(
+            string filePath,
+            string fileExtension)
+        {
+            var hasFileExtension = Instances.StringOperator.Ends_With(
+                filePath,
+                fileExtension);
+
+            return hasFileExtension;
         }
 
         /// <summary>
@@ -181,7 +244,7 @@ namespace F10Y.L0000
                 Instances.DirectorySeparators.Both);
 
             var filePart_First = hasDirectorySeparatorIndex
-                ? Instances.StringOperator.Get_Substring_UptoExclusive(
+                ? Instances.StringOperator.Get_Substring_Upto_Exclusive(
                     indexOfDirectorySeparator_OrNotFound,
                     path)
                 : path

@@ -11,5 +11,15 @@ namespace F10Y.L0000
     {
         public async Task<T> Await<T>(Task<T> task)
             => await task;
+
+        /// <inheritdoc cref="Task.Delay(int)"/>
+        public Task Delay(int milliseconds)
+            => Task.Delay(milliseconds);
+
+        /// <summary>
+        /// Calls <see cref="Delay(int)"/>.
+        /// </summary>
+        public Task Wait(int milliseconds)
+            => this.Delay(milliseconds);
     }
 }

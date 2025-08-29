@@ -79,6 +79,23 @@ namespace F10Y.L0000
         public int Get_Count<T>(IEnumerable<T> enumerable)
             => enumerable.Count();
 
+        public T Get_Nth<T>(
+            IEnumerable<T> values,
+            int n)
+        {
+            var output = values
+                .Skip(n - 1)
+                .First();
+
+            return output;
+        }
+
+        public T Get_Second<T>(IEnumerable<T> values)
+        {
+            var output = this.Get_Nth(values, 2);
+            return output;
+        }
+
         public IEnumerable<T> Enumerate_Distinct<T>(IEnumerable<T> enumerable)
             => enumerable.Distinct();
 
@@ -244,6 +261,23 @@ namespace F10Y.L0000
         /// </summary>
         public bool None<T>(IEnumerable<T> items)
             => this.Is_Empty(items);
+
+        /// <summary>
+        /// Evaluates the given enumerable <em>now</em>.
+        /// </summary>
+        /// <remarks>
+        /// This is a quality-of-life overload of <see cref="Enumerable.ToArray{TSource}(IEnumerable{TSource})"/>.
+        /// <para>
+        /// While the ToArray() method <em>does</em> enumerate the enumerable at the moment it is called, it's name (ToArray) suggests that purpose of the method is to change data type,
+        /// and that the immediate evaluation of the enumerable is just a side effect.
+        /// You frequently want to communicate to callers that you are enumerating the enumerable now, not turning it into an array.
+        /// </para>
+        /// </remarks>
+        public T[] Now<T>(IEnumerable<T> items)
+        {
+            var output = items.ToArray();
+            return output;
+        }
 
         /// <summary>
         /// Sorts the elements of a sequence in ascending order.

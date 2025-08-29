@@ -22,7 +22,6 @@ namespace F10Y.L0000
 
         public string EmptyCommandArguments => IValues.EmptyCommandArguments_Constant;
 
-
         /// <summary>
         /// <para><value>true</value></para>
         /// By default, we ensure a successful status code for HTTP responses.
@@ -31,6 +30,24 @@ namespace F10Y.L0000
 
         /// <inheritdoc cref="EnsureSuccessStatusCode_Default_Constant"/>
         public bool EnsureSuccessStatusCode_Default => IValues.EnsureSuccessStatusCode_Default_Constant;
+
+        /// <inheritdoc cref="ICharacters.Period_Constant"/>
+        public const char FileExtension_Separator_Character_Constant = ICharacters.Period_Constant;
+
+        /// <inheritdoc cref="FileExtension_Separator_Character_Constant"/>
+        public char FileExtension_Separator_Character => IValues.FileExtension_Separator_Character_Constant;
+
+        /// <inheritdoc cref="IStrings.Period_Constant"/>
+        public const string FileExtension_Separator_String_Constant = IStrings.Period_Constant;
+
+        /// <inheritdoc cref="FileExtension_Separator_Character_Constant"/>
+        public string FileExtension_Separator_String => IValues.FileExtension_Separator_String_Constant;
+
+        /// <inheritdoc cref="FileExtension_Separator_Character_Constant"/>
+        public const char FileExtension_Separator_Constant = IValues.FileExtension_Separator_Character_Constant;
+
+        /// <inheritdoc cref="FileExtension_Separator_Constant"/>
+        public char FileExtension_Separator => IValues.FileExtension_Separator_Constant;
 
         /// <summary>
         /// <para>When a character is not found (for example, when a string is too short) this character is returned.</para>
@@ -64,8 +81,11 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Stopwatch.IsHighResolution"/>
         public bool Stopwatch_Is_HighResolution => Stopwatch.IsHighResolution;
 
+        /// <inheritdoc cref="IIntegers.Zero"/>
+        public int Version_DefinedDefaultComponentValue => Instances.Integers.Zero;
+
         /// <inheritdoc cref="IIntegers.NegativeOne"/>
-        public int Version_UndefinedPropertyValue => Instances.Integers.NegativeOne;
+        public int Version_UndefinedComponentValue => Instances.Integers.NegativeOne;
 
         /// <summary>
         /// The default working directory is the empty string.

@@ -163,6 +163,15 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Returns true of the index is the first index in a zero-based indexing system (is <see cref="IIndices.Zero"/>).
+        /// </summary>
+        public bool Is_First(int index)
+        {
+            var output = Instances.Indices.Zero == index;
+            return output;
+        }
+
         public bool Is_Found(int index)
         {
             var output = Instances.Indices.NotFound != index;

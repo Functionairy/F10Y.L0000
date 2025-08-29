@@ -65,5 +65,31 @@ namespace F10Y.L0000.Extensions
 
             return output;
         }
+
+        public static string Prefix_With(this string @string,
+            char prefix)
+            => Instances.StringOperator.Prefix_With(
+                prefix,
+                @string);
+
+        public static string Wrap(this string @string,
+            string prefix,
+            string suffix)
+        {
+            return Instances.StringOperator.Wrap(
+                @string,
+                prefix,
+                suffix);
+        }
+
+        public static string Wrap(this string @string,
+            char prefix,
+            char suffix)
+        {
+            return Instances.StringOperator.Wrap(
+                @string,
+                prefix,
+                suffix);
+        }
     }
 }

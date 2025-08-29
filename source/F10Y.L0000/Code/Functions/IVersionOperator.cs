@@ -1,7 +1,7 @@
-using System;
-using System.Linq;
-
 using F10Y.T0002;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace F10Y.L0000
@@ -139,26 +139,117 @@ namespace F10Y.L0000
             return tokens;
         }
 
-        public int Get_DefinedTokenCount(Version version)
+        public Version Get_Default()
+            => new Version();
+
+        public Version Get_Lastest(IEnumerable<Version> versions)
+            => versions.Max();
+
+        /// <summary>
+        /// Get the latest available version that matches the major version, and is the highest minor version greater-than or equal-to the target version.
+        /// </summary>
+        public Version Get_Latest_MatchingMajor(
+            Version targetVersion,
+            IEnumerable<Version> availableVersions)
         {
-            var undefinedVersionValue = this.Get_UndefinedVersionPropertyValue();
+            var matchingVersions = availableVersions
+                .Where(version => this.Matches_MajorVersion(
+                    version,
+                    targetVersion)
+                )
+                ;
 
-            var tokens = this.Get_AllTokens(version);
+            var anyMatchingVersions = matchingVersions.Any();
+            if (!anyMatchingVersions)
+            {
+                throw new Exception($"No version matches target version '{targetVersion}'.");
+            }
+            ;
 
-            var definedTokenCount = tokens
-                .Where(this.Is_DefinedVersionPropertyValue)
-                .Count();
+            var output = matchingVersions
+                .OrderByDescending(x => x)
+                .First()
+                ;
 
-            return definedTokenCount;
+            return output;
+        }
+
+        public int Get_MajorVersion(Version version)
+            => version.Major;
+
+        public int Get_MinorVersion(Version version)
+            => version.Minor;
+
+        public int Get_RevisionVersion(Version version)
+            => version.Revision;
+
+        public int Get_BuildVersion(Version version)
+            => version.Build;
+
+        public bool Has_Latest_MatchingMajorVersion(
+            int targetMajorVersion,
+            IEnumerable<Version> availableVersions,
+            out Version availableVersion_OrDefault)
+        {
+            var matchingVersions = availableVersions
+                .Where(version => this.Is_MajorVersion(
+                    version,
+                    targetMajorVersion)
+                )
+                ;
+
+            var output = matchingVersions.Any();
+
+            availableVersion_OrDefault = matchingVersions
+                .OrderByDescending(x => x)
+                .FirstOrDefault()
+                ;
+
+            return output;
+        }
+
+        public bool Has_Latest_MatchingMajorVersion(
+            Version targetVersion,
+            IEnumerable<Version> availableVersions,
+            out Version availableVersion_OrDefault)
+        {
+            var targetMajorVersion = this.Get_MajorVersion(targetVersion);
+
+            var output = this.Has_Latest_MatchingMajorVersion(
+                targetMajorVersion,
+                availableVersions,
+                out availableVersion_OrDefault);
+
+            return output;
         }
 
         /// <summary>
-        /// Returns the value of undefined version properties (which is -1, negative one).
-        /// </summary>
-        public int Get_UndefinedVersionPropertyValue()
+		/// Returns the value of a version component that is defined, but has the default value (which is 0, zero).
+		/// </summary>
+		public int Get_DefinedDefault_ComponentValue()
         {
-            var output = Instances.Values.Version_UndefinedPropertyValue;
+            var output = Instances.Values.Version_DefinedDefaultComponentValue;
             return output;
+        }
+
+        /// <summary>
+        /// Returns the value of undefined version component (which is -1, negative one).
+        /// </summary>
+        public int Get_Undefined_ComponentValue()
+        {
+            var output = Instances.Values.Version_UndefinedComponentValue;
+            return output;
+        }
+
+        public int Get_DefinedTokenCount(Version version)
+        {
+            var tokens = this.Get_AllTokens(version);
+
+            var definedTokenCount = tokens
+                .Where(this.Is_DefinedVersionComponentValue)
+                .Count();
+
+            return definedTokenCount;
         }
 
         public Version Increment_MajorValue(
@@ -213,11 +304,57 @@ namespace F10Y.L0000
             return output;
         }
 
+        public bool Is_MajorVersion(
+            Version version,
+            int targetMajorVersion)
+        {
+            var majorVersion = this.Get_MajorVersion(version);
+
+            var output = majorVersion == targetMajorVersion;
+            return output;
+        }
+
+        public bool Is_MinorVersion(
+            Version version,
+            int targetMinorVersion)
+        {
+            var minorVersion = this.Get_MinorVersion(version);
+
+            var output = minorVersion == targetMinorVersion;
+            return output;
+        }
+
         public bool Is_OutOfRange(int versionPropertyValue)
             => Instances.IntegerOperator.Is_LessThanZero(versionPropertyValue);
 
         public bool Is_WithinRange(int versionPropertyValue)
             => !this.Is_OutOfRange(versionPropertyValue);
+
+        public bool Matches_MajorVersion(
+            Version version,
+            Version targetVersion)
+        {
+            var targetMajorVersion = this.Get_MajorVersion(targetVersion);
+
+            var output = this.Is_MajorVersion(
+                version,
+                targetMajorVersion);
+
+            return output;
+        }
+
+        public bool Matches_MinorVersion(
+            Version version,
+            Version targetVersion)
+        {
+            var targetMinorVersion = this.Get_MinorVersion(targetVersion);
+
+            var output = this.Is_MajorVersion(
+                version,
+                targetMinorVersion);
+
+            return output;
+        }
 
         /// <summary>
         /// Creates a new version instance after testing the build and revision values for whether they are out of range,
@@ -264,6 +401,42 @@ namespace F10Y.L0000
             }
         }
 
+        public Version NormalizeTo_Major_Minor_Build(Version version)
+        {
+            var definedTokenCount = this.Get_DefinedTokenCount(version);
+            if (definedTokenCount > 3)
+            {
+                // Normalize to three.
+                var outputVersion = new Version(version.Major, version.Minor, version.Build);
+                return outputVersion;
+            }
+
+            // If not 4 tokens, but greater than 2, then it is 3.
+            if (definedTokenCount > 2)
+            {
+                return version;
+            }
+
+            var defaultVersionComponentValue = Instances.Values.Version_UndefinedComponentValue;
+
+            if (definedTokenCount > 1)
+            {
+                var outputVersion = new Version(version.Major, version.Minor, defaultVersionComponentValue);
+                return outputVersion;
+            }
+
+            if (definedTokenCount > 0)
+            {
+                var outputVersion = new Version(version.Major, defaultVersionComponentValue, defaultVersionComponentValue);
+                return outputVersion;
+            }
+            else
+            {
+                var outputVersion = new Version(defaultVersionComponentValue, defaultVersionComponentValue, defaultVersionComponentValue);
+                return outputVersion;
+            }
+        }
+
         public Version Parse(string version)
         {
             var output = Version.Parse(version);
@@ -307,42 +480,6 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version NormalizeTo_Major_Minor_Build(Version version)
-        {
-            var definedTokenCount = this.Get_DefinedTokenCount(version);
-            if (definedTokenCount > 3)
-            {
-                // Normalize to three.
-                var outputVersion = new Version(version.Major, version.Minor, version.Build);
-                return outputVersion;
-            }
-
-            // If not 4 tokens, but greater than 2, then it is 3.
-            if (definedTokenCount > 2)
-            {
-                return version;
-            }
-
-            var defaultVersionPropertyValue = Instances.Values.Version_UndefinedPropertyValue;
-
-            if (definedTokenCount > 1)
-            {
-                var outputVersion = new Version(version.Major, version.Minor, defaultVersionPropertyValue);
-                return outputVersion;
-            }
-
-            if (definedTokenCount > 0)
-            {
-                var outputVersion = new Version(version.Major, defaultVersionPropertyValue, defaultVersionPropertyValue);
-                return outputVersion;
-            }
-            else
-            {
-                var outputVersion = new Version(defaultVersionPropertyValue, defaultVersionPropertyValue, defaultVersionPropertyValue);
-                return outputVersion;
-            }
-        }
-
         /// <summary>
 		/// Will throw if the major, minor, and build properties of version are not set.
 		/// </summary>
@@ -354,12 +491,12 @@ namespace F10Y.L0000
         }
 
         /// <summary>
-		/// Determines if the version property value is the value returned by <see cref="Get_UndefinedVersionPropertyValue"/> (which is -1, negative one).
+		/// Determines if the version property value is the value <see cref="IValues.Version_UndefinedComponentValue"/> (which is -1, negative one).
 		/// </summary>
-		public bool Is_DefinedVersionPropertyValue(int versionPropertyValue)
+		public bool Is_DefinedVersionComponentValue(int versionComponentValue)
         {
             // Use not-equal instead of greater than to avoid relying on knowledged that the undefined value is negative one.
-            var output = versionPropertyValue != Instances.Values.Version_UndefinedPropertyValue;
+            var output = versionComponentValue != Instances.Values.Version_UndefinedComponentValue;
             return output;
         }
     }

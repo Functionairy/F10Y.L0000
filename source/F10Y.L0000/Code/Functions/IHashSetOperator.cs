@@ -78,9 +78,27 @@ namespace F10Y.L0000
             => this.From_KeepLast(values);
 
         /// <inheritdoc cref="Add_Range_KeepLast{T}(HashSet{T}, IEnumerable{T})"/>
-        public HashSet<T> From_KeepLast<T>(IEnumerable<T> values)
+        public HashSet<T> From_KeepLast<T>(IEnumerable<T> items)
             // Leverage the default behavior of the hashset (which is keep last).
-            => new HashSet<T>(values);
+            => new HashSet<T>(items);
+
+        public HashSet<T> From_KeepFirst<T>(
+            IEnumerable<T> items,
+            IEqualityComparer<T> equalityComparer)
+        {
+            var output = this.New<T>(equalityComparer);
+
+            this.Add_Range_KeepFirst(
+                output,
+                items);
+
+            return output;
+        }
+
+        public HashSet<T> From_KeepFirst<T>(IEnumerable<T> items)
+            => this.From_KeepFirst(
+                items,
+                Instances.EqualityComparerOperator.Get_Default<T>());
 
         public Exception Get_ValueAlreadyExistsException<T>(T value)
         {
@@ -93,6 +111,9 @@ namespace F10Y.L0000
 
         public HashSet<T> New<T>()
             => new HashSet<T>();
+
+        public HashSet<T> New<T>(IEqualityComparer<T> equalityComparer)
+            => new HashSet<T>(equalityComparer);
 
         public HashSet<T> New_WithEqualityComparer<T>(IEqualityComparer<T> equalityComparer)
             => new HashSet<T>(equalityComparer);

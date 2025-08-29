@@ -52,6 +52,22 @@ namespace F10Y.L0000
 
         #region Punctuation
 
+        /// <inheritdoc cref="StringsDocumentation.For_Asterix" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Asterix_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Asterix" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const string Asterix_Constant = "*";
+
+        /// <inheritdoc cref="Asterix_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Asterix"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Asterix_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public string Asterix => Asterix_Constant;
+
         /// <inheritdoc cref="StringsDocumentation.For_BackSlash" path="/summary"/>
         /// <remarks>
         /// <para>---</para>
@@ -99,6 +115,22 @@ namespace F10Y.L0000
         /// <para>Documentation: <inheritdoc cref="Hyphen_Constant" path="descendant::documentation-reference"/></para>
         /// </remarks>
         public string Hyphen => IStrings.Hyphen_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_Period" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Period_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Period" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const string Period_Constant = ".";
+
+        /// <inheritdoc cref="Period_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Period"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Period_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public string Period => Period_Constant;
 
         /// <inheritdoc cref="StringsDocumentation.For_QuotationMark"/>
         public const string QuotationMark_Constant = "\"";

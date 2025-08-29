@@ -9,6 +9,28 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IEqualityOperator
     {
+        /// <summary>
+        /// Useful as the implementation of the overridden equality operator.
+        /// </summary>
+        public bool Equals<T>(
+            object other,
+            T value,
+            Func<T, T, bool> equality)
+        {
+            if(other is T other_AsT)
+            {
+                var output = equality(
+                    other_AsT,
+                    value);
+
+                return output;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public Func<T, T, bool> Get_Equality<T>()
             where T : IEquatable<T>
             => (a, b) => a.Equals(b);

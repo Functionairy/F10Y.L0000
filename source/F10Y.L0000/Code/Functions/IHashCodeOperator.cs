@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+
 using F10Y.T0002;
+using F10Y.T0011;
 
 
 namespace F10Y.L0000
@@ -8,6 +10,14 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IHashCodeOperator
     {
+#pragma warning disable IDE1006 // Naming Styles
+
+        [Ignore]
+        public Implementations.IHashCodeOperator _Implementations => Implementations.HashCodeOperator.Instance;
+
+#pragma warning restore IDE1006 // Naming Styles
+
+
         public int Combine<T1, T2>(
             T1 value1,
             T2 value2)

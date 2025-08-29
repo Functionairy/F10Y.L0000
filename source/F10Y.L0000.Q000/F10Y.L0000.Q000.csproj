@@ -14,11 +14,11 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\F10Y.L0001\source\F10Y.L0001.L000\F10Y.L0001.L000.csproj" />
     <ProjectReference Include="..\..\..\F10Y.L0001\source\F10Y.L0001.Z000\F10Y.L0001.Z000.csproj" />
-    <ProjectReference Include="..\..\..\F10Y.L0004\source\F10Y.L0004.L000\F10Y.L0004.L000.csproj" />
-    <ProjectReference Include="..\..\..\F10Y.L0019\source\F10Y.L0019\F10Y.L0019.csproj" />
     <ProjectReference Include="..\..\..\F10Y.T0006\source\F10Y.T0006\F10Y.T0006.csproj" />
     <ProjectReference Include="..\..\..\F10Y.Z0000\source\F10Y.Z0000\F10Y.Z0000.csproj" />
     <ProjectReference Include="..\F10Y.L0000\F10Y.L0000.csproj" />
+    <ProjectReference Include="..\..\..\F10Y.T0014\source\F10Y.T0014.T001\F10Y.T0014.T001.csproj" />
   </ItemGroup>
 </Project>

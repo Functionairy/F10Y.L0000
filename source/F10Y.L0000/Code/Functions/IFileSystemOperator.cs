@@ -45,6 +45,131 @@ namespace F10Y.L0000
             this.Create_Directory_OkIfAlreadyExists(directoryPath);
         }
 
+        /// <summary>
+        /// Enumerates child files in the directory (not including in any sub-directories).
+        /// </summary>
+        /// <remarks>
+        /// Actually enumerates files as they come in (via <see cref="Directory.EnumerateFiles(string)"/>)
+        /// as opposed to waiting to get all directories (as an array via <see cref="Directory.GetFiles(string)"/>).
+        /// </remarks>
+        public IEnumerable<string> Enumerate_ChildFilePaths(string directoryPath)
+        {
+            var output = Directory.EnumerateFiles(directoryPath);
+            return output;
+        }
+
+        /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
+        public IEnumerable<string> Enumerate_ChildFilePaths(
+            string directoryPath,
+            string searchPattern)
+        {
+            var output = Directory.EnumerateFiles(
+                directoryPath,
+                searchPattern,
+                SearchOption.TopDirectoryOnly);
+
+            return output;
+        }
+
+        /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
+        public IEnumerable<string> Enumerate_ChildFilePaths_ByFileExtension(
+            string directoryPath,
+            string fileExtension)
+        {
+            var searchPattern = Instances.SearchPatternOperator.Files_WithExtension(fileExtension);
+
+            return this.Enumerate_ChildFilePaths(
+                directoryPath,
+                searchPattern);
+        }
+
+        /// <summary>
+        /// Enumerates child DLL files in the directory.
+        /// </summary>
+        public IEnumerable<string> Enumerate_ChildDllFiles(string directoryPath)
+        {
+            return Instances.FileSystemOperator.Enumerate_ChildFilePaths_ByFileExtension(
+                directoryPath,
+                Instances.FileExtensions.Dll);
+        }
+
+        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+            string directoryPath,
+            string searchPattern)
+        {
+            var output = Directory.EnumerateDirectories(directoryPath, searchPattern, SearchOption.TopDirectoryOnly)
+                // The system method has a bad habit of not directory-indicating directory paths.
+                .Select(directoryPath => Instances.PathOperator.Ensure_IsDirectoryIndicated(directoryPath));
+
+            return output;
+        }
+
+        /// <summary>
+        /// Enumerates all child directories of the directory.
+        /// </summary>
+        /// <remarks>
+        /// Actually enumerates directories as they come in (via <see cref="Directory.EnumerateDirectories(string)"/>)
+        /// as opposed to waiting to get all directories (as an array via <see cref="Directory.GetDirectories(string)"/>).
+        /// </remarks>
+        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+            string directoryPath)
+            => this.Enumerate_ChildDirectoryPaths(
+                directoryPath,
+                Instances.SearchPatterns.All);
+
+        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+            IEnumerable<string> directoryPaths)
+        {
+            var output = directoryPaths
+                .SelectMany(this.Enumerate_ChildDirectoryPaths)
+                ;
+
+            return output;
+        }
+
+        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+            params string[] directoryPaths)
+            => this.Enumerate_ChildDirectoryPaths(
+                directoryPaths.AsEnumerable());
+
+        /// <summary>
+        /// Enumerates child XML files in the directory.
+        /// </summary>
+        public IEnumerable<string> Enumerate_ChildXmlFiles(string directoryPath)
+        {
+            return this.Enumerate_ChildFilePaths_ByFileExtension(
+                directoryPath,
+                Instances.FileExtensions.Xml);
+        }
+
+        /// <inheritdoc cref="Enumerate_ChildDllFiles"/>
+        public IEnumerable<string> Enumerate_DllFiles(string directoryPath)
+        {
+            return this.Enumerate_ChildDllFiles(directoryPath);
+        }
+
+        /// <summary>
+        /// Enumerates all child-of-child (grandchild) directory paths.
+        /// </summary>=
+        public IEnumerable<string> Enumerate_GrandchildDirectoryPaths(
+            string directoryPath)
+        {
+            var childDirectoryPaths = this.Enumerate_ChildDirectoryPaths(
+                directoryPath);
+
+            var output = childDirectoryPaths
+                .SelectMany(this.Enumerate_ChildDirectoryPaths)
+                ;
+
+            return output;
+        }
+
+        /// <inheritdoc cref="Enumerate_ChildXmlFiles"/>
+        public IEnumerable<string> Enumerate_XmlFiles(string directoryPath)
+        {
+            return this.Enumerate_ChildXmlFiles(directoryPath);
+        }
+
         public bool Exists_Directory(string directoryPath)
         {
             var output = Directory.Exists(directoryPath);
@@ -163,6 +288,72 @@ namespace F10Y.L0000
 
             var output = file.FullName;
             return output;
+        }
+
+        public string[] Get_ChildDirectoryPaths(
+            string directoryPath,
+            string searchPattern)
+        {
+            var output = this.Get_Directories(
+                directoryPath,
+                searchPattern,
+                SearchOption.TopDirectoryOnly);
+
+            return output;
+        }
+
+        public string[] Get_ChildDirectoryPaths(
+            string directoryPath)
+        {
+            var output = this.Get_Directories(
+                directoryPath,
+                Instances.SearchPatterns.All,
+                SearchOption.TopDirectoryOnly);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Tests whether a file exists, and if it doesn't, throws a <see cref="FileNotFoundException"/>.
+        /// </summary>
+        public void Verify_File_Exists(string filePath)
+        {
+            var fileExists = this.Exists_File(filePath);
+            if (!fileExists)
+            {
+                throw new FileNotFoundException("File did not exist.", filePath);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that all returned directory paths are directory-indicated.
+        /// </summary>
+        public string[] Get_Directories(
+            string path,
+            string searchPattern,
+            SearchOption searchOption)
+        {
+            var nonDirectoryIndicatedDirectoryPaths = Directory.GetDirectories(
+                path,
+                searchPattern,
+                searchOption);
+
+            var output = Instances.PathOperator.Ensure_AreDirectoryIndicated(nonDirectoryIndicatedDirectoryPaths)
+                .ToArray();
+
+            return output;
+        }
+
+        /// <summary>
+        /// Tests whether a file exists, and if it does, throws an <see cref="Exception"/>.
+        /// </summary>
+        public void Verify_File_DoesNotExist(string filePath)
+        {
+            var fileExists = this.Exists_File(filePath);
+            if (fileExists)
+            {
+                throw new Exception($"File exists:\n{filePath}");
+            }
         }
     }
 }
