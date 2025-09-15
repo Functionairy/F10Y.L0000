@@ -10,25 +10,53 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IConsoleOperator
     {
-        public TextWriter Get_OutputStream()
+        /// <summary>
+        /// Returns <see cref="Console.Out"/>.
+        /// </summary>
+        /// <remarks>
+        /// Same as <see cref="Get_OutputWriter"/>
+        /// </remarks>
+        TextWriter Get_OutputStream()
             => Console.Out;
 
-        public void Write(char character)
+        /// <inheritdoc cref="Get_OutputStream" path="/summary"/>
+        /// <remarks>
+        /// Same as <see cref="Get_OutputStream"/>
+        /// </remarks>
+        TextWriter Get_OutputWriter()
+            => Console.Out;
+
+        void Wait_UntilAnyKey(string message)
+        {
+            this.Write(message);
+
+            this.Read_Key();
+        }
+
+        /// <inheritdoc cref="Console.ReadKey(bool)"/>
+        ConsoleKeyInfo Read_Key(bool intercept)
+            => Console.ReadKey(intercept);
+
+        /// <inheritdoc cref="Console.ReadKey()"/>
+        ConsoleKeyInfo Read_Key()
+            => Console.ReadKey();
+
+        void Write(char character)
             => Console.Write(character);
 
         public void Write(string @string)
             => Console.Write(@string);
 
-        public void Write_Line()
+        void Write_Line()
             => Console.WriteLine();
 
-        public void Write_Line(string line)
+        void Write_Line(string line)
             => Console.WriteLine(line);
 
-        public void Write_Line<T>(T value)
+        void Write_Line<T>(T value)
             => Console.WriteLine(value);
 
-        public void Write_Lines(IEnumerable<string> lines)
+        void Write_Lines(IEnumerable<string> lines)
         {
             foreach (var line in lines)
             {
@@ -36,7 +64,7 @@ namespace F10Y.L0000
             }
         }
 
-        public void Write_Lines<T>(IEnumerable<T> values)
+        void Write_Lines<T>(IEnumerable<T> values)
         {
             foreach (var value in values)
             {

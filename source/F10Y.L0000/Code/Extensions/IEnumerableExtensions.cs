@@ -86,6 +86,30 @@ namespace F10Y.L0000.Extensions
         public static IOrderedEnumerable<T> Order<T>(this IEnumerable<T> enumerable)
             => Instances.EnumerableOperator.Order(enumerable);
 
+        public static IEnumerable<T> OrderByNames<T>(this IEnumerable<T> items,
+            Func<T, string> nameSelector,
+            IEnumerable<string> orderedNames)
+        {
+            var output = Instances.OrderOperator.Order_ByNames(
+                items,
+                nameSelector,
+                orderedNames);
+
+            return output;
+        }
+
+        public static IEnumerable<T> OrderByNames<T>(this IEnumerable<T> items,
+            Func<T, string> nameSelector,
+            params string[] orderedNames)
+        {
+            return items.OrderByNames(
+                nameSelector,
+                orderedNames.AsEnumerable());
+        }
+
+        public static HashSet<T> To_HashSet<T>(this IEnumerable<T> values)
+            => Instances.EnumerableOperator.To_HashSet(values);
+
         public static IEnumerable<(T, T)> Zip<T>(this IEnumerable<T> items,
             IEnumerable<T> b)
         {

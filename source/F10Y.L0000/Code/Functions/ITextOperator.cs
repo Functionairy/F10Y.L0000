@@ -12,7 +12,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Joins lines using the specified line separator into a single string of text.
         /// </summary>
-        public string Join_Lines(
+        string Join_Lines(
             IEnumerable<string> lines,
             string lineSeparator)
         {
@@ -26,7 +26,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Joins lines using the <see cref="IStrings.NewLine_ForEnvironment"/> separator into a single string of text.
         /// </summary>
-        public string Join_Lines(IEnumerable<string> lines)
+        string Join_Lines(IEnumerable<string> lines)
         {
             var output = this.Join_Lines(
                 lines,

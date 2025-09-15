@@ -8,6 +8,18 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFileExtensionOperator
     {
+        public string Add(
+            string fileNameStem,
+            string fileExtension)
+        {
+            var output = Instances.StringOperator.Concatenate(
+                fileNameStem,
+                Instances.Values.FileExtension_Separator_String,
+                fileExtension);
+
+            return output;
+        }
+
         public string Get_FileExtension(string fileName)
         {
             var fileExtensionSeparator = Instances.Values.FileExtension_Separator;

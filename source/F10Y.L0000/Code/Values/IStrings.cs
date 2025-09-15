@@ -251,6 +251,12 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Null_Constant"/>
         public string Null => IStrings.Null_Constant;
 
+        /// <inheritdoc cref="StringsDocumentation.For_Pipe"/>
+        public const string Pipe_Constant = "|";
+
+        /// <inheritdoc cref="Pipe_Constant"/>
+        public string Pipe => IStrings.Pipe_Constant;
+
         #endregion
 
 

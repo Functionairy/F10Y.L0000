@@ -54,6 +54,18 @@ namespace F10Y.L0000
             return output;
         }
 
+        public string Ensure_NotDirectoryIndicated(string pathPart)
+        {
+            var isDirectoryIndicated = this.Is_DirectoryIndicated(pathPart);
+
+            var output = isDirectoryIndicated
+                ? this.Make_NotDirectoryIndicated(pathPart)
+                : pathPart
+                ;
+
+            return output;
+        }
+
         public string Get_DirectoryName(string directoryPath)
         {
             var directoryInfo = Instances.DirectoryInfoOperator.From(directoryPath);
@@ -71,6 +83,32 @@ namespace F10Y.L0000
                 relativeDirectoryPath);
 
             var output = this.Ensure_IsDirectoryIndicated(output_Variable);
+            return output;
+        }
+
+        public string Get_DirectoryPath(
+            string parentDirectoryPath,
+            IEnumerable<string> directoryNames)
+        {
+            var directoryPath = parentDirectoryPath;
+
+            foreach (var directoryName in directoryNames)
+            {
+                directoryPath = this.Get_DirectoryPath(directoryPath, directoryName);
+            }
+
+            var output = this.Ensure_IsDirectoryIndicated(directoryPath);
+            return output;
+        }
+
+        public string Get_DirectoryPath(
+            string parentDirectoryPath,
+            params string[] directoryNames)
+        {
+            var output = this.Get_DirectoryPath(
+                parentDirectoryPath,
+                directoryNames.AsEnumerable());
+
             return output;
         }
 
@@ -339,6 +377,12 @@ namespace F10Y.L0000
         public string Make_DirectoryIndicated(string path)
         {
             var output = path + "\\"; // this.Make_DirectoryIndicated(path, true);
+            return output;
+        }
+
+        public string Make_NotDirectoryIndicated(string path)
+        {
+            var output = path.TrimEnd(Instances.DirectorySeparators.Both);
             return output;
         }
 

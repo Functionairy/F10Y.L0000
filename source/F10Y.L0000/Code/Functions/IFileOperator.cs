@@ -11,6 +11,9 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFileOperator
     {
+        public bool Exists(string filePath)
+            => Instances.FileSystemOperator.Exists_File(filePath);
+
         public string[] Get_LinesFromText(string text)
         {
             if (Instances.StringOperator.Is_Empty(text))
@@ -122,8 +125,16 @@ namespace F10Y.L0000
             return lines;
         }
 
+        /// <inheritdoc cref="File.ReadAllText(string)"/>
         public Task<string> Read_AllText(string filePath)
             => File.ReadAllTextAsync(filePath);
+
+        /// <inheritdoc cref="Read_AllText(string)"/>
+        /// <remarks>
+        /// Quality-of-life overload for <see cref="Read_AllText(string)"/>.
+        /// </remarks>
+        public Task<string> Read_Text(string filePath)
+            => this.Read_AllText(filePath);
 
         public string Read_AllText_Synchronous(string filePath)
             => File.ReadAllText(filePath);

@@ -16,7 +16,7 @@ namespace F10Y.L0000
         /// Note: just starting a process, not waiting for the process to complete, and moving on is a fundamentally synchronous process.
         /// That is why there is no asynchronous version of this method.
         /// </remarks>
-        public void Run_NoWait(
+        void Run_NoWait(
             string command,
             string arguments)
         {
@@ -37,7 +37,7 @@ namespace F10Y.L0000
             process.Start();
         }
 
-        public int Run_Synchronous(
+        int Run_Synchronous(
             string command,
             string arguments,
             string workingDirectory)
@@ -46,7 +46,7 @@ namespace F10Y.L0000
                 arguments,
                 workingDirectory);
 
-        public int Run_Synchronous(
+        int Run_Synchronous(
             string command,
             string arguments)
             => this.Run_Synchronous(
@@ -54,14 +54,19 @@ namespace F10Y.L0000
                 arguments,
                 Instances.Values.WorkingDirectory_Default);
 
+        int Run_Synchronous(string command)
+            => this.Run_Synchronous(
+                command,
+                Instances.Values.EmptyCommandArguments);
+
         /// <inheritdoc cref="Run_NoWait(string, string)"/>
-        public void Run_NoWait(string command)
+        void Run_NoWait(string command)
             => this.Run_NoWait(
                 command,
                 Instances.Values.EmptyCommandArguments);
 
         /// <inheritdoc cref="Run_NoWait(string, string)"/>
-        public void Run_NoWait_Synchronous(
+        void Run_NoWait_Synchronous(
             string command,
             string arguments)
             // Starting a command and not waiting for it to finish is a fundamentaly synchronous process.
@@ -70,7 +75,7 @@ namespace F10Y.L0000
                 arguments);
 
         /// <inheritdoc cref="Run_NoWait(string)"/>
-        public void Run_NoWait_Synchronous(string command)
+        void Run_NoWait_Synchronous(string command)
             // Starting a command and not waiting for it to finish is a fundamentaly synchronous process.
             => this.Run_NoWait(command);
     }

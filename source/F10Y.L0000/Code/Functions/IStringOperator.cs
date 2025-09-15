@@ -148,6 +148,16 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Chooses <see cref="F10Y.L0000.IStringOperator.Contains_ConsiderCase(string, string)"/> as the default.
+        /// </summary>
+        public bool Contains(
+            string @string,
+            string subString)
+            => this.Contains_ConsiderCase(
+                @string,
+                subString);
+
         public bool Contains_ConsiderCase(
             string @string,
             string subString)
@@ -772,6 +782,35 @@ namespace F10Y.L0000
             character_Last = _Unchecked.Get_Character_Last_Unchecked(@string);
 
             return true;
+        }
+
+        /// <summary>
+        /// Given a string, get the index (zero-based index) of the first digit (0-9),
+        /// or if there is none, not found.
+        /// </summary>
+        public bool Has_IndexOf_FirstDigitCharacter(
+            string @string,
+            out int indexOfFirstDigitCharacter_OrNotFound)
+        {
+            var index = 0;
+
+            foreach (var character in @string)
+            {
+                var isDigit = Instances.CharacterOperator.Is_Digit(character);
+                if (isDigit)
+                {
+                    indexOfFirstDigitCharacter_OrNotFound = index;
+
+                    return true;
+                }
+
+                index++;
+            }
+
+            // Else, not found.
+            indexOfFirstDigitCharacter_OrNotFound = Instances.Indices.NotFound;
+
+            return false;
         }
 
         public bool Has_IndexOf_First(

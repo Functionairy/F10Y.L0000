@@ -9,6 +9,11 @@ namespace F10Y.L0000
     public partial interface IExitCodes
     {
         /// <summary>
+        /// <para><value>Failure</value></para>
+        /// </summary>
+        public int Failure => 1;
+
+        /// <summary>
         /// <para><value>0</value></para>
         /// </summary>
         public int Success => 0;

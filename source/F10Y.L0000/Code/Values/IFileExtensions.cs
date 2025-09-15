@@ -8,14 +8,18 @@ namespace F10Y.L0000
     [ValuesMarker]
     public partial interface IFileExtensions
     {
+#pragma warning disable IDE1006 // Naming Styles
+
         /// <summary>
         /// <para><value>dll</value></para>
         /// </summary>
-        public string Dll => "dll";
+        public string dll => "dll";
 
         /// <summary>
         /// <para><value>xml</value></para>
         /// </summary>
-        public string Xml => "xml";
+        public string xml => "xml";
+
+#pragma warning restore IDE1006 // Naming Styles
     }
 }

@@ -180,6 +180,22 @@ namespace F10Y.L0000
                 .Where(Instances.XElementOperations.Is_Named(childOfChildName))
                 ;
 
+        public IEnumerable<XElement> Enumerate_ChildrenOfChildren(
+            XElement element,
+            string childName,
+            string grandchildName)
+        {
+            var output = this.Enumerate_Children(
+                element,
+                childName)
+                .SelectMany(childElement => this.Enumerate_Children(
+                    childElement,
+                    grandchildName))
+                ;
+
+            return output;
+        }
+
         public XElement Get_Child_First(
             XContainer container,
             string childName)
@@ -444,6 +460,25 @@ namespace F10Y.L0000
                 childOfChildName,
                 out value_OrDefault,
                 Instances.XElementOperator.Get_Value_AsString);
+
+        public bool Has_ChildOfChild_Value_First<TValue>(
+            XContainer container,
+            string childOfChildName,
+            out TValue value_OrDefault,
+            Func<string, TValue> valueSelector)
+        {
+            var output = this.Has_ChildOfChild_Value_First(
+                container,
+                childOfChildName,
+                out var string_OrDefault);
+
+            value_OrDefault = output
+                ? valueSelector(string_OrDefault)
+                : default
+                ;
+
+            return output;
+        }
 
         public bool Has_ChildOfChild_First(
             XContainer container,

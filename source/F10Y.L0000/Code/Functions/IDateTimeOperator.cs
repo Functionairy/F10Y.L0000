@@ -9,6 +9,22 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IDateTimeOperator
     {
+        public DateTime Add_Days(
+            DateTime dateTime,
+            int days_Count)
+        {
+            var output = dateTime.AddDays(days_Count);
+            return output;
+        }
+
+        public DateTime Add_Days(
+            DateTime dateTime,
+            double days)
+        {
+            var output = dateTime.AddDays(days);
+            return output;
+        }
+
         public DateTime From(
             int year,
             int month,
@@ -17,6 +33,34 @@ namespace F10Y.L0000
             int minute,
             int second)
             => new DateTime(year, month, day, hour, minute, second);
+
+        public DateTime From(
+            int hour,
+            int minute,
+            DateTime today)
+        {
+            var year = this.Get_Year(today);
+            var month = this.Get_Month(today);
+            var day = this.Get_Day(today);
+
+            var output = this.From(
+                year,
+                month,
+                day,
+                hour,
+                minute,
+                0);
+
+            return output;
+        }
+
+        public DateTime From_Local(
+            int hour,
+            int minute)
+            => this.From(
+                hour,
+                minute,
+                this.Get_Today_Local());
 
         public string Format(
             DateTime dateTime,
@@ -27,6 +71,57 @@ namespace F10Y.L0000
                 dateTime);
 
             return output;
+        }
+
+        public DateTime Get_DayFrom(DateTime now)
+        {
+            var output = new DateTime(
+                now.Year,
+                now.Month,
+                now.Day);
+
+            return output;
+        }
+
+        public DateTime Get_Today_Local()
+        {
+            var nowLocal = Instances.DateTimeOperator.Get_Now_Local();
+
+            var todayLocal = this.Get_DayFrom(nowLocal);
+            return todayLocal;
+        }
+
+        public DateTime Get_Today_Utc()
+        {
+            var nowUtc = Instances.DateTimeOperator.Get_Now_Utc();
+
+            var todayUtc = this.Get_DayFrom(nowUtc);
+            return todayUtc;
+        }
+
+        public DateTime Get_Tomorrow(DateTime dateTime)
+        {
+            var tomorrow = this.Add_Days(
+                dateTime,
+                1);
+
+            return tomorrow;
+        }
+
+        public DateTime Get_Tomorrow_Local()
+        {
+            var todayLocal = this.Get_Today_Local();
+
+            var tomorrowLocal = this.Get_Tomorrow(todayLocal);
+            return tomorrowLocal;
+        }
+
+        public DateTime Get_Tomorrow_Utc()
+        {
+            var todayUtc = this.Get_Today_Utc();
+
+            var tomorrowUtc = this.Get_Tomorrow(todayUtc);
+            return tomorrowUtc;
         }
 
         public DateTime Get_Now_Local()
@@ -47,6 +142,18 @@ namespace F10Y.L0000
 		public DateTime Get_Now()
         {
             var output = this.Get_Now_Local();
+            return output;
+        }
+
+        public int Get_Day(DateTime dateTime)
+        {
+            var output = dateTime.Day;
+            return output;
+        }
+
+        public int Get_Month(DateTime dateTime)
+        {
+            var output = dateTime.Month;
             return output;
         }
 

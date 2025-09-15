@@ -63,6 +63,24 @@ namespace F10Y.L0000
         public IEnumerable<T> Append_If<T>(
             IEnumerable<T> enumerable,
             bool condition,
+            Func<IEnumerable<T>> get_Appendix_IfTrue,
+            Func<IEnumerable<T>> get_Appendix_IfFalse)
+        {
+            var output = condition
+                ? this.Append_Many(
+                    enumerable,
+                    get_Appendix_IfTrue())
+                : this.Append_Many(
+                    enumerable,
+                    get_Appendix_IfFalse())
+                ;
+
+            return output;
+        }
+
+        public IEnumerable<T> Append_If<T>(
+            IEnumerable<T> enumerable,
+            bool condition,
             params T[] appendix)
             => this.Append_If(
                 enumerable,
@@ -313,6 +331,9 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        public HashSet<T> To_HashSet<T>(IEnumerable<T> values)
+            => Instances.HashSetOperator.From(values);
 
         public IEnumerable<(T, T)> Zip<T>(
             IEnumerable<T> a,

@@ -34,6 +34,22 @@ namespace F10Y.L0000
 
         #region Alphabet - Lower
 
+        /// <inheritdoc cref="CharactersDocumentation.For_q" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="q_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="CharactersDocumentation.For_q" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const char q_Constant = 'q';
+
+        /// <inheritdoc cref="q_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="q"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="q_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public char q => ICharacters.q_Constant;
+
         /// <inheritdoc cref="CharactersDocumentation.For_v" path="/summary"/>
         /// <remarks>
         /// <para>---</para>
@@ -49,6 +65,26 @@ namespace F10Y.L0000
         /// <para>Documentation: <inheritdoc cref="v_Constant" path="descendant::documentation-reference"/></para>
         /// </remarks>
         public char v => ICharacters.v_Constant;
+
+        #endregion
+
+        #region Control
+
+        /// <inheritdoc cref="CharactersDocumentation.For_Escape" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Escape_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="CharactersDocumentation.For_Escape" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const char Escape_Constant = '\u001b'; // Hexadecimal for 27.
+
+        /// <inheritdoc cref="Escape_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Escape"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Escape_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public char Escape => ICharacters.Escape_Constant;
 
         #endregion
 

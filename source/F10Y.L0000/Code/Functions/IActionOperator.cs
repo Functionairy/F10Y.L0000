@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using F10Y.T0002;
 
@@ -9,6 +10,34 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IActionOperator
     {
+        /// <summary>
+        /// The correct usage is:
+        /// <code>public Action&lt;RepositoryContext&gt; Default => Instances.ActionOperations.DoNothing_Synchronous;</code>
+        /// (No need for a double arrow, => ... => ...;)
+        /// </summary>
+        public void Do_Nothing_Synchronous<T>(T value)
+        {
+            // Do nothing.
+        }
+
+        public Task Do_Nothing()
+        {
+            // Do nothing.
+            return Task.CompletedTask;
+        }
+
+        public Task Do_Nothing<T>(T value)
+        {
+            // Do nothing.
+            return Task.CompletedTask;
+        }
+
+        public Task Do_Nothing<T1, T2>(T1 value1, T2 value2)
+        {
+            // Do nothing.
+            return Task.CompletedTask;
+        }
+
         public void Run_Action_OkIfDefault<TValue>(
             TValue value,
             Action<TValue> action)
@@ -53,9 +82,9 @@ namespace F10Y.L0000
             }
         }
 
-        /// <summary>
+        /// <remarks>
         /// Chooses <see cref="Run_Action_ExceptionIfDefault{TValue}(TValue, Action{TValue})"/> as the default.
-        /// </summary>
+        /// </remarks>
         public void Run_Action<TValue>(
             TValue value,
             Action<TValue> action)

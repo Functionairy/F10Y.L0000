@@ -10,5 +10,8 @@ namespace F10Y.L0000
     {
         /// <inheritdoc cref="DateTimeOffset.MinValue"/>
         public DateTimeOffset Minimum => DateTimeOffset.MinValue;
+
+        /// <inheritdoc cref="DateTimeOffset.UtcNow"/>
+        public DateTimeOffset Now_UTC => DateTimeOffset.UtcNow;
     }
 }

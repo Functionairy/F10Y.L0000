@@ -27,6 +27,7 @@ namespace F10Y.L0000
         public static IDirectoryNames DirectoryNames => L0000.DirectoryNames.Instance;
         public static IDirectorySeparatorOperator DirectorySeparatorOperator => L0000.DirectorySeparatorOperator.Instance;
         public static IDirectorySeparators DirectorySeparators => L0000.DirectorySeparators.Instance;
+        public static IDoubleOperator DoubleOperator => L0000.DoubleOperator.Instance;
         public static IEncodings Encodings => L0000.Encodings.Instance;
         public static IEnumerableOperator EnumerableOperator => L0000.EnumerableOperator.Instance;
         public static IEnvironmentOperator EnvironmentOperator => L0000.EnvironmentOperator.Instance;
@@ -45,6 +46,7 @@ namespace F10Y.L0000
         public static IFileNameOperator FileNameOperator => L0000.FileNameOperator.Instance;
         public static IFileOperator FileOperator => L0000.FileOperator.Instance;
         public static IFileStreamOperator FileStreamOperator => L0000.FileStreamOperator.Instance;
+        public static IFileSystemInfoOperator FileSystemInfoOperator => L0000.FileSystemInfoOperator.Instance;
         public static IFileSystemOperator FileSystemOperator => L0000.FileSystemOperator.Instance;
         public static IFunctionOperator FunctionOperator => L0000.FunctionOperator.Instance;
         public static IFunctions Functions => L0000.Functions.Instance;
@@ -53,12 +55,16 @@ namespace F10Y.L0000
         public static IIndices Indices => L0000.Indices.Instance;
         public static IIntegerOperator IntegerOperator => L0000.IntegerOperator.Instance;
         public static IIntegers Integers => L0000.Integers.Instance;
+        public static IKeyValuePairOperations KeyValuePairOperations => L0000.KeyValuePairOperations.Instance;
+        public static IKeyValuePairOperator KeyValuePairOperator => L0000.KeyValuePairOperator.Instance;
         public static IListOperator ListOperator => L0000.ListOperator.Instance;
         public static ILoadOptionsSet LoadOptionsSet => L0000.LoadOptionsSet.Instance;
         public static IMemoryStreamOperator MemoryStreamOperator => L0000.MemoryStreamOperator.Instance;
         public static IMethodBaseOperator MethodBaseOperator => L0000.MethodBaseOperator.Instance;
         public static INamespacedTypeNameOperator NamespacedTypeNameOperator => L0000.NamespacedTypeNameOperator.Instance;
         public static INullOperator NullOperator => L0000.NullOperator.Instance;
+        public static IObjectOperator ObjectOperator => L0000.ObjectOperator.Instance;
+        public static IOrderOperator OrderOperator => L0000.OrderOperator.Instance;
         public static IPathOperator PathOperator => L0000.PathOperator.Instance;
         public static IProcessOperator ProcessOperator => L0000.ProcessOperator.Instance;
         public static IRandomOperator RandomOperator => L0000.RandomOperator.Instance;
@@ -72,6 +78,7 @@ namespace F10Y.L0000
         public static IStrings Strings => L0000.Strings.Instance;
         public static ISwitchOperator SwitchOperator => L0000.SwitchOperator.Instance;
         public static ITaskOperator TaskOperator => L0000.TaskOperator.Instance;
+        public static ITimeSpanOperator TimeSpanOperator => L0000.TimeSpanOperator.Instance;
         public static ITokenSeparators TokenSeparators => L0000.TokenSeparators.Instance;
         public static ITypeInfoOperator TypeInfoOperator => L0000.TypeInfoOperator.Instance;
         public static ITypeNameOperator TypeNameOperator => L0000.TypeNameOperator.Instance;

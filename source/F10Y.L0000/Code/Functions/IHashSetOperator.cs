@@ -112,6 +112,10 @@ namespace F10Y.L0000
         public HashSet<T> New<T>()
             => new HashSet<T>();
 
+        public HashSet<T> New<T>(
+            params T[] items)
+            => new HashSet<T>(items);
+
         public HashSet<T> New<T>(IEqualityComparer<T> equalityComparer)
             => new HashSet<T>(equalityComparer);
 

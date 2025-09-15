@@ -16,6 +16,9 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ICountOperator
     {
+        public int Count<T>(IEnumerable<T> enumerable)
+            => this.Get_CountOf(enumerable);
+
         public int Get_CountOf<T>(IEnumerable<T> enumerable)
             => Instances.EnumerableOperator.Get_Count(enumerable);
 

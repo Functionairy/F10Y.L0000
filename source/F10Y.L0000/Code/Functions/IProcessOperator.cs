@@ -1,10 +1,10 @@
+using F10Y.T0002;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-
-using F10Y.T0002;
 
 
 namespace F10Y.L0000
@@ -74,6 +74,25 @@ namespace F10Y.L0000
         public DataReceivedEventHandler Get_DataReceivedEventHandler(
             List<string> accumulator)
             => this.Get_DataReceivedEventHandler_ExcludeNull(accumulator);
+
+        public DataReceivedEventHandler Get_DataReceivedEventHandler_Aggregate(
+            IEnumerable<DataReceivedEventHandler> dataReceivedEventHandlers)
+        {
+            void Internal(object sender, DataReceivedEventArgs dataReceived)
+            {
+                foreach (var dataReceivedEventHandler in dataReceivedEventHandlers)
+                {
+                    dataReceivedEventHandler(sender, dataReceived);
+                }
+            }
+
+            return Internal;
+        }
+
+        public DataReceivedEventHandler Get_DataReceivedEventHandler_Aggregate(
+            params DataReceivedEventHandler[] dataReceivedEventHandlers)
+            => this.Get_DataReceivedEventHandler_Aggregate(
+                dataReceivedEventHandlers.AsEnumerable());
 
         public DataReceivedEventHandler Get_DataReceivedEventHandler_ExcludeNull(
             List<string> accumulator)
