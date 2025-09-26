@@ -9,7 +9,10 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ICollectionOperator
     {
-        public int Get_Count<T>(ICollection<T> collection)
+        int Get_Count<T>(ICollection<T> collection)
             => collection.Count;
+
+        bool Has_Multiple<T>(ICollection<T> collection)
+            => collection.Count > 1;
     }
 }

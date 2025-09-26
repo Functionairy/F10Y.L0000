@@ -1,7 +1,8 @@
-using F10Y.T0002;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using F10Y.T0002;
 
 
 namespace F10Y.L0000
@@ -16,7 +17,7 @@ namespace F10Y.L0000
         /// Produces a version that has all the same values as the input version,
         /// except with the provided major value.
         /// </summary>
-        public Version Change_MajorValue(
+        Version Change_MajorValue(
             Version version,
             int majorValue)
         {
@@ -33,7 +34,7 @@ namespace F10Y.L0000
         /// Produces a version that has all the same values as the input version,
         /// except with the provided major value.
         /// </summary>
-        public Version Change_MinorValue(
+        Version Change_MinorValue(
             Version version,
             int minorValue)
         {
@@ -50,7 +51,7 @@ namespace F10Y.L0000
         /// Produces a version that has all the same values as the input version,
         /// except with the provided major value.
         /// </summary>
-        public Version Change_BuildValue(
+        Version Change_BuildValue(
             Version version,
             int buildValue)
         {
@@ -67,7 +68,7 @@ namespace F10Y.L0000
         /// Produces a version that has all the same values as the input version,
         /// except with the provided major value.
         /// </summary>
-        public Version Change_RevisionValue(
+        Version Change_RevisionValue(
             Version version,
             int revisionValue)
         {
@@ -81,13 +82,13 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Version(string)"/>
-        public Version From(string version)
+        Version From(string version)
         {
             var output = new Version(version);
             return output;
         }
 
-        public Version From(
+        Version From(
             int major,
             int minor)
         {
@@ -98,7 +99,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version From(
+        Version From(
             int major,
             int minor,
             int build)
@@ -111,7 +112,12 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version From(
+        int Compare(
+            Version a,
+            Version b)
+            => a.CompareTo(b);
+
+        Version From(
             int major,
             int minor,
             int build,
@@ -126,7 +132,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int[] Get_AllTokens(Version version)
+        int[] Get_AllTokens(Version version)
         {
             var tokens = new[]
             {
@@ -139,16 +145,16 @@ namespace F10Y.L0000
             return tokens;
         }
 
-        public Version Get_Default()
+        Version Get_Default()
             => new Version();
 
-        public Version Get_Lastest(IEnumerable<Version> versions)
+        Version Get_Lastest(IEnumerable<Version> versions)
             => versions.Max();
 
         /// <summary>
         /// Get the latest available version that matches the major version, and is the highest minor version greater-than or equal-to the target version.
         /// </summary>
-        public Version Get_Latest_MatchingMajor(
+        Version Get_Latest_MatchingMajor(
             Version targetVersion,
             IEnumerable<Version> availableVersions)
         {
@@ -174,19 +180,19 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Get_MajorVersion(Version version)
+        int Get_MajorVersion(Version version)
             => version.Major;
 
-        public int Get_MinorVersion(Version version)
+        int Get_MinorVersion(Version version)
             => version.Minor;
 
-        public int Get_RevisionVersion(Version version)
+        int Get_RevisionVersion(Version version)
             => version.Revision;
 
-        public int Get_BuildVersion(Version version)
+        int Get_BuildVersion(Version version)
             => version.Build;
 
-        public bool Has_Latest_MatchingMajorVersion(
+        bool Has_Latest_MatchingMajorVersion(
             int targetMajorVersion,
             IEnumerable<Version> availableVersions,
             out Version availableVersion_OrDefault)
@@ -208,7 +214,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_Latest_MatchingMajorVersion(
+        bool Has_Latest_MatchingMajorVersion(
             Version targetVersion,
             IEnumerable<Version> availableVersions,
             out Version availableVersion_OrDefault)
@@ -226,7 +232,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Returns the value of a version component that is defined, but has the default value (which is 0, zero).
 		/// </summary>
-		public int Get_DefinedDefault_ComponentValue()
+		int Get_DefinedDefault_ComponentValue()
         {
             var output = Instances.Values.Version_DefinedDefaultComponentValue;
             return output;
@@ -235,13 +241,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns the value of undefined version component (which is -1, negative one).
         /// </summary>
-        public int Get_Undefined_ComponentValue()
+        int Get_Undefined_ComponentValue()
         {
             var output = Instances.Values.Version_UndefinedComponentValue;
             return output;
         }
 
-        public int Get_DefinedTokenCount(Version version)
+        int Get_DefinedTokenCount(Version version)
         {
             var tokens = this.Get_AllTokens(version);
 
@@ -252,7 +258,7 @@ namespace F10Y.L0000
             return definedTokenCount;
         }
 
-        public Version Increment_MajorValue(
+        Version Increment_MajorValue(
             Version version,
             int increment = IIntegers.One_Constant)
         {
@@ -265,7 +271,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version Increment_MinorValue(
+        Version Increment_MinorValue(
             Version version,
             int increment = IIntegers.One_Constant)
         {
@@ -278,7 +284,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version Increment_BuildValue(
+        Version Increment_BuildValue(
             Version version,
             int increment = IIntegers.One_Constant)
         {
@@ -291,7 +297,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version Increment_RevisionValue(
+        Version Increment_RevisionValue(
             Version version,
             int increment = IIntegers.One_Constant)
         {
@@ -304,7 +310,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_MajorVersion(
+        bool Is_MajorVersion(
             Version version,
             int targetMajorVersion)
         {
@@ -314,7 +320,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_MinorVersion(
+        bool Is_MinorVersion(
             Version version,
             int targetMinorVersion)
         {
@@ -324,13 +330,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_OutOfRange(int versionPropertyValue)
+        bool Is_OutOfRange(int versionPropertyValue)
             => Instances.IntegerOperator.Is_LessThanZero(versionPropertyValue);
 
-        public bool Is_WithinRange(int versionPropertyValue)
+        bool Is_WithinRange(int versionPropertyValue)
             => !this.Is_OutOfRange(versionPropertyValue);
 
-        public bool Matches_MajorVersion(
+        bool Matches_MajorVersion(
             Version version,
             Version targetVersion)
         {
@@ -343,7 +349,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Matches_MinorVersion(
+        bool Matches_MinorVersion(
             Version version,
             Version targetVersion)
         {
@@ -364,7 +370,7 @@ namespace F10Y.L0000
         /// Altering a version by changing just a single value is painful since you have to choose a specific construtor to avoid the exception:
         /// <para>System.ArgumentOutOfRangeException: 'revision ('-1') must be a non-negative value. (Parameter 'revision') Actual value was -1.'</para>
         /// </remarks>
-        public Version New_IgnoreOutOfRangeValues(
+        Version New_IgnoreOutOfRangeValues(
             int major,
             int minor,
             int build,
@@ -401,7 +407,7 @@ namespace F10Y.L0000
             }
         }
 
-        public Version NormalizeTo_Major_Minor_Build(Version version)
+        Version NormalizeTo_Major_Minor_Build(Version version)
         {
             var definedTokenCount = this.Get_DefinedTokenCount(version);
             if (definedTokenCount > 3)
@@ -437,19 +443,19 @@ namespace F10Y.L0000
             }
         }
 
-        public Version Parse(string version)
+        Version Parse(string version)
         {
             var output = Version.Parse(version);
             return output;
         }
 
-        public string To_String(Version version)
+        string To_String(Version version)
         {
             var output = version.ToString();
             return output;
         }
 
-        public string To_String(
+        string To_String(
             Version version,
             int fieldCount)
         {
@@ -463,7 +469,7 @@ namespace F10Y.L0000
 		/// <remarks>
         /// Chooses <see cref="To_String_Major_Minor_Build_FewerTokensOk(Version)"/> as the default.
         /// </remarks>
-        public string To_String_Major_Minor_Build(Version version)
+        string To_String_Major_Minor_Build(Version version)
         {
             var output = this.To_String_Major_Minor_Build_FewerTokensOk(version);
             return output;
@@ -472,7 +478,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Will return X.Y.Z, and will not throw if the version defines fewer tokens.
 		/// </summary>
-		public string To_String_Major_Minor_Build_FewerTokensOk(Version version)
+		string To_String_Major_Minor_Build_FewerTokensOk(Version version)
         {
             var normalizedVersion = this.NormalizeTo_Major_Minor_Build(version);
 
@@ -483,7 +489,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Will throw if the major, minor, and build properties of version are not set.
 		/// </summary>
-		public string To_String_Major_Minor_Build_ThrowIfFewerTokens(Version version)
+		string To_String_Major_Minor_Build_ThrowIfFewerTokens(Version version)
         {
             // This ToString() implementation throws if there are too few tokens.
             var output = version.ToString(3);
@@ -493,7 +499,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Determines if the version property value is the value <see cref="IValues.Version_UndefinedComponentValue"/> (which is -1, negative one).
 		/// </summary>
-		public bool Is_DefinedVersionComponentValue(int versionComponentValue)
+		bool Is_DefinedVersionComponentValue(int versionComponentValue)
         {
             // Use not-equal instead of greater than to avoid relying on knowledged that the undefined value is negative one.
             var output = versionComponentValue != Instances.Values.Version_UndefinedComponentValue;

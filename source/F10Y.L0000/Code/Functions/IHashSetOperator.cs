@@ -70,6 +70,13 @@ namespace F10Y.L0000
             return output;
         }
 
+        public bool Not_Contains<T>(
+            HashSet<T> hashSet,
+            T item)
+            => !this.Contains(
+                hashSet,
+                item);
+
         /// <summary>
         /// <para>Chooses <see cref="From_KeepLast{T}(IEnumerable{T})"/> as the default.</para>
         /// <inheritdoc cref="From_KeepLast{T}(IEnumerable{T})" path="/summary"/>

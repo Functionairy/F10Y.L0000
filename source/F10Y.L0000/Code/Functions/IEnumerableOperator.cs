@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Resources;
 using F10Y.T0002;
 
 
@@ -10,24 +10,24 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IEnumerableOperator
     {
-        public bool Any<T>(IEnumerable<T> enumerable)
+        bool Any<T>(IEnumerable<T> enumerable)
             => enumerable.Any();
 
-        public IEnumerable<T> Append<T>(
+        IEnumerable<T> Append<T>(
             IEnumerable<T> enumerable,
             params T[] appendices)
             => this.Append(
                 enumerable,
                 appendices.AsEnumerable());
 
-        public IEnumerable<T> Append<T>(
+        IEnumerable<T> Append<T>(
             IEnumerable<T> enumerable,
             IEnumerable<T> appendix)
             => this.Append_Many(
                 enumerable,
                 appendix);
 
-        public IEnumerable<T> Append_If<T>(
+        IEnumerable<T> Append_If<T>(
             IEnumerable<T> enumerable,
             bool condition,
             IEnumerable<T> appendix)
@@ -42,7 +42,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> Append_If<T>(
+        IEnumerable<T> Append_If<T>(
             IEnumerable<T> enumerable,
             bool condition,
             IEnumerable<T> appendix_IfTrue,
@@ -60,7 +60,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> Append_If<T>(
+        IEnumerable<T> Append_If<T>(
             IEnumerable<T> enumerable,
             bool condition,
             Func<IEnumerable<T>> get_Appendix_IfTrue,
@@ -78,7 +78,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> Append_If<T>(
+        IEnumerable<T> Append_If<T>(
             IEnumerable<T> enumerable,
             bool condition,
             params T[] appendix)
@@ -87,17 +87,17 @@ namespace F10Y.L0000
                 condition,
                 appendix.AsEnumerable());
 
-        public IEnumerable<T> Append_Many<T>(
+        IEnumerable<T> Append_Many<T>(
             IEnumerable<T> enumerable,
             IEnumerable<T> appendix)
             => Enumerable.Concat(
                 enumerable,
                 appendix);
 
-        public int Get_Count<T>(IEnumerable<T> enumerable)
+        int Get_Count<T>(IEnumerable<T> enumerable)
             => enumerable.Count();
 
-        public T Get_Nth<T>(
+        T Get_Nth<T>(
             IEnumerable<T> values,
             int n)
         {
@@ -108,22 +108,45 @@ namespace F10Y.L0000
             return output;
         }
 
-        public T Get_Second<T>(IEnumerable<T> values)
+        T Get_Second<T>(IEnumerable<T> values)
         {
             var output = this.Get_Nth(values, 2);
             return output;
         }
 
-        public IEnumerable<T> Enumerate_Distinct<T>(IEnumerable<T> enumerable)
+        IEnumerable<T> Enumerate_Distinct<T>(IEnumerable<T> enumerable)
             => enumerable.Distinct();
 
-        public IEnumerable<T> Empty<T>()
+        IEnumerable<T> Empty<T>()
             => Enumerable.Empty<T>();
+
+        public IEnumerable<T> Except<T>(
+            IEnumerable<T> items,
+            T item)
+        {
+            var equalityComparer = Instances.EqualityComparerOperator.Get_Default(item);
+
+            var output = this.Except(
+                items,
+                item,
+                equalityComparer);
+
+            return output;
+        }
+
+        public IEnumerable<T> Except<T>(
+            IEnumerable<T> items,
+            T item,
+            IEqualityComparer<T> equalityComparer)
+        {
+            var output = items.Where(x => !equalityComparer.Equals(x, item));
+            return output;
+        }
 
         /// <summary>
 		/// Returns the entire sequence, except for the first element (skips the first element).
 		/// </summary>
-		public IEnumerable<T> Except_First<T>(IEnumerable<T> enumerable)
+		IEnumerable<T> Except_First<T>(IEnumerable<T> enumerable)
         {
             // Skip the last element.
             var output = this.Except_First(enumerable, 1);
@@ -133,7 +156,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Quality-of-life name for <see cref="Enumerable.Skip{TSource}(IEnumerable{TSource}, int)"/>
 		/// </summary>
-		public IEnumerable<T> Except_First<T>(
+		IEnumerable<T> Except_First<T>(
             IEnumerable<T> enumerable,
             int numberOfElements)
         {
@@ -145,7 +168,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Returns the entire sequence, except for the last element (skips the last element).
 		/// </summary>
-		public IEnumerable<T> Except_Last<T>(IEnumerable<T> enumerable)
+		IEnumerable<T> Except_Last<T>(IEnumerable<T> enumerable)
         {
             // Skip the last element.
             var output = this.Except_Last(enumerable, 1);
@@ -155,7 +178,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Quality-of-life name for <see cref="Enumerable.SkipLast{TSource}(IEnumerable{TSource}, int)"/>
 		/// </summary>
-		public IEnumerable<T> Except_Last<T>(
+		IEnumerable<T> Except_Last<T>(
             IEnumerable<T> enumerable,
             int numberOfElements)
         {
@@ -164,31 +187,31 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> From<T>(params T[] instances)
+        IEnumerable<T> From<T>(params T[] instances)
             // Just return the instances.
             => instances;
 
         /// <summary>
         /// Usually <see cref="From{T}(T[])"/> is good enough, but sometimes the input value is null and then the C# compiler issues an ambiguous call error.
         /// </summary>
-        public IEnumerable<T> From_Instance<T>(T instance)
+        IEnumerable<T> From_Instance<T>(T instance)
         {
             yield return instance;
         }
 
-        public IEnumerable<T> From<T>(params IEnumerable<T>[] enumerables)
+        IEnumerable<T> From<T>(params IEnumerable<T>[] enumerables)
         {
             var output = this.From_Enumerables(enumerables);
             return output;
         }
 
-        public IEnumerable<T> From_Enumerables<T>(params IEnumerable<T>[] enumerables)
+        IEnumerable<T> From_Enumerables<T>(params IEnumerable<T>[] enumerables)
         {
             var output = enumerables.SelectMany(enumerable => enumerable);
             return output;
         }
 
-        public IEnumerable<T> From<T>(Func<T> generator)
+        IEnumerable<T> From<T>(Func<T> generator)
         {
             var instance = generator();
 
@@ -199,7 +222,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns true if the enumerable has no elements.
         /// </summary>
-        public bool Is_Empty<T>(IEnumerable<T> items)
+        bool Is_Empty<T>(IEnumerable<T> items)
         {
             var any = items.Any();
 
@@ -208,13 +231,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Null<T>(IEnumerable<T> items)
+        bool Is_Null<T>(IEnumerable<T> items)
         {
             var output = Instances.NullOperator.Is_Null(items);
             return output;
         }
 
-        public bool Is_NullOrEmpty<T>(IEnumerable<T> items)
+        bool Is_NullOrEmpty<T>(IEnumerable<T> items)
         {
             var isNull = this.Is_Null(items);
             if (isNull)
@@ -231,7 +254,7 @@ namespace F10Y.L0000
             return false;
         }
 
-        public bool Is_NotNullOrEmpty<T>(IEnumerable<T> array)
+        bool Is_NotNullOrEmpty<T>(IEnumerable<T> array)
         {
             var is_NullOrEmpty = this.Is_NullOrEmpty(array);
 
@@ -239,7 +262,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> Join<T>(
+        IEnumerable<T> Join<T>(
             IEnumerable<T> items,
             T separator)
         {
@@ -270,14 +293,14 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns a new, empty enumerable.
         /// </summary>
-        public IEnumerable<T> New<T>()
+        IEnumerable<T> New<T>()
             => this.Empty<T>();
 
         /// <summary>
         /// <para>The opposite of Any().</para>
         /// Quality-of-life overload for <see cref="Is_Empty{T}(IEnumerable{T})"/>.
         /// </summary>
-        public bool None<T>(IEnumerable<T> items)
+        bool None<T>(IEnumerable<T> items)
             => this.Is_Empty(items);
 
         /// <summary>
@@ -291,7 +314,7 @@ namespace F10Y.L0000
         /// You frequently want to communicate to callers that you are enumerating the enumerable now, not turning it into an array.
         /// </para>
         /// </remarks>
-        public T[] Now<T>(IEnumerable<T> items)
+        T[] Now<T>(IEnumerable<T> items)
         {
             var output = items.ToArray();
             return output;
@@ -304,7 +327,7 @@ namespace F10Y.L0000
         /// As-of .NET 7, this method is a provided by a built-in extension method.
         /// <para>See: <see href="https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.order?view=net-7.0"/></para>
         /// </remarks>
-        public IOrderedEnumerable<T> Order_Ascending<T>(IEnumerable<T> enumerable)
+        IOrderedEnumerable<T> Order_Ascending<T>(IEnumerable<T> enumerable)
             => enumerable.OrderBy(x => x);
 
         /// <summary>
@@ -314,16 +337,111 @@ namespace F10Y.L0000
         /// As-of .NET 7, this method is a provided by a built-in extension method.
         /// <para>See: <see href="https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderdescending?view=net-7.0"/></para>
         /// </remarks>
-        public IOrderedEnumerable<T> Order_Descending<T>(IEnumerable<T> enumerable)
+        IOrderedEnumerable<T> Order_Descending<T>(IEnumerable<T> enumerable)
             => enumerable.OrderByDescending(x => x);
 
         /// <summary>
         /// Chooses <see cref="Order_Ascending{T}(IEnumerable{T})"/> as the default.
         /// </summary>
-        public IOrderedEnumerable<T> Order<T>(IEnumerable<T> enumerable)
-            => enumerable.OrderBy(x => x);
+        IOrderedEnumerable<T> Order<T>(IEnumerable<T> enumerable)
+            => this.Order_Ascending(enumerable);
 
-        public IEnumerable<T> Select_Many<T>(params IEnumerable<T>[] enumerables)
+        /// <summary>
+        /// Sorts the elements of a sequence in ascending order.
+        /// </summary>
+        IOrderedEnumerable<T> Order_Ascending<T>(
+            IEnumerable<T> enumerable,
+            Comparer<T> comparer)
+            => enumerable.OrderBy(
+                x => x,
+                comparer);
+
+        IOrderedEnumerable<T> Order_Ascending_With<T>(
+            IEnumerable<T> elements,
+            Comparison<T> comparison)
+        {
+            var comparer = Instances.ComparerOperator.New(comparison);
+
+            var output = this.Order_Ascending(
+                elements,
+                comparer);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Sorts the elements of a sequence in ascending order.
+        /// </summary>
+        IOrderedEnumerable<T> Order_Descending<T>(
+            IEnumerable<T> enumerable,
+            Comparer<T> comparer)
+            => enumerable.OrderByDescending(
+                x => x,
+                comparer);
+
+        IOrderedEnumerable<T> Order_Descending_With<T>(
+            IEnumerable<T> elements,
+            Comparison<T> comparison)
+        {
+            var comparer = Instances.ComparerOperator.New(comparison);
+
+            var output = this.Order_Descending(
+                elements,
+                comparer);
+
+            return output;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Order_Ascending{T}(IEnumerable{T}, Comparer{T})"/> as the default.
+        /// </remarks>
+        IOrderedEnumerable<T> Order<T>(
+            IEnumerable<T> enumerable,
+            Comparer<T> comparer)
+            => this.Order_Ascending(
+                enumerable,
+                comparer);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Order_Ascending{T}(IEnumerable{T}, Comparer{T})"/> as the default.
+        /// </remarks>
+        IOrderedEnumerable<T> Order_With<T>(
+            IEnumerable<T> elements,
+            Comparison<T> comparison)
+            => this.Order_Ascending_With(
+                elements,
+                comparison);
+
+        IOrderedEnumerable<T> Order_By<T, TKey>(
+            IEnumerable<T> enumerable,
+            Func<T, TKey> key_Selector,
+            IComparer<TKey> key_Comparer)
+            => enumerable.OrderBy(
+                key_Selector,
+                key_Comparer);
+
+        IOrderedEnumerable<T> Order_By<T, TKey>(
+            IEnumerable<T> enumerable,
+            Func<T, TKey> key_Selector,
+            Comparison<TKey> key_Comparision)
+        {
+            var comparer = Instances.ComparerOperator.New(key_Comparision);
+
+            var output = this.Order_By(
+                enumerable,
+                key_Selector,
+                comparer);
+
+            return output;
+        }
+
+        IEnumerable<T> Select_Many<T>(params IEnumerable<T>[] enumerables)
         {
             var output = enumerables
                 .SelectMany(Instances.Functions.Return)
@@ -332,10 +450,10 @@ namespace F10Y.L0000
             return output;
         }
 
-        public HashSet<T> To_HashSet<T>(IEnumerable<T> values)
+        HashSet<T> To_HashSet<T>(IEnumerable<T> values)
             => Instances.HashSetOperator.From(values);
 
-        public IEnumerable<(T, T)> Zip<T>(
+        IEnumerable<(T, T)> Zip<T>(
             IEnumerable<T> a,
             IEnumerable<T> b)
         {

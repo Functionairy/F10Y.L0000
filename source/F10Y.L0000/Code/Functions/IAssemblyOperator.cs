@@ -22,13 +22,16 @@ namespace F10Y.L0000
 #pragma warning restore IDE1006 // Naming Styles
 
 
+        Assembly Acquire(AssemblyName assemblyName)
+            => Assembly.Load(assemblyName);
+
         /// <inheritdoc cref="Enumerate_AssemblyFilePaths_AssumeAllDlls(string)"/>
-        public IEnumerable<string> Enumerate_AssemblyFilePaths(string directoryPath)
+        IEnumerable<string> Enumerate_AssemblyFilePaths(string directoryPath)
         {
             return this.Enumerate_AssemblyFilePaths_AssumeAllDlls(directoryPath);
         }
 
-        public IEnumerable<string> Enumerate_AssemblyFilePaths_InDirectoryOfAssembly(string assemblyFilePath)
+        IEnumerable<string> Enumerate_AssemblyFilePaths_InDirectoryOfAssembly(string assemblyFilePath)
         {
             var assemblyDirectoryPath = Instances.PathOperator.Get_ParentDirectoryPath_ForFile(assemblyFilePath);
 
@@ -39,12 +42,12 @@ namespace F10Y.L0000
         /// <summary>
         /// Get all DLL assembly files in the directory assuming all DLL files are assembly files.
         /// </summary>
-        public IEnumerable<string> Enumerate_AssemblyFilePaths_AssumeAllDlls(string directoryPath)
+        IEnumerable<string> Enumerate_AssemblyFilePaths_AssumeAllDlls(string directoryPath)
         {
             return Instances.FileSystemOperator.Enumerate_DllFiles(directoryPath);
         }
 
-        public IEnumerable<MemberInfo> Enumerate_Members(Assembly assembly)
+        IEnumerable<MemberInfo> Enumerate_Members(Assembly assembly)
         {
             var output = this.Enumerate_Types(assembly)
                 .SelectMany(typeInfo => Instances.EnumerableOperator.Empty<MemberInfo>()
@@ -58,22 +61,105 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Get_AssemblyFilePaths(string directoryPath)
+        AssemblyName[] Get_AssemblyNames_OfReferencedAssemblies(Assembly assembly)
+            => assembly.GetReferencedAssemblies();
+
+        string Get_FullName(Assembly assembly)
+            => assembly.FullName;
+
+        Assembly[] Get_ReferencedAssemblies_Direct(Assembly assembly)
+        {
+            var assemblyNames = this.Get_AssemblyNames_OfReferencedAssemblies(assembly);
+
+            var output = assemblyNames
+                .Select(this.Acquire)
+                .Now();
+
+            return output;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Inclusive of the 
+        /// </remarks>
+        Assembly[] Get_ReferencedAssemblies_Recursive_Inclusive(Assembly assembly)
+        {
+            var assembly_Accumulator = Instances.HashSetOperator.New<Assembly>();
+
+            static void AccumulateAssemblies(
+                Assembly assembly,
+                HashSet<Assembly> assembly_Accumulator)
+            {
+                // Add the current assembly.
+                assembly_Accumulator.Add(assembly);
+
+                var assemblyNames_ReferencedAssemblies = Instances.AssemblyOperator.Get_AssemblyNames_OfReferencedAssemblies(assembly);
+
+                foreach (var assemblyName in assemblyNames_ReferencedAssemblies)
+                {
+                    var assembly_Current = Instances.AssemblyOperator.Acquire(assemblyName);
+
+                    var alreadyAdded = Instances.HashSetOperator.Contains(
+                        assembly_Accumulator,
+                        assembly_Current);
+
+                    if (!alreadyAdded)
+                    {
+                        AccumulateAssemblies(
+                            assembly_Current,
+                            assembly_Accumulator);
+                    }
+                }
+            }
+
+            AccumulateAssemblies(
+                assembly,
+                assembly_Accumulator);
+
+            var output = assembly_Accumulator.ToArray();
+            return output;
+        }
+
+        Assembly[] Get_ReferencedAssemblies_Recursive_Exclusive(Assembly assembly)
+        {
+            var referencedAssemblies_Recursive_Inclusive = this.Get_ReferencedAssemblies_Recursive_Inclusive(assembly);
+
+            var output = referencedAssemblies_Recursive_Inclusive
+                .Except(assembly)
+                .Now();
+
+            return output;
+        }
+
+        string[] Get_AssemblyFilePaths(string directoryPath)
             => this.Enumerate_AssemblyFilePaths(directoryPath)
                 .ToArray();
 
-        public string[] Get_AssemblyFilePaths_InDirectoryOfAssembly(string assemblyFilePath)
+        string[] Get_AssemblyFilePaths_InDirectoryOfAssembly(string assemblyFilePath)
             => this.Enumerate_AssemblyFilePaths_InDirectoryOfAssembly(assemblyFilePath)
                 .ToArray();
 
-        public MemberInfo[] Get_Members(Assembly assembly)
+        string[] Get_MemberNames(Assembly assembly)
+        {
+            var members = Instances.AssemblyOperator.Get_Members(assembly);
+
+            var output = members
+                .Select(Instances.MemberInfoOperator.To_String)
+                .Now();
+
+            return output;
+        }
+
+        MemberInfo[] Get_Members(Assembly assembly)
             => this.Enumerate_Members(assembly)
                 .ToArray();
 
         /// <summary>
         /// Returns <see cref="Assembly.DefinedTypes"/>.
         /// </summary>
-        public IEnumerable<TypeInfo> Enumerate_Types(Assembly assembly)
+        IEnumerable<TypeInfo> Enumerate_Types(Assembly assembly)
         {
             return assembly.DefinedTypes;
         }
@@ -81,10 +167,10 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets the F10Y.L0000 assembly.
         /// </summary>
-        public Assembly Get_Assembly()
+        Assembly Get_Assembly()
             => this.Get_ExecutingAssembly();
 
-        public Assembly Get_AssemblyForType<T>()
+        Assembly Get_AssemblyForType<T>()
         {
             var type = Instances.TypeOperator.Get_Type<T>();
 
@@ -92,20 +178,20 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Assembly Get_AssemblyForType(Type type)
+        Assembly Get_AssemblyForType(Type type)
             => Instances.TypeOperator.Get_AssemblyForType(type);
 
         /// <summary>
         /// Get the assemby file name stem given an assembly name.
         /// </summary>
-        public string Get_AssemblyFileNameStem(string assemblyName)
+        string Get_AssemblyFileNameStem(string assemblyName)
         {
             // The file name stem is just the assembly name.
             var assemblyFileNameStem = assemblyName;
             return assemblyFileNameStem;
         }
 
-        public string Get_AssemblyName_FromFilePath(string assemblyFilePath)
+        string Get_AssemblyName_FromFilePath(string assemblyFilePath)
         {
             var assemblyFileName = Instances.PathOperator.Get_FileName(assemblyFilePath);
 
@@ -113,7 +199,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_AssemblyName_FromFileName(string assemblyFileName)
+        string Get_AssemblyName_FromFileName(string assemblyFileName)
         {
             var fileNameStem = Instances.FileNameOperator.Get_FileNameStem(assemblyFileName);
 
@@ -121,14 +207,14 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_AssemblyName_FromFileNameStem(string assemblyFileNameStem)
+        string Get_AssemblyName_FromFileNameStem(string assemblyFileNameStem)
         {
             // The assembly name is just the file name stem.
             var output = assemblyFileNameStem;
             return output;
         }
 
-        public Assembly Get_ExecutingAssembly()
+        Assembly Get_ExecutingAssembly()
         {
             var output = Assembly.GetCallingAssembly();
             return output;
@@ -140,7 +226,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the currently loaded assembly containing the <see cref="string"/> type.
         /// </remarks>
-        public Assembly Get_System_CoreAssembly()
+        Assembly Get_System_CoreAssembly()
         {
             var output = typeof(string).Assembly;
             return output;
@@ -152,7 +238,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the result of <see cref="Assembly.GetEntryAssembly"/>.
         /// </remarks>
-        public Assembly Get_EntryPointAssembly()
+        Assembly Get_EntryPointAssembly()
         {
             var output = Assembly.GetEntryAssembly();
             return output;
@@ -164,7 +250,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the <see cref="Assembly.Location"/> value.
         /// </remarks>
-        public string Get_FilePath(Assembly assembly)
+        string Get_FilePath(Assembly assembly)
             => assembly.Location;
     }
 }

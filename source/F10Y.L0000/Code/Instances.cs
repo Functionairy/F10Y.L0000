@@ -3,7 +3,7 @@ using System;
 
 namespace F10Y.L0000
 {
-    public static class Instances
+    public class Instances
     {
         public static IActionOperator ActionOperator => L0000.ActionOperator.Instance;
         public static IArrayOperator ArrayOperator => L0000.ArrayOperator.Instance;
@@ -15,6 +15,7 @@ namespace F10Y.L0000
         public static ICharacterOperator CharacterOperator => L0000.CharacterOperator.Instance;
         public static ICharacters Characters => L0000.Characters.Instance;
         public static ICollectionOperator CollectionOperator => L0000.CollectionOperator.Instance;
+        public static IComparerOperator ComparerOperator => L0000.ComparerOperator.Instance;
         public static IComparisonResults ComparisonResults => L0000.ComparisonResults.Instance;
         public static IConsoleOperator ConsoleOperator => L0000.ConsoleOperator.Instance;
         public static ICultureInfos CultureInfos => L0000.CultureInfos.Instance;
@@ -59,6 +60,7 @@ namespace F10Y.L0000
         public static IKeyValuePairOperator KeyValuePairOperator => L0000.KeyValuePairOperator.Instance;
         public static IListOperator ListOperator => L0000.ListOperator.Instance;
         public static ILoadOptionsSet LoadOptionsSet => L0000.LoadOptionsSet.Instance;
+        public static IMemberInfoOperator MemberInfoOperator => L0000.MemberInfoOperator.Instance;
         public static IMemoryStreamOperator MemoryStreamOperator => L0000.MemoryStreamOperator.Instance;
         public static IMethodBaseOperator MethodBaseOperator => L0000.MethodBaseOperator.Instance;
         public static INamespacedTypeNameOperator NamespacedTypeNameOperator => L0000.NamespacedTypeNameOperator.Instance;

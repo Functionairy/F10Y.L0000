@@ -82,6 +82,13 @@ namespace F10Y.L0000.Extensions
                 suffix);
         }
 
+        /// <inheritdoc cref="IStringOperator.Trim(string)"/>
+        public static IEnumerable<string> Trim(this IEnumerable<string> strings)
+        {
+            var output = Instances.StringOperator.Trim(strings);
+            return output;
+        }
+
         public static string Wrap(this string @string,
             char prefix,
             char suffix)

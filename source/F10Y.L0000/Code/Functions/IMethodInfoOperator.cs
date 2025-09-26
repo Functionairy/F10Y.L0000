@@ -18,6 +18,13 @@ namespace F10Y.L0000
             return output;
         }
 
+        public MethodInfo Get_MethodOf<T>(
+            string methodName,
+            params Type[] argumentTypes_InOrder)
+            => this.Get_MethodInfo<T>(
+                methodName,
+                argumentTypes_InOrder);
+
         public MethodInfo Get_MethodInfo<T>(
             string methodName,
             params Type[] argumentTypes_InOrder)

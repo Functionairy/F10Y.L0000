@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,20 +11,23 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ITaskOperator
     {
-        public async Task<T> Await<T>(Task<T> task)
+        async Task<T> Await<T>(Task<T> task)
             => await task;
 
         /// <inheritdoc cref="Task.Delay(int)"/>
-        public Task Delay(int milliseconds)
+        Task Delay(int milliseconds)
             => Task.Delay(milliseconds);
 
-        public Task Delay_Infinite()
+        Task Delay_Infinite()
             => Task.Delay(Timeout.Infinite);
 
         /// <summary>
         /// Calls <see cref="Delay(int)"/>.
         /// </summary>
-        public Task Wait(int milliseconds)
+        Task Wait(int milliseconds)
             => this.Delay(milliseconds);
+
+        Task When_All(IEnumerable<Task> tasks)
+            => Task.WhenAll(tasks);
     }
 }

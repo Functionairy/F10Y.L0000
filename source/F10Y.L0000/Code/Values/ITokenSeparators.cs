@@ -17,6 +17,38 @@ namespace F10Y.L0000
         public char ArgumentListSeparator => ArgumentListSeparator_Constant;
 
         /// <summary>
+        /// <para>'[' (open brace)</para>
+        /// </summary>
+        public const char ArrayOpenSeparator_Constant = '[';
+
+        /// <inheritdoc cref="ArrayOpenSeparator_Constant"/>
+        public char ArrayOpenSeparator => ArrayOpenSeparator_Constant;
+
+        /// <summary>
+        /// <para>']' (close brace)</para>
+        /// </summary>
+        public const char ArrayCloseSeparator_Constant = ']';
+
+        /// <inheritdoc cref="ArrayCloseSeparator_Constant"/>
+        public char ArrayCloseSeparator => ArrayCloseSeparator_Constant;
+
+        /// <summary>
+        /// <para>'[' (open brace)</para>
+        /// </summary>
+        public const char AttributeOpenSeparator_Constant = '[';
+
+        /// <inheritdoc cref="AttributeOpenSeparator_Constant"/>
+        public char AttributeOpenSeparator => AttributeOpenSeparator_Constant;
+
+        /// <summary>
+        /// <para>']' (close brace)</para>
+        /// </summary>
+        public const char AttributeCloseSeparator_Constant = ']';
+
+        /// <inheritdoc cref="AttributeCloseSeparator_Constant"/>
+        public char AttributeCloseSeparator => AttributeCloseSeparator_Constant;
+
+        /// <summary>
         /// <para>'#' (hash)</para>
         /// In the type input lists of explicitly implemented members, the namespaced token separator changes from '.' to '#'.
         /// </summary>

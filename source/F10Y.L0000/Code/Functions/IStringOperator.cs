@@ -27,7 +27,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses the provided <paramref name="caseStandardization_Function"/> to standardized case before comparing.
         /// </summary>
-        public bool Are_Equal_CaseInsensitive(
+        bool Are_Equal_CaseInsensitive(
             string a,
             string b,
             Func<string, string> caseStandardization_Function)
@@ -42,7 +42,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="To_Lower_Invariant(string)"/> as the case standardization function.
         /// </summary>
-        public bool Are_Equal_CaseInsensitive(
+        bool Are_Equal_CaseInsensitive(
             string a,
             string b)
             => this.Are_Equal_CaseInsensitive(
@@ -51,7 +51,7 @@ namespace F10Y.L0000
                 this.To_Lower_Invariant);
 
 
-        public bool Are_Equal_CaseSensitive(
+        bool Are_Equal_CaseSensitive(
             string a,
             string b)
         {
@@ -62,7 +62,7 @@ namespace F10Y.L0000
         /// <summary>
         /// A quality-of-life over for <see cref="Are_Equal_CaseSensitive(string, string)"/>.
         /// </summary>
-        public bool Are_Equal_Exact(
+        bool Are_Equal_Exact(
             string a,
             string b)
             => this.Are_Equal_CaseSensitive(
@@ -72,7 +72,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Are_Equal_CaseSensitive(string, string)"/> as the default.
         /// </summary>
-        public bool Are_Equal(
+        bool Are_Equal(
             string a,
             string b)
             => this.Are_Equal_CaseSensitive(
@@ -82,20 +82,20 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Are_Equal_CaseSensitive(string, string)"/> as the default.
         /// </summary>
-        public bool Are_Equal_Not(
+        bool Are_Equal_Not(
             string a,
             string b)
             => !this.Are_Equal(
                 a,
                 b);
 
-        public bool Are_Equal(
+        bool Are_Equal(
             string a,
             string b,
             StringComparison stringComparison)
             => a.Equals(b, stringComparison);
 
-        public int Compare(
+        int Compare(
             string a,
             string b)
         {
@@ -103,20 +103,20 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Concatenate(params string[] strings)
+        string Concatenate(params string[] strings)
             => String.Concat(strings);
 
-        public string Concatenate(IEnumerable<string> strings)
+        string Concatenate(IEnumerable<string> strings)
             => String.Concat(strings);
 
-        public bool Contains(
+        bool Contains(
             string @string,
             char character)
             => _Implementations.Contains_ViaStringContains(
                 @string,
                 character);
 
-        public bool Contains(
+        bool Contains(
             string @string,
             params char[] characters)
         {
@@ -136,7 +136,7 @@ namespace F10Y.L0000
             return false;
         }
 
-        public bool Contains(
+        bool Contains(
             string @string,
             string subString,
             StringComparison stringComparison)
@@ -151,14 +151,14 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="F10Y.L0000.IStringOperator.Contains_ConsiderCase(string, string)"/> as the default.
         /// </summary>
-        public bool Contains(
+        bool Contains(
             string @string,
             string subString)
             => this.Contains_ConsiderCase(
                 @string,
                 subString);
 
-        public bool Contains_ConsiderCase(
+        bool Contains_ConsiderCase(
             string @string,
             string subString)
         {
@@ -166,7 +166,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Contains_IgnoreCase(
+        bool Contains_IgnoreCase(
             string @string,
             string subString)
         {
@@ -178,7 +178,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Empty_IfNull(string @string)
+        string Empty_IfNull(string @string)
         {
             var isNull = this.Is_Null(@string);
 
@@ -193,7 +193,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Note: supports endings that are longer than the string (returns false).
         /// </summary>
-        public bool Ends_With(
+        bool Ends_With(
             string @string,
             string ending)
         {
@@ -214,7 +214,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Ends_WithAny(
+        bool Ends_WithAny(
             string @string,
             params string[] endings)
         {
@@ -237,7 +237,7 @@ namespace F10Y.L0000
         /// Ensure the first and last characters of a string are a <inheritdoc cref="ICharacters.QuotationMark" path="descendant::name"/> (<inheritdoc cref="ICharacters.QuotationMark" path="descendant::value"/>)
         /// by adding characters if necessary.
         /// </summary>
-        public string Ensure_Enquoted(string @string)
+        string Ensure_Enquoted(string @string)
         {
             var firstChar = this.Get_Character_First(@string);
             var lastChar = this.Get_Character_Last(@string);
@@ -259,7 +259,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Format_WithTemplate(
+        string Format_WithTemplate(
             string template,
             params object[] objects)
         {
@@ -273,21 +273,21 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Format_WithTemplate(string, object[])"/> as the default.
         /// </summary>
-        public string Format(
+        string Format(
             string template,
             params object[] objects)
             => this.Format_WithTemplate(
                 template,
                 objects);
 
-        public int Get_CountOf(
+        int Get_CountOf(
             char character,
             string @string)
             => _Implementations.Get_CountOf_ViaLinq(
                 character,
                 @string);
 
-        public Func<string, bool> Get_Equals_Predicate(
+        Func<string, bool> Get_Equals_Predicate(
             string b,
             StringComparison comparison)
             => a => this.Are_Equal(
@@ -296,10 +296,45 @@ namespace F10Y.L0000
                 comparison);
 
         /// <summary>
+        /// Returns the string, without the beginning.
+        /// Strict in terms of the function throws an exception if the string does <strong>not</strong> start with the specified beginning.
+        /// </summary>
+        public string Except_Beginning_Strict(
+            string @string,
+            string beginning)
+        {
+            var startsWithBeginning = this.Starts_With(
+                @string,
+                beginning);
+
+            if (!startsWithBeginning)
+            {
+                throw new ArgumentException($"String '{@string}' did not start with beginning '{beginning}'.", nameof(@string));
+            }
+
+            var output = @string[beginning.Length..];
+            return output;
+        }
+
+        /// <summary>
+        /// Quality-of-life overload for <see cref="Except_Beginning_Strict(string, string)"/>.
+        /// </summary>
+        public string Except_Beginning(
+            string @string,
+            string beginning)
+        {
+            var output = this.Except_Beginning_Strict(
+                @string,
+                beginning);
+
+            return output;
+        }
+
+        /// <summary>
         /// Returns the string, without the ending.
         /// Robust in terms of the function does not care if the input actually ends with the ending.
         /// </summary>
-        public string Except_Ending_Robust(
+        string Except_Ending_Robust(
             string @string,
             string ending)
         {
@@ -311,7 +346,7 @@ namespace F10Y.L0000
         /// Returns the string, without the ending.
         /// Strict in terms of the function throws an exception if the string does <strong>not</strong> end with the specified ending.
         /// </summary>
-        public string Except_Ending_Strict(
+        string Except_Ending_Strict(
             string @string,
             string ending)
         {
@@ -334,7 +369,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Except_Ending_Strict(string, string)"/>.
         /// </summary>
-        public string Except_Ending(
+        string Except_Ending(
             string @string,
             string ending)
         {
@@ -345,7 +380,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Except_First(string @string)
+        string Except_First(string @string)
         {
             var output = this.Get_Substring_FromExclusive(
                 Instances.Indices.Zero,
@@ -354,7 +389,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Except_Last(string @string)
+        string Except_Last(string @string)
         {
             var length = this.Get_Length(@string);
 
@@ -367,7 +402,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public char Get_Character_First(string @string)
+        char Get_Character_First(string @string)
         {
             var output = this.Get_Character(
                 @string,
@@ -376,7 +411,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public char Get_Character_Last(string @string)
+        char Get_Character_Last(string @string)
         {
             var lastIndex = this.Get_IndexOf_Last(@string);
 
@@ -393,7 +428,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Uses <see cref="Unchecked.IStringOperator.Get_Character_Unchecked(string, int)"/>.
         /// </remarks>
-        public char Get_Character(
+        char Get_Character(
             string @string,
             int index)
         {
@@ -411,7 +446,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Source: https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/#a-deterministic-gethashcode-implementation
         /// </remarks>
-        public int Get_HashCode_Deterministic(string @string)
+        int Get_HashCode_Deterministic(string @string)
         {
             unchecked
             {
@@ -438,13 +473,13 @@ namespace F10Y.L0000
         /// <remarks>
         /// Uses <see cref="Unchecked.IStringOperator.Get_IndexOf_Last_Unchecked(string)"/>.
         /// </remarks>
-        public int Get_IndexOf_Last(string @string)
+        int Get_IndexOf_Last(string @string)
         {
             var lastIndex = _Unchecked.Get_IndexOf_Last_Unchecked(@string);
             return lastIndex;
         }
 
-        public int Get_IndexOf(
+        int Get_IndexOf(
             string @string,
             char character)
         {
@@ -457,7 +492,7 @@ namespace F10Y.L0000
             return indexOfOrNotFound;
         }
 
-        public int Get_IndexOf_OrNotFound(
+        int Get_IndexOf_OrNotFound(
             string @string,
             char character)
         {
@@ -469,7 +504,9 @@ namespace F10Y.L0000
         /// Returns the last index of the specified character within the string,
         /// or if the character is not found, throws an exception.
         /// </summary>
-        public int Get_LastIndexOf(char character, string @string)
+        int Get_LastIndexOf(
+            char character,
+            string @string)
         {
             var indexOrNotFound = this.Get_LastIndexOf_OrNotFound(
                 character,
@@ -482,9 +519,26 @@ namespace F10Y.L0000
 
         /// <summary>
         /// Returns the last index of the specified character within the string,
+        /// or if the character is not found, throws an exception.
+        /// </summary>
+        int Get_LastIndexOf(
+            string subString,
+            string @string)
+        {
+            var indexOrNotFound = this.Get_LastIndexOf_OrNotFound(
+                subString,
+                @string);
+
+            this.Verify_IsFound(indexOrNotFound, subString);
+
+            return indexOrNotFound;
+        }
+
+        /// <summary>
+        /// Returns the last index of the specified character within the string,
         /// or if the character is not found, returns <see cref="IIndices.NotFound"/>.
         /// </summary>
-        public int Get_LastIndexOf_OrNotFound(
+        int Get_LastIndexOf_OrNotFound(
             char character,
             string @string)
         {
@@ -493,9 +547,21 @@ namespace F10Y.L0000
         }
 
         /// <summary>
+        /// Returns the last index of the specified character within the string,
+        /// or if the character is not found, returns <see cref="IIndices.NotFound"/>.
+        /// </summary>
+        int Get_LastIndexOf_OrNotFound(
+            string subString,
+            string @string)
+        {
+            var output = @string.LastIndexOf(subString);
+            return output;
+        }
+
+        /// <summary>
         /// Gets the last index at which one of the provided characters is found.
         /// </summary>
-        public int Get_LastIndexOfAny_OrNotFound(
+        int Get_LastIndexOfAny_OrNotFound(
             string @string,
             params char[] characters)
         {
@@ -503,7 +569,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Get_LastIndexOfAny(
+        int Get_LastIndexOfAny(
             string @string,
             params char[] characters)
         {
@@ -516,7 +582,7 @@ namespace F10Y.L0000
             return lastIndexOfAny_OrNotFound;
         }
 
-        public string Get_LastNCharacters(
+        string Get_LastNCharacters(
             string @string,
             int numberOfCharacters)
         {
@@ -528,7 +594,7 @@ namespace F10Y.L0000
         /// Returns the last index of the specified character within the string,
         /// or if the character is not found, returns <see cref="IIndices.NotFound"/>.
         /// </summary>
-        public int Get_LastIndexOf_OrNotFound(
+        int Get_LastIndexOf_OrNotFound(
             char character,
             string @string,
             int startIndexInclusive)
@@ -555,7 +621,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Uses <see cref="Unchecked.IStringOperator.Get_Length_Unchecked(string)"/>.
         /// </remarks>
-        public int Get_Length(string @string)
+        int Get_Length(string @string)
         {
             var output = _Unchecked.Get_Length_Unchecked(@string);
             return output;
@@ -564,13 +630,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets the new line string for the currently executing environment.
         /// </summary>
-        public string Get_NewLine_ForEnvironment()
+        string Get_NewLine_ForEnvironment()
         {
             var output = Instances.EnvironmentOperator.Get_NewLine();
             return output;
         }
 
-        public string Get_Substring_From_Inclusive(
+        string Get_Substring_From_Inclusive(
             int startIndex,
             int length,
             string @string)
@@ -579,7 +645,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_From_Inclusive(
+        string Get_Substring_From_Inclusive(
             int startIndex_Exclusive,
             string @string)
         {
@@ -587,7 +653,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_From_Exclusive(
+        string Get_Substring_From_Exclusive(
             int startIndex,
             int length,
             string @string)
@@ -605,7 +671,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets a substring, starting at an index and going to the end.
         /// </summary>
-        public string Get_Substring_From_Exclusive(
+        string Get_Substring_From_Exclusive(
             int startIndex_Exclusive,
             string @string)
         {
@@ -613,7 +679,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_From_Exclusive(
+        string Get_Substring_From_Exclusive(
             char character,
             string @string)
         {
@@ -628,7 +694,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_FromExclusive_ToExclusive(
+        string Get_Substring_FromExclusive_ToExclusive(
             int startIndex,
             int endIndex,
             string @string)
@@ -645,7 +711,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_FromExclusive(
+        string Get_Substring_FromExclusive(
             int startIndex,
             int length,
             string @string)
@@ -663,7 +729,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets a substring, starting at an index and going to the end.
         /// </summary>
-        public string Get_Substring_FromExclusive(
+        string Get_Substring_FromExclusive(
             int startIndex_Exclusive,
             string @string)
         {
@@ -674,7 +740,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets a substring, staring at (and including) the given start index, of the given length.
         /// </summary>
-        public string Get_Substring_FromInclusive(
+        string Get_Substring_FromInclusive(
             int startIndex,
             int length,
             string @string)
@@ -683,7 +749,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_FromInclusive_ToInclusive(
+        string Get_Substring_FromInclusive_ToInclusive(
             int startIndex,
             int endIndex,
             string @string)
@@ -700,14 +766,14 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Substring_Upto_Inclusive(
+        string Get_Substring_Upto_Inclusive(
             int endIndex_Inclusive,
             string @string)
             => _Implementations.Get_Substring_Upto_Inclusive(
                 endIndex_Inclusive,
                 @string);
 
-        public string Get_Substring_Upto_Exclusive(
+        string Get_Substring_Upto_Exclusive(
             int endIndex_Exclusive,
             string @string)
         {
@@ -715,7 +781,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_Character(
+        bool Has_Character(
             string @string,
             int index,
             out char character)
@@ -748,7 +814,7 @@ namespace F10Y.L0000
             return true;
         }
 
-        public bool Has_Character_First(
+        bool Has_Character_First(
             string @string,
             out char character_First)
         {
@@ -765,7 +831,7 @@ namespace F10Y.L0000
         /// (If the string is null or empty, it does not.)
         /// If so, output the last character.
         /// </summary>
-        public bool Has_Character_Last(
+        bool Has_Character_Last(
             string @string,
             out char character_Last)
         {
@@ -788,7 +854,7 @@ namespace F10Y.L0000
         /// Given a string, get the index (zero-based index) of the first digit (0-9),
         /// or if there is none, not found.
         /// </summary>
-        public bool Has_IndexOf_FirstDigitCharacter(
+        bool Has_IndexOf_FirstDigitCharacter(
             string @string,
             out int indexOfFirstDigitCharacter_OrNotFound)
         {
@@ -813,7 +879,7 @@ namespace F10Y.L0000
             return false;
         }
 
-        public bool Has_IndexOf_First(
+        bool Has_IndexOf_First(
             string @string,
             out int index_OrNotFound,
             char character)
@@ -824,7 +890,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_IndexOf_Last(
+        bool Has_IndexOf_Last(
             string @string,
             out int index_OrNotFound,
             char character)
@@ -835,7 +901,18 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_IndexOfAny_First(
+        bool Has_IndexOf_Last(
+            string @string,
+            out int index_OrNotFound,
+            string subString)
+        {
+            index_OrNotFound = @string.LastIndexOf(subString);
+
+            var output = this.Was_Found(index_OrNotFound);
+            return output;
+        }
+
+        bool Has_IndexOfAny_First(
             string @string,
             out int indexOfAny_OrNotFound,
             params char[] characters)
@@ -846,7 +923,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_IndexOfAny_Last(
+        bool Has_IndexOfAny_Last(
             string @string,
             out int indexOfAny_OrNotFound,
             params char[] characters)
@@ -860,7 +937,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Has_IndexOfAny_First(string, out int, char[])"/> as the default.
         /// </summary>
-        public bool Has_IndexOfAny(
+        bool Has_IndexOfAny(
             string @string,
             out int indexOfAny_OrNotFound,
             params char[] characters)
@@ -872,25 +949,28 @@ namespace F10Y.L0000
         /// <summary>
         /// Determines if the input is specifically the <see cref="IStrings.Empty"/> string.
         /// </summary>
-        public bool Is_Empty(string value)
+        bool Is_Empty(string value)
         {
             var isEmpty = value == Instances.Strings.Empty;
             return isEmpty;
         }
 
-        public bool Is_Found(int index)
+        bool Is_NotEmpty(string value)
+            => !this.Is_Empty(value);
+
+        bool Is_Found(int index)
             => Instances.IndexOperator.Is_Found(index);
 
-        public bool Is_NotNull(string @string)
+        bool Is_NotNull(string @string)
             => Instances.NullOperator.Is_NotNull(@string);
 
-        public bool Is_Null(string @string)
+        bool Is_Null(string @string)
             => Instances.NullOperator.Is_Null(@string);
 
-        public bool Is_NullOrEmpty(string @string)
+        bool Is_NullOrEmpty(string @string)
             => String.IsNullOrEmpty(@string);
 
-        public string Join(
+        string Join(
             char separator,
             IEnumerable<char> characters)
         {
@@ -898,7 +978,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(
+        string Join(
             char separator,
             params char[] characters)
         {
@@ -909,7 +989,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(
+        string Join(
             char separator,
             params string[] strings)
         {
@@ -917,7 +997,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(
+        string Join(
             string separator,
             params string[] strings)
         {
@@ -933,7 +1013,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(
+        string Join(
             string separator,
             params char[] characters)
         {
@@ -947,7 +1027,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses the <see cref="F10Y.L0000.IStrings.Empty"/> value as a separator.
         /// </summary>
-        public string Join(IEnumerable<string> strings)
+        string Join(IEnumerable<string> strings)
         {
             var output = this.Join(
                 Instances.Strings.Empty,
@@ -956,13 +1036,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(params string[] strings)
+        string Join(params string[] strings)
         {
             var output = this.Join(strings.AsEnumerable());
             return output;
         }
 
-        public string Join(
+        string Join(
             char separator,
             IEnumerable<string> strings)
         {
@@ -970,7 +1050,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(
+        string Join(
             string separator,
             IEnumerable<string> strings)
         {
@@ -978,7 +1058,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join_AsList(IEnumerable<char> characters)
+        string Join_AsList(IEnumerable<char> characters)
         {
             var output = this.Join(
                 Instances.Characters.Comma,
@@ -987,7 +1067,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join_ToString(IEnumerable<string> strings)
+        string Join_ToString(IEnumerable<string> strings)
         {
             var output = String.Concat(strings);
             return output;
@@ -999,7 +1079,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Length_IsAtLeast(
+        bool Length_IsAtLeast(
             string @string,
             int length)
         {
@@ -1012,7 +1092,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Length_IsAtLeast_One(string @string)
+        bool Length_IsAtLeast_One(string @string)
         {
             var output = this.Length_IsAtLeast(
                 @string,
@@ -1021,7 +1101,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Length_IsGreaterThan(
+        bool Length_IsGreaterThan(
             string @string,
             int length)
         {
@@ -1034,7 +1114,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Length_IsLessThan(
+        bool Length_IsLessThan(
             string @string,
             int length)
         {
@@ -1044,7 +1124,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<string> Order_Alphabetically(IEnumerable<string> strings)
+        IEnumerable<string> Order_Alphabetically(IEnumerable<string> strings)
         {
             var output = strings
                 .OrderBy(x => x)
@@ -1053,7 +1133,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> Order_AlphabeticallyBy<T>(
+        IEnumerable<T> Order_AlphabeticallyBy<T>(
             IEnumerable<T> values,
             Func<T, string> selector)
         {
@@ -1064,7 +1144,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Replace_Character(
+        string Replace_Character(
             string @string,
             char oldCharacter,
             char newCharacter)
@@ -1076,7 +1156,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Replace(
+        string Replace(
             string @string,
             char newCharacter,
             IEnumerable<char> oldCharacters)
@@ -1094,7 +1174,7 @@ namespace F10Y.L0000
             return currentString;
         }
 
-        public string Replace_Characters(
+        string Replace_Characters(
             string @string,
             char newCharacter,
             params char[] oldCharacters)
@@ -1107,7 +1187,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Replace(
+        string Replace(
             string @string,
             char newCharacter,
             params char[] oldCharacters)
@@ -1120,7 +1200,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Replace_String(
+        string Replace_String(
             string @string,
             string oldString,
             string newString)
@@ -1132,7 +1212,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Replace(
+        string Replace(
             string @string,
             string newString,
             IEnumerable<string> oldStrings)
@@ -1150,7 +1230,7 @@ namespace F10Y.L0000
             return currentString;
         }
 
-        public string Replace_Strings(
+        string Replace_Strings(
             string @string,
             string newString,
             params string[] oldStrings)
@@ -1163,7 +1243,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Replace(
+        string Replace(
             string @string,
             string newString,
             params string[] oldStrings)
@@ -1176,7 +1256,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Serialize_UsingMemoryStream(
+        string Serialize_UsingMemoryStream(
             Action<MemoryStream> memoryStreamAction)
         {
             using var memoryStream = Instances.MemoryStreamOperator.Get_New();
@@ -1197,7 +1277,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Throws no exceptions.
         /// </remarks>
-        public bool Starts_With_Noexceptive(
+        bool Starts_With_Noexceptive(
             string @string,
             char character)
         {
@@ -1215,7 +1295,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Split(
+        string[] Split(
             char[] separators,
             string @string,
             StringSplitOptions options = StringSplitOptions.None)
@@ -1224,7 +1304,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Split_OnCharacter(
+        string[] Split_OnCharacter(
             char separator,
             string @string,
             StringSplitOptions options = StringSplitOptions.None)
@@ -1233,7 +1313,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Split(
+        string[] Split(
             char separator,
             string @string,
             StringSplitOptions options = StringSplitOptions.None)
@@ -1242,7 +1322,7 @@ namespace F10Y.L0000
                 @string,
                 options);
 
-        public string[] Split(
+        string[] Split(
             string separator,
             string @string,
             StringSplitOptions options = StringSplitOptions.None)
@@ -1251,7 +1331,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Split_Lines(
+        string[] Split_Lines(
             string text,
             string lineSeparator,
             StringSplitOptions options = StringSplitOptions.None)
@@ -1270,7 +1350,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Uses <see cref="IStrings.NewLine_ForEnvironment"/> as the line separator
         /// </remarks>
-        public string[] Split_Lines(string text)
+        string[] Split_Lines(string text)
         {
             var lineSeparator = Instances.Strings.NewLine_ForEnvironment;
 
@@ -1281,7 +1361,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Starts_With_Exceptive(
+        bool Starts_With_Exceptive(
             string @string,
             char character)
         {
@@ -1297,7 +1377,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Starts_With_Exceptive(string, char)"/> as the default.
         /// </summary>
-        public bool Starts_With(
+        bool Starts_With(
             string @string,
             char character)
         {
@@ -1308,7 +1388,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Starts_With(
+        bool Starts_With(
             string @string,
             string start)
         {
@@ -1354,16 +1434,16 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the result of <see cref="String.ToLowerInvariant"/>.
         /// </remarks>
-        public string To_Lower_Invariant(string @string)
+        string To_Lower_Invariant(string @string)
             => @string.ToLowerInvariant();
 
         /// <summary>
         /// Chooses <see cref="To_Lower_Invariant(string)"/> as the default.
         /// </summary>
-        public string To_Lower(string @string)
+        string To_Lower(string @string)
             => this.To_Lower_Invariant(@string);
 
-        public string To_Lower(
+        string To_Lower(
             string @string,
             CultureInfo cultureInfo)
         {
@@ -1377,16 +1457,16 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the result of <see cref="String.ToUpperInvariant"/>.
         /// </remarks>
-        public string To_Upper_Invariant(string @string)
+        string To_Upper_Invariant(string @string)
             => @string.ToUpperInvariant();
 
         /// <summary>
         /// Chooses <see cref="To_Upper_Invariant(string)"/> as the default.
         /// </summary>
-        public string To_Upper(string @string)
+        string To_Upper(string @string)
             => this.To_Upper_Invariant(@string);
 
-        public string To_Upper(
+        string To_Upper(
             string @string,
             CultureInfo cultureInfo)
         {
@@ -1394,7 +1474,143 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Prefix_With(
+        /// <inheritdoc cref="System.String.Trim()"/>
+        public string Trim(string @string)
+        {
+            var output = @string.Trim();
+            return output;
+        }
+
+        /// <inheritdoc cref="Trim(string)"/>
+        public IEnumerable<string> Trim(IEnumerable<string> strings)
+        {
+            var output = strings
+                .Select(@string => this.Trim(@string))
+                ;
+
+            return output;
+        }
+
+        /// <inheritdoc cref="System.String.Trim(char[])"/>
+        public string Trim(
+            string @string,
+            params char[] characters)
+        {
+            var output = @string.Trim(characters);
+            return output;
+        }
+
+        public IEnumerable<string> Trim(
+            IEnumerable<string> strings,
+            params char[] characters)
+        {
+            var output = strings
+                .Select(@string => this.Trim(
+                    @string,
+                    characters)
+                )
+                ;
+
+            return output;
+        }
+
+        public string Trim_End(
+            string value,
+            params char[] characters)
+        {
+            var output = value.TrimEnd(
+                characters);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Trims the ending (if it exists) from the end of the provided value.
+        /// </summary>
+        public string Trim_End(
+            string value,
+            string ending)
+        {
+            var output = value;
+
+            while (true)
+            {
+                bool valueEndsWithEnding = this.Ends_With(
+                    output,
+                    ending);
+
+                if (valueEndsWithEnding)
+                {
+                    output = this.Except_Ending(
+                        output,
+                        ending);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Trims new-lines (both Windows and Non-Windows) from the start and end of a string.
+        /// Does not trim tabs.
+        /// </summary>
+        /// <remarks>
+        /// Useful for creating string-literal code fragments on their own lines (meaning the new-lines between the start-line and end-line must be removed.
+        /// </remarks>
+        public string Trim_NewLines(string value)
+        {
+            var output = value.Trim(
+                Instances.Characters.NewLine,
+                Instances.Characters.CarriageReturn);
+
+            return output;
+        }
+
+        public string Trim_Start(
+            string value,
+            params char[] trimCharacters)
+        {
+            var output = value.TrimStart(
+                trimCharacters);
+
+            return output;
+        }
+
+        /// <summary>
+        /// Trims the beginning (if it exists) from the start of the provided value.
+        /// </summary>
+        public string Trim_Start(
+            string value,
+            string beginning)
+        {
+            var output = value;
+
+            while (true)
+            {
+                bool valueStartsWithBeginning = this.Starts_With(
+                    output,
+                    beginning);
+
+                if (valueStartsWithBeginning)
+                {
+                    output = this.Except_Beginning(
+                        output,
+                        beginning);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return output;
+        }
+
+        string Prefix_With(
             char prefix,
             string @string)
         {
@@ -1402,7 +1618,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Prefix_With(
+        string Prefix_With(
             string prefix,
             string @string)
         {
@@ -1410,12 +1626,12 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Was_Found(int index)
+        bool Was_Found(int index)
         {
             return Instances.IndexOperator.Was_Found(index);
         }
 
-        public void Verify_IsFound_Any(
+        void Verify_IsFound_Any(
             int index,
             params char[] characters)
         {
@@ -1428,7 +1644,7 @@ namespace F10Y.L0000
             }
         }
 
-        public void Verify_IsNotNullOrEmpty(string value)
+        void Verify_IsNotNullOrEmpty(string value)
         {
             var isNullOrEmpty = this.Is_NullOrEmpty(value);
             if (isNullOrEmpty)
@@ -1437,18 +1653,29 @@ namespace F10Y.L0000
             }
         }
 
-        public void Verify_IsFound(
+        void Verify_IsFound(
             int index,
             char character)
         {
             var isFound = Instances.IndexOperator.Is_Found(index);
             if (!isFound)
             {
-                throw new Exception($"'{character}' was not found.");
+                throw new Exception($"Character '{character}' was not found.");
             }
         }
 
-        public void Verify_IsFound<TException>(
+        void Verify_IsFound(
+            int index,
+            string @string)
+        {
+            var isFound = Instances.IndexOperator.Is_Found(index);
+            if (!isFound)
+            {
+                throw new Exception($"Substring '{@string}' was not found.");
+            }
+        }
+
+        void Verify_IsFound<TException>(
             int index,
             Func<TException> exceptionConstructor)
             where TException : Exception
@@ -1465,7 +1692,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Prefix_With(char, string)"/>.
         /// </summary>
-        public string With_Prefix(
+        string With_Prefix(
             char prefix,
             string @string)
         {
@@ -1479,7 +1706,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Prefix_With(string, string)"/>.
         /// </summary>
-        public string With_Prefix(
+        string With_Prefix(
             string prefix,
             string @string)
         {
@@ -1490,7 +1717,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Without_Start(
+        string Without_Start(
             string @string,
             string start)
         {
@@ -1505,7 +1732,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Wrap(
+        string Wrap(
             string @string,
             string prefix,
             string suffix)
@@ -1514,7 +1741,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Wrap(
+        string Wrap(
             string @string,
             char prefix,
             char suffix)

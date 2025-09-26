@@ -56,6 +56,26 @@ namespace F10Y.L0000.Extensions
             return output;
         }
 
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> items,
+            T item)
+        {
+            var output = Instances.EnumerableOperator.Except(items,
+                item);
+
+            return output;
+        }
+
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> items,
+            T item,
+            IEqualityComparer<T> equalityComparer)
+        {
+            var output = Instances.EnumerableOperator.Except(items,
+                item,
+                equalityComparer);
+
+            return output;
+        }
+
         /// <inheritdoc cref="IEnumerableOperator.Except_First{T}(IEnumerable{T})"/>
         public static IEnumerable<T> Except_First<T>(this IEnumerable<T> enumerable)
             => Instances.EnumerableOperator.Except_First(enumerable);
@@ -73,6 +93,18 @@ namespace F10Y.L0000.Extensions
             var output = Instances.EnumerableOperator.Except_Last(enumerable, numberOfElements);
             return output;
         }
+
+        public static T[] Now<T>(this IEnumerable<T> enumerable)
+        {
+            var output = Instances.EnumerableOperator.Now(enumerable);
+            return output;
+        }
+
+        public static IEnumerable<T> Order_With<T>(this IEnumerable<T> enumerable,
+            Comparison<T> comparison)
+            => Instances.EnumerableOperator.Order_Ascending_With(
+                enumerable,
+                comparison);
 
         /// <inheritdoc cref="IEnumerableOperator.Order_Ascending{T}(IEnumerable{T})"/>
         public static IOrderedEnumerable<T> Order_Ascending<T>(this IEnumerable<T> enumerable)
@@ -106,6 +138,13 @@ namespace F10Y.L0000.Extensions
                 nameSelector,
                 orderedNames.AsEnumerable());
         }
+
+        public static IOrderedEnumerable<T> Order_By<T, TKey>(this IEnumerable<T> enumerable,
+            Func<T, TKey> key_Selector,
+            Comparison<TKey> key_Comparison)
+            => Instances.EnumerableOperator.Order_By(enumerable,
+                key_Selector,
+                key_Comparison);
 
         public static HashSet<T> To_HashSet<T>(this IEnumerable<T> values)
             => Instances.EnumerableOperator.To_HashSet(values);
