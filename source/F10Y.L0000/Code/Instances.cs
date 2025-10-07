@@ -21,6 +21,7 @@ namespace F10Y.L0000
         public static ICultureInfos CultureInfos => L0000.CultureInfos.Instance;
         public static IDateTimeFormats DateTimeFormats => L0000.DateTimeFormats.Instance;
         public static IDateTimeOperator DateTimeOperator => L0000.DateTimeOperator.Instance;
+        public static IDecimalOperator DecimalOperator => L0000.DecimalOperator.Instance;
         public static IDefaultOperator DefaultOperator => L0000.DefaultOperator.Instance;
         public static IDictionaryOperator DictionaryOperator => L0000.DictionaryOperator.Instance;
         public static IDirectoryInfoOperator DirectoryInfoOperator => L0000.DirectoryInfoOperator.Instance;
@@ -85,6 +86,8 @@ namespace F10Y.L0000
         public static ITypeInfoOperator TypeInfoOperator => L0000.TypeInfoOperator.Instance;
         public static ITypeNameOperator TypeNameOperator => L0000.TypeNameOperator.Instance;
         public static ITypeOperator TypeOperator => L0000.TypeOperator.Instance;
+        public static IUInt64Operator UInt64Operator => L0000.UInt64Operator.Instance;
+        public static IUlongOperator UlongOperator => L0000.UlongOperator.Instance;
         public static IUriSchemes UriSchemes => L0000.UriSchemes.Instance;
         public static IValues Values => L0000.Values.Instance;
         public static IVersionOperator VersionOperator => L0000.VersionOperator.Instance;
