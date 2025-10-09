@@ -30,6 +30,7 @@ namespace F10Y.L0000
         public static IDirectorySeparatorOperator DirectorySeparatorOperator => L0000.DirectorySeparatorOperator.Instance;
         public static IDirectorySeparators DirectorySeparators => L0000.DirectorySeparators.Instance;
         public static IDoubleOperator DoubleOperator => L0000.DoubleOperator.Instance;
+        public static IDriveInfoOperator DriveInfoOperator => L0000.DriveInfoOperator.Instance;
         public static IEncodings Encodings => L0000.Encodings.Instance;
         public static IEnumerableOperator EnumerableOperator => L0000.EnumerableOperator.Instance;
         public static IEnvironmentOperator EnvironmentOperator => L0000.EnvironmentOperator.Instance;

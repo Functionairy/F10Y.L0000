@@ -32,7 +32,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Documentation.Inputs_NullChecked" path="/summary"/>
         /// </remarks>
-        public bool Are_Equal<T>(
+        bool Are_Equal<T>(
             T[] a,
             T[] b,
             Func<T, T, bool> equality)
@@ -43,7 +43,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Are_Equal<T>(
+        bool Are_Equal<T>(
             T[] a,
             T[] b,
             IEqualityComparer<T> equalityComparer)
@@ -54,7 +54,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Are_Equal<T>(
+        bool Are_Equal<T>(
            T[] a,
            T[] b)
         {
@@ -64,7 +64,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Are_Equal_Equatable<T>(
+        bool Are_Equal_Equatable<T>(
             T[] a,
             T[] b)
             where T : IEquatable<T>
@@ -76,7 +76,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Are_Equal_OrderDependent{T}(T[], T[], Func{T, T, bool})"/>
-        public bool Are_Equal_ForeachElement<T>(
+        bool Are_Equal_ForeachElement<T>(
             T[] a,
             T[] b,
             Func<T, T, bool> equality)
@@ -88,7 +88,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Documentation.Inputs_NullChecked" path="/summary"/>
         /// </remarks>
-        public bool Are_Equal_Lengths<T>(
+        bool Are_Equal_Lengths<T>(
             T[] a,
             T[] b)
         {
@@ -115,7 +115,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Are_Equal_OrderDependent<T>(
+        bool Are_Equal_OrderDependent<T>(
             T[] a,
             T[] b)
             where T : IEquatable<T>
@@ -134,7 +134,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Documentation.Inputs_NullChecked" path="/summary"/>
         /// </remarks>
-        public bool Are_Equal_OrderIndependent<T>(
+        bool Are_Equal_OrderIndependent<T>(
             T[] a,
             T[] b,
             IEqualityComparer<T> equalityComparer)
@@ -146,7 +146,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Are_Equal_OrderIndependent{T}(T[], T[], IEqualityComparer{T})"/>
-        public bool Are_Equal_OrderIndependent<T>(
+        bool Are_Equal_OrderIndependent<T>(
             T[] a,
             T[] b)
         {
@@ -156,7 +156,10 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Contains<T>(
+        T[] Cast_To<T>(Array array)
+            => array as T[];
+
+        bool Contains<T>(
             T[] array,
             T value,
             IEqualityComparer<T> equalityComparer)
@@ -168,7 +171,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Contains<T>(
+        bool Contains<T>(
             T[] array,
             T value)
         {
@@ -185,7 +188,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Does A contain B?
         /// </summary>
-        public bool Contains<T>(
+        bool Contains<T>(
             T[] a,
             T[] b,
             Func<T, T, bool> equality)
@@ -230,7 +233,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Contains{T}(T[], T[], Func{T, T, bool})"/>
-        public bool Contains<T>(
+        bool Contains<T>(
             T[] a,
             T[] b)
             where T : IEquatable<T>
@@ -245,7 +248,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public void Copy<T>(
+        void Copy<T>(
             T[] source,
             T[] destination,
             int startIndex_Source)
@@ -261,10 +264,10 @@ namespace F10Y.L0000
         /// <summary>
         /// Produces an empty array of the specified type.
         /// </summary>
-        public T[] Empty<T>()
+        T[] Empty<T>()
             => Array.Empty<T>();
 
-        public T[] Empty_IfNull<T>(T[] array)
+        T[] Empty_IfNull<T>(T[] array)
         {
             var isNull = Instances.NullOperator.Is_Null(array);
 
@@ -276,10 +279,10 @@ namespace F10Y.L0000
             return output;
         }
 
-        public T[] From<T>(params T[] values)
+        T[] From<T>(params T[] values)
             => values;
 
-        public T[] From<T>(
+        T[] From<T>(
             T[] values,
             params T[] appendix_Values)
         {
@@ -303,16 +306,16 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Get_Count<T>(T[] array)
+        int Get_Count<T>(T[] array)
             => array.Length;
 
-        public int Get_Length(Array array)
+        int Get_Length(Array array)
             => array.Length;
 
-        public int Get_Length<T>(T[] array)
+        int Get_Length<T>(T[] array)
             => array.Length;
 
-        public T Get<T>(
+        T Get<T>(
             T[] array,
             int index)
             => array[index];
@@ -326,7 +329,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public T Get_Second<T>(T[] array)
+        T Get_Second<T>(T[] array)
         {
             // Could be either a zero- (C# standard) or one-based (some MS Office interop scenarios) array.
             var index_First = this.Get_Index_First(array);
@@ -340,35 +343,35 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Get_Index_First<T>(T[] array)
+        int Get_Index_First<T>(T[] array)
             // Even if the array is one-based, its dimensions are zero-based.
             => array.GetLowerBound(Instances.Indices.Zero);
 
-        public int Get_IndexOfLast(Array array)
+        int Get_IndexOfLast(Array array)
         {
             var output = array.Length - 1;
             return output;
         }
 
-        public T Get_Last<T>(T[] arrary)
+        T Get_Last<T>(T[] arrary)
         {
             var output = arrary[^1];
             return output;
         }
 
-        public bool Is_Empty(Array array)
+        bool Is_Empty(Array array)
         {
             var output = array.Length == 0;
             return output;
         }
 
-        public bool Is_NotEmpty(Array array)
+        bool Is_NotEmpty(Array array)
         {
             var output = array.Length > 0;
             return output;
         }
 
-        public bool Is_NullOrEmpty(Array array)
+        bool Is_NullOrEmpty(Array array)
         {
             var isNull = Instances.NullOperator.Is_Null(array);
             if (isNull)
@@ -385,7 +388,7 @@ namespace F10Y.L0000
             return false;
         }
 
-        public bool Is_NotNullOrEmpty(Array array)
+        bool Is_NotNullOrEmpty(Array array)
         {
             var is_NullOrEmpty = this.Is_NullOrEmpty(array);
 
@@ -393,10 +396,10 @@ namespace F10Y.L0000
             return output;
         }
 
-        public T[] New<T>(int length)
+        T[] New<T>(int length)
             => new T[length];
 
-        public T[] Null_IfEmpty<T>(T[] array)
+        T[] Null_IfEmpty<T>(T[] array)
         {
             var isEmpty = this.Is_Empty(array);
 
@@ -408,7 +411,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public T[] To_Array<T>(IEnumerable<T> enumerable)
+        T[] To_Array<T>(IEnumerable<T> enumerable)
             => enumerable.ToArray();
     }
 }

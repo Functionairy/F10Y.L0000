@@ -18,10 +18,10 @@ namespace F10Y.L0000
 #pragma warning restore IDE1006 // Naming Styles
 
 
-        public bool Is_CurrentOperatingSystemPlatform(OSPlatform operatingSystemPlatform)
+        bool Is_CurrentOperatingSystemPlatform(OSPlatform operatingSystemPlatform)
             => RuntimeInformation.IsOSPlatform(operatingSystemPlatform);
 
-        public OSPlatform Get_CurrentOperatingSystemPlatform()
+        OSPlatform Get_CurrentOperatingSystemPlatform()
         {
             // Prior work:
             // * R5T.D0024.Default.OSPlatformProvider
@@ -46,25 +46,69 @@ namespace F10Y.L0000
             throw _Internal.Get_UnknownOSPlatformException();
         }
 
-        public bool Is_Linux_OperatingSystemPlatform(OSPlatform operatingSystemPlatform)
+        bool Is_Linux_OperatingSystemPlatform(OSPlatform operatingSystemPlatform)
         {
             var output = OSPlatform.Linux == operatingSystemPlatform;
             return output;
         }
 
-        public bool Is_OSX_OperatingSystemPlatform(OSPlatform operatingSystemPlatform)
+        bool Is_OSX_OperatingSystemPlatform(OSPlatform operatingSystemPlatform)
         {
             var output = OSPlatform.OSX == operatingSystemPlatform;
             return output;
         }
 
-        public bool Is_Windows_OperatingSystemPlatform(OSPlatform operatingSystemPlatform)
+        bool Is_Windows_OperatingSystemPlatform(OSPlatform operatingSystemPlatform)
         {
             var output = OSPlatform.Windows == operatingSystemPlatform;
             return output;
         }
 
-        public T SwitchOn_OSPlatform_ByValue<T>(
+        T SwitchOn_OSPlatform<T>(
+            Func<T> windowsFunction,
+            Func<T> nonWindowsFunction)
+        {
+            var output = this.SwitchOn_OSPlatform(
+                windowsFunction,
+                nonWindowsFunction,
+                nonWindowsFunction);
+
+            return output;
+        }
+
+        T SwitchOn_OSPlatform<T>(
+            Func<T> windowsFunction,
+            Func<T> osxFunction,
+            Func<T> linuxFunction)
+        {
+            var osPlatform = this.Get_CurrentOperatingSystemPlatform();
+
+            var output = this.SwitchOn_OSPlatform(
+                osPlatform,
+                windowsFunction,
+                osxFunction,
+                linuxFunction);
+
+            return output;
+        }
+
+        T SwitchOn_OSPlatform<T>(
+            OSPlatform osPlatform,
+            Func<T> windowsFunction,
+            Func<T> osxFunction,
+            Func<T> linuxFunction)
+        {
+            var function = this.SwitchOn_OSPlatform_ByValue(
+                osPlatform,
+                windowsFunction,
+                osxFunction,
+                linuxFunction);
+
+            var output = function();
+            return output;
+        }
+
+        T SwitchOn_OSPlatform_ByValue<T>(
             OSPlatform operatingSystemPlatform,
             T windowsValue,
             T osxValue,
@@ -94,7 +138,7 @@ namespace F10Y.L0000
             throw _Internal.Get_UnknownOSPlatformException();
         }
 
-        public T SwitchOn_OSPlatform_ByValue<T>(
+        T SwitchOn_OSPlatform_ByValue<T>(
            T windowsValue,
            T osxValue,
            T linuxValue)
@@ -108,7 +152,7 @@ namespace F10Y.L0000
                 linuxValue);
         }
 
-        public T SwitchOn_OSPlatform_ByValue<T>(
+        T SwitchOn_OSPlatform_ByValue<T>(
             T windowsValue,
             T osxValue,
             T linuxValue,
@@ -124,7 +168,7 @@ namespace F10Y.L0000
                 unknownValue);
         }
 
-        public T SwitchOn_OSPlatform_ByValue<T>(
+        T SwitchOn_OSPlatform_ByValue<T>(
             OSPlatform operatingSystemPlatform,
             T windowsValue,
             T osxValue,
@@ -153,6 +197,41 @@ namespace F10Y.L0000
             }
 
             return unknownValue;
+        }
+
+        T SwitchOn_OSPlatform<T>(
+            T windowsValue,
+            T nonWindowsValue)
+        {
+            return this.SwitchOn_OSPlatform_ByValue(
+                windowsValue,
+                nonWindowsValue,
+                nonWindowsValue);
+        }
+
+        T SwitchOn_OSPlatform<T>(
+            T windowsValue,
+            T osxValue,
+            T linuxValue)
+        {
+            return this.SwitchOn_OSPlatform_ByValue(
+                windowsValue,
+                osxValue,
+                linuxValue);
+        }
+
+        // Prior work: R5T.D0025.Default.OSPlatformSwitch and R5T.D0025.Base.IOSPlatformSwitchExtensions.
+        T SwitchOn_OSPlatform<T>(
+            OSPlatform osPlatform,
+            T windowsValue,
+            T osxValue,
+            T linuxValue)
+        {
+            return this.SwitchOn_OSPlatform_ByValue(
+                osPlatform,
+                windowsValue,
+                osxValue,
+                linuxValue);
         }
     }
 }

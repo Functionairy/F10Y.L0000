@@ -376,7 +376,7 @@ namespace F10Y.L0000
 
         public string Make_DirectoryIndicated(string path)
         {
-            var output = path + "\\"; // this.Make_DirectoryIndicated(path, true);
+            var output = path + Instances.DirectorySeparators.Environment;
             return output;
         }
 
