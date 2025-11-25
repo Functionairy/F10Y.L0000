@@ -6,7 +6,7 @@ using F10Y.T0001;
 namespace F10Y.L0000
 {
 	/// <summary>
-	/// .NET Standard 2.1 foundation library.
+	/// .NET Standard 2.1 foundation library. (general, unopinionated, zero-dependency, functions and values only)
 	/// </summary>
 	[DocumentationsMarker]
 	public static class Documentation

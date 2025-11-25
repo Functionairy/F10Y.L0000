@@ -970,6 +970,9 @@ namespace F10Y.L0000
         bool Is_NullOrEmpty(string @string)
             => String.IsNullOrEmpty(@string);
 
+        bool Is_NotNullOrEmpty(string @string)
+            => !this.Is_NullOrEmpty(@string);
+
         string Join(
             char separator,
             IEnumerable<char> characters)
@@ -1141,6 +1144,22 @@ namespace F10Y.L0000
                 .OrderBy(selector)
                 ;
 
+            return output;
+        }
+
+        string Repeat(char character, int count)
+        {
+            var output = new string(character, count);
+            return output;
+        }
+
+        string Repeat(string @string, int count)
+        {
+            var strings = Instances.EnumerableOperator.Repeat(
+                @string,
+                count);
+
+            var output = this.Join(strings);
             return output;
         }
 

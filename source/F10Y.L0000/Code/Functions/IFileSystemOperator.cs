@@ -19,7 +19,7 @@ namespace F10Y.L0000
         /// The system method <see cref="Directory.CreateDirectory(string)"/> does not throw an exception if you create a directory that already exists.
         /// However, it's hard to remember this fact, so this method name makes that fact explicit.
         /// </remarks>
-        public void Create_Directory_Idempotent(string directoryPath)
+        void Create_Directory_Idempotent(string directoryPath)
         {
             // Does not throw an exception if a directory already exists.
             // See proof at: https://github.com/MinexAutomation/Public/blob/a8c302415b56fb8903c751436cbeef3eae8e1692/Source/Experiments/CSharp/ExaminingCSharp/ExaminingCSharp/Code/Experiments/IOExperiments.cs#L24
@@ -33,7 +33,7 @@ namespace F10Y.L0000
         /// </para>
         /// </summary>
         /// <inheritdoc cref="Create_Directory_Idempotent(string)" path="/remarks"/>
-        public void Create_Directory_OkIfAlreadyExists(string directoryPath)
+        void Create_Directory_OkIfAlreadyExists(string directoryPath)
         {
             this.Create_Directory_Idempotent(directoryPath);
         }
@@ -42,7 +42,7 @@ namespace F10Y.L0000
         /// Non-idempotently deletes a directory.
         /// An exception is thrown if the directory does not exist.
         /// </summary>
-        public void Delete_Directory_NonIdempotent(string directoryPath)
+        void Delete_Directory_NonIdempotent(string directoryPath)
         {
             if (!this.Exists_Directory(directoryPath))
             {
@@ -52,7 +52,7 @@ namespace F10Y.L0000
             this.Delete_Directory_Robust(directoryPath);
         }
 
-        public bool Delete_Directory_Idempotent(string directoryPath)
+        bool Delete_Directory_Idempotent(string directoryPath)
         {
             if (this.Exists_Directory(directoryPath))
             {
@@ -73,7 +73,7 @@ namespace F10Y.L0000
         /// Also annoying, you need to specify the recursive option to delete a directory with anything in it. This method also takes care of specifying true for the recursive option.
         /// Even more annoying, even after specifying the recursive option, the system method will not delete read-only files. Thus this method disables read-only options on all files recursively.
         /// </summary>
-        public void Delete_Directory_Robust(string directoryPath)
+        void Delete_Directory_Robust(string directoryPath)
         {
             if (this.Exists_Directory(directoryPath))
             {
@@ -83,12 +83,12 @@ namespace F10Y.L0000
             }
         }
 
-        public void Delete_Directory_NonRobust(string directoryPath)
+        void Delete_Directory_NonRobust(string directoryPath)
         {
             Directory.Delete(directoryPath, true);
         }
 
-        public void Delete_Directories_Idempotent(IEnumerable<string> directoryPaths)
+        void Delete_Directories_Idempotent(IEnumerable<string> directoryPaths)
         {
             foreach (var directoryPath in directoryPaths)
             {
@@ -99,18 +99,18 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Delete_Directories_Idempotent(IEnumerable{string})"/> as the default.
         /// </summary>
-        public void Delete_Directories(IEnumerable<string> directoryPaths)
+        void Delete_Directories(IEnumerable<string> directoryPaths)
             => this.Delete_Directories_Idempotent(directoryPaths);
 
-        public void Delete_Directory_OkIfNotExists(string directoryPath)
+        void Delete_Directory_OkIfNotExists(string directoryPath)
         {
             this.Delete_Directory_Idempotent(directoryPath);
         }
 
-        public void Delete_Directory(string directoryPath)
+        void Delete_Directory(string directoryPath)
             => this.Delete_Directory_Idempotent(directoryPath);
 
-        public void Disable_ReadOnly(string directoryPath)
+        void Disable_ReadOnly(string directoryPath)
         {
             var directoryInfo = new DirectoryInfo(directoryPath);
 
@@ -123,7 +123,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Adapted from: https://stackoverflow.com/questions/1982209/cannot-programatically-delete-svn-working-copy
         /// </remarks>
-        public void Disable_ReadOnly(DirectoryInfo directoryInfo)
+        void Disable_ReadOnly(DirectoryInfo directoryInfo)
         {
             foreach (var file in directoryInfo.GetFiles())
             {
@@ -139,19 +139,19 @@ namespace F10Y.L0000
             }
         }
 
-        public void Ensure_DirectoryExists(string directoryPath)
+        void Ensure_DirectoryExists(string directoryPath)
         {
             this.Create_Directory_OkIfAlreadyExists(directoryPath);
         }
 
-        public void Ensure_DirectoryExists_ForFilePath(string filePath)
+        void Ensure_DirectoryExists_ForFilePath(string filePath)
         {
             var directoryPath = Instances.PathOperator.Get_ParentDirectoryPath_ForFile(filePath);
 
             this.Create_Directory_OkIfAlreadyExists(directoryPath);
         }
 
-        public void Ensure_DirectoryDoesNotExist(string directoryPath)
+        void Ensure_DirectoryDoesNotExist(string directoryPath)
             => this.Delete_Directory_Idempotent(directoryPath);
 
         /// <summary>
@@ -161,14 +161,14 @@ namespace F10Y.L0000
         /// Actually enumerates files as they come in (via <see cref="Directory.EnumerateFiles(string)"/>)
         /// as opposed to waiting to get all directories (as an array via <see cref="Directory.GetFiles(string)"/>).
         /// </remarks>
-        public IEnumerable<string> Enumerate_ChildFilePaths(string directoryPath)
+        IEnumerable<string> Enumerate_ChildFilePaths(string directoryPath)
         {
             var output = Directory.EnumerateFiles(directoryPath);
             return output;
         }
 
         /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
-        public IEnumerable<string> Enumerate_ChildFilePaths(
+        IEnumerable<string> Enumerate_ChildFilePaths(
             string directoryPath,
             string searchPattern)
         {
@@ -181,7 +181,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
-        public IEnumerable<string> Enumerate_ChildFilePaths_ByFileExtension(
+        IEnumerable<string> Enumerate_ChildFilePaths_ByFileExtension(
             string directoryPath,
             string fileExtension)
         {
@@ -195,14 +195,14 @@ namespace F10Y.L0000
         /// <summary>
         /// Enumerates child DLL files in the directory.
         /// </summary>
-        public IEnumerable<string> Enumerate_ChildDllFiles(string directoryPath)
+        IEnumerable<string> Enumerate_ChildDllFiles(string directoryPath)
         {
             return Instances.FileSystemOperator.Enumerate_ChildFilePaths_ByFileExtension(
                 directoryPath,
                 Instances.FileExtensions.dll);
         }
 
-        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+        IEnumerable<string> Enumerate_ChildDirectoryPaths(
             string directoryPath,
             string searchPattern)
         {
@@ -220,13 +220,13 @@ namespace F10Y.L0000
         /// Actually enumerates directories as they come in (via <see cref="Directory.EnumerateDirectories(string)"/>)
         /// as opposed to waiting to get all directories (as an array via <see cref="Directory.GetDirectories(string)"/>).
         /// </remarks>
-        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+        IEnumerable<string> Enumerate_ChildDirectoryPaths(
             string directoryPath)
             => this.Enumerate_ChildDirectoryPaths(
                 directoryPath,
                 Instances.SearchPatterns.All);
 
-        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+        IEnumerable<string> Enumerate_ChildDirectoryPaths(
             IEnumerable<string> directoryPaths)
         {
             var output = directoryPaths
@@ -236,7 +236,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<string> Enumerate_ChildDirectoryPaths(
+        IEnumerable<string> Enumerate_ChildDirectoryPaths(
             params string[] directoryPaths)
             => this.Enumerate_ChildDirectoryPaths(
                 directoryPaths.AsEnumerable());
@@ -244,7 +244,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Enumerates child XML files in the directory.
         /// </summary>
-        public IEnumerable<string> Enumerate_ChildXmlFiles(string directoryPath)
+        IEnumerable<string> Enumerate_ChildXmlFiles(string directoryPath)
         {
             return this.Enumerate_ChildFilePaths_ByFileExtension(
                 directoryPath,
@@ -252,7 +252,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Enumerate_ChildDllFiles"/>
-        public IEnumerable<string> Enumerate_DllFiles(string directoryPath)
+        IEnumerable<string> Enumerate_DllFiles(string directoryPath)
         {
             return this.Enumerate_ChildDllFiles(directoryPath);
         }
@@ -260,7 +260,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Enumerates all child-of-child (grandchild) directory paths.
         /// </summary>=
-        public IEnumerable<string> Enumerate_GrandchildDirectoryPaths(
+        IEnumerable<string> Enumerate_GrandchildDirectoryPaths(
             string directoryPath)
         {
             var childDirectoryPaths = this.Enumerate_ChildDirectoryPaths(
@@ -274,20 +274,36 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Enumerate_ChildXmlFiles"/>
-        public IEnumerable<string> Enumerate_XmlFiles(string directoryPath)
+        IEnumerable<string> Enumerate_XmlFiles(string directoryPath)
         {
             return this.Enumerate_ChildXmlFiles(directoryPath);
         }
 
-        public bool Exists_Directory(string directoryPath)
+        bool Exists_Directory(string directoryPath)
         {
             var output = Directory.Exists(directoryPath);
             return output;
         }
 
-        public bool Exists_File(string filePath)
+        bool NotExists_Directory(string directoryPath)
+        {
+            var exists = this.Exists_Directory(directoryPath);
+
+            var output = Instances.BooleanOperator.Invert(exists);
+            return output;
+        }
+
+        bool Exists_File(string filePath)
         {
             var output = File.Exists(filePath);
+            return output;
+        }
+
+        bool NotExists_File(string filePath)
+        {
+            var exists = this.Exists_File(filePath);
+
+            var output = Instances.BooleanOperator.Invert(exists);
             return output;
         }
 
@@ -297,7 +313,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// NOTE! This is an expensive operation, involving many file-system searches. Use this method sparingly (for example, only for display of paths of interest instead of for bulk formatting of paths).
         /// </remarks>
-        public string Get_ActualPath_ForFile(string path)
+        string Get_ActualPath_ForFile(string path)
         {
             var pathParts = Instances.PathOperator.Get_PathParts(path);
 
@@ -399,7 +415,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Get_ChildDirectoryPaths(
+        string[] Get_ChildDirectoryPaths(
             string directoryPath,
             string searchPattern)
         {
@@ -411,7 +427,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string[] Get_ChildDirectoryPaths(
+        string[] Get_ChildDirectoryPaths(
             string directoryPath)
         {
             var output = this.Get_Directories(
@@ -425,7 +441,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Tests whether a file exists, and if it doesn't, throws a <see cref="FileNotFoundException"/>.
         /// </summary>
-        public void Verify_File_Exists(string filePath)
+        void Verify_File_Exists(string filePath)
         {
             var fileExists = this.Exists_File(filePath);
             if (!fileExists)
@@ -437,7 +453,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Ensures that all returned directory paths are directory-indicated.
         /// </summary>
-        public string[] Get_Directories(
+        string[] Get_Directories(
             string path,
             string searchPattern,
             SearchOption searchOption)
@@ -456,7 +472,7 @@ namespace F10Y.L0000
         /// <summary>
         /// <inheritdoc cref="IDirectoryInfoOperator.Get_LastModifiedTime(DirectoryInfo)" path="/summary"/>
         /// </summary>
-        public DateTime Get_LastModifiedTime_ForDirectory(string directoryPath)
+        DateTime Get_LastModifiedTime_ForDirectory(string directoryPath)
         {
             var directory = Instances.DirectoryInfoOperator.From(directoryPath);
 
@@ -464,7 +480,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public DateTime Get_LastModifiedTime_ForFiles(
+        DateTime Get_LastModifiedTime_ForFiles(
             string directoryPath,
             Func<DirectoryInfo, bool> descendantDirectoryRecursionPredicate)
         {
@@ -480,7 +496,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Tests whether a file exists, and if it does, throws an <see cref="Exception"/>.
         /// </summary>
-        public void Verify_File_DoesNotExist(string filePath)
+        void Verify_File_DoesNotExist(string filePath)
         {
             var fileExists = this.Exists_File(filePath);
             if (fileExists)

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using F10Y.T0002;
@@ -11,10 +13,10 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFileOperator
     {
-        public bool Exists(string filePath)
+        bool Exists(string filePath)
             => Instances.FileSystemOperator.Exists_File(filePath);
 
-        public string[] Get_LinesFromText(string text)
+        string[] Get_LinesFromText(string text)
         {
             if (Instances.StringOperator.Is_Empty(text))
             {
@@ -32,7 +34,7 @@ namespace F10Y.L0000
             return lines;
         }
 
-        public void Copy_File(
+        void Copy_File(
             string sourceFilePath,
             string destinationFilePath,
             bool overwrite = IValues.Overwrite_Default_Constant)
@@ -43,7 +45,7 @@ namespace F10Y.L0000
                 overwrite);
         }
 
-        public async Task<bool> Files_AreEqual_ByteLevel(
+        async Task<bool> Files_AreEqual_ByteLevel(
             string filePathA,
             string filePathB)
         {
@@ -64,7 +66,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public StreamWriter Open_ForWrite(
+        StreamWriter Open_ForWrite(
             string filePath,
             bool overwrite = IValues.Overwrite_Default_Constant)
         {
@@ -78,19 +80,19 @@ namespace F10Y.L0000
         /// <summary>
         /// Overwrite is the opposite of append.
         /// </summary>
-        public bool Overwrite_ToAppend(bool overwrite)
+        bool Overwrite_ToAppend(bool overwrite)
             => !overwrite;
 
-        public Task<byte[]> Read_AllBytes(string filePath)
+        Task<byte[]> Read_AllBytes(string filePath)
             => File.ReadAllBytesAsync(filePath);
 
-        public byte[] Read_AllBytes_Synchronous(string filePath)
+        byte[] Read_AllBytes_Synchronous(string filePath)
             => File.ReadAllBytes(filePath);
 
         /// <summary>
         /// Quality-of-life overload for <see cref="Read_AllLines_IncludingBlankLines(string)"/>.
         /// </summary>
-        public async Task<string[]> Read_AllLines(string filePath)
+        async Task<string[]> Read_AllLines(string filePath)
         {
             var lines = await this.Read_AllLines_IncludingBlankLines(filePath);
             return lines;
@@ -99,7 +101,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Read_AllLines_IncludingBlankLines_Synchronous(string)"/>.
         /// </summary>
-        public string[] Read_AllLines_Synchronous(string filePath)
+        string[] Read_AllLines_Synchronous(string filePath)
         {
             var lines = this.Read_AllLines_IncludingBlankLines_Synchronous(filePath);
             return lines;
@@ -108,7 +110,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Actually reads all lines. The <see cref="File.ReadLines(string)"/> method omits blank lines, instead adding the new line character to the previous line!
 		/// </summary>
-		public async Task<string[]> Read_AllLines_IncludingBlankLines(string filePath)
+		async Task<string[]> Read_AllLines_IncludingBlankLines(string filePath)
         {
             var text = await File.ReadAllTextAsync(filePath);
 
@@ -117,7 +119,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Read_AllLines_IncludingBlankLines(string)"/>
-        public string[] Read_AllLines_IncludingBlankLines_Synchronous(string filePath)
+        string[] Read_AllLines_IncludingBlankLines_Synchronous(string filePath)
         {
             var text = File.ReadAllText(filePath);
 
@@ -126,32 +128,32 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="File.ReadAllText(string)"/>
-        public Task<string> Read_AllText(string filePath)
+        Task<string> Read_AllText(string filePath)
             => File.ReadAllTextAsync(filePath);
 
         /// <inheritdoc cref="Read_AllText(string)"/>
         /// <remarks>
         /// Quality-of-life overload for <see cref="Read_AllText(string)"/>.
         /// </remarks>
-        public Task<string> Read_Text(string filePath)
+        Task<string> Read_Text(string filePath)
             => this.Read_AllText(filePath);
 
-        public string Read_AllText_Synchronous(string filePath)
+        string Read_AllText_Synchronous(string filePath)
             => File.ReadAllText(filePath);
 
-        public Task<byte[]> Read_Bytes(string filePath)
+        Task<byte[]> Read_Bytes(string filePath)
         {
             var output = File.ReadAllBytesAsync(filePath);
             return output;
         }
 
-        public Task<string[]> Read_Lines(string filePath)
+        Task<string[]> Read_Lines(string filePath)
             => File.ReadAllLinesAsync(filePath);
 
         /// <summary>
         /// Chooses <see cref="Verify_Files_AreEqual_ByteLevel(string, string)"/> as the default.
         /// </summary>
-        public Task Verify_Files_AreEqual(
+        Task Verify_Files_AreEqual(
             string filePathA,
             string filePathB)
             => this.Verify_Files_AreEqual_ByteLevel(
@@ -161,7 +163,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Byte-by-byte, verify that two files are the same.
         /// </summary>
-        public async Task Verify_Files_AreEqual_ByteLevel(
+        async Task Verify_Files_AreEqual_ByteLevel(
             string filePathA,
             string filePathB)
         {
@@ -183,7 +185,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Verify_Files_AreEqual_ByteLevel_Synchonous(string, string)"/> as the default.
         /// </summary>
-        public void Verify_Files_AreEqual_Synchonous(
+        void Verify_Files_AreEqual_Synchonous(
             string filePathA,
             string filePathB)
             => this.Verify_Files_AreEqual_ByteLevel_Synchonous(
@@ -191,7 +193,7 @@ namespace F10Y.L0000
                 filePathB);
 
         /// <inheritdoc cref="Verify_Files_AreEqual_ByteLevel(string, string)"/>
-        public void Verify_Files_AreEqual_ByteLevel_Synchonous(
+        void Verify_Files_AreEqual_ByteLevel_Synchonous(
             string filePathA,
             string filePathB)
         {
@@ -206,7 +208,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Writes the provided lines (and only the provided lines, with no trailing blank line) to a file.
         /// </summary>
-        public Task Write_Lines(
+        Task Write_Lines(
             string textFilePath,
             IEnumerable<string> lines)
         {
@@ -221,7 +223,29 @@ namespace F10Y.L0000
                 text);
         }
 
-        public Task Write_Text(
+        Task Write_Lines(
+            string textFilePath,
+            Encoding encoding,
+            IEnumerable<string> lines)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            return File.WriteAllLinesAsync(
+                textFilePath,
+                lines,
+                encoding);
+        }
+
+        Task Write_Lines(
+            string textFilePath,
+            Encoding encoding,
+            params string[] lines)
+            => this.Write_Lines(
+                textFilePath,
+                encoding,
+                lines.AsEnumerable());
+
+        Task Write_Text(
             string textFilePath,
             string text)
         {
@@ -232,7 +256,20 @@ namespace F10Y.L0000
                 text);
         }
 
-        public void Write_Text_Synchronous(
+        Task Write_Text(
+            string textFilePath,
+            Encoding encoding,
+            string text)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            return File.WriteAllTextAsync(
+                textFilePath,
+                text,
+                encoding);
+        }
+
+        void Write_Text_Synchronous(
             string textFilePath,
             string text)
         {

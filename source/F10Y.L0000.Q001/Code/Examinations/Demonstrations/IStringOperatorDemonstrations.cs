@@ -17,7 +17,7 @@ namespace F10Y.L0000.Q001
         /// Demonstrates the function <see cref="IStringOperator.Has_IndexOfAny(string, out int, char[])"/>.
         /// </summary>
         /// <returns></returns>
-        public async Task Has_IndexOfAny()
+        async Task Has_IndexOfAny()
         {
             /// Inputs.
             var @string = @"C:\Temp\Temp.txt";
@@ -56,7 +56,7 @@ namespace F10Y.L0000.Q001
             this.Open(output_TextFilePath);
         }
 
-        public async Task Ensure_Enquoted()
+        async Task Ensure_Enquoted()
         {
             /// Inputs.
             var text =

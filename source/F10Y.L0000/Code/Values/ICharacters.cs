@@ -88,6 +88,8 @@ namespace F10Y.L0000
 
         #endregion
 
+        #region Punctuation
+
         /// <inheritdoc cref="CharactersDocumentation.For_BackSlash" path="/summary"/>
         /// <remarks>
         /// <para>---</para>
@@ -120,11 +122,21 @@ namespace F10Y.L0000
         /// </remarks>
         public char CarriageReturn => ICharacters.CarriageReturn_Constant;
 
-        /// <inheritdoc cref="CharactersDocumentation.For_Colon"/>
-        public const char Colon_Constant = ':';
+        /// <inheritdoc cref="CharactersDocumentation.For_CloseBracket" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="CloseBracket_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="CharactersDocumentation.For_CloseBracket" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const char CloseBracket_Constant = ']';
 
-        /// <inheritdoc cref="Colon_Constant"/>
-        public char Colon => ICharacters.Colon_Constant;
+        /// <inheritdoc cref="CloseBracket_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="CloseBracket"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="CloseBracket_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public char CloseBracket => ICharacters.CloseBracket_Constant;
 
         /// <inheritdoc cref="CharactersDocumentation.For_Comma" path="/summary"/>
         /// <remarks>
@@ -158,17 +170,21 @@ namespace F10Y.L0000
         /// </remarks>
         public char Equals => ICharacters.Equals_Constant;
 
-        /// <inheritdoc cref="CharactersDocumentation.For_NewLine"/>
-        public const char NewLine_Constant = '\n';
+        /// <inheritdoc cref="CharactersDocumentation.For_OpenBracket" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="OpenBracket_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="CharactersDocumentation.For_OpenBracket" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const char OpenBracket_Constant = '[';
 
-        /// <inheritdoc cref="NewLine_Constant"/>
-        public char NewLine => ICharacters.NewLine_Constant;
-
-        /// <inheritdoc cref="CharactersDocumentation.For_Null"/>
-        public const char Null_Constant = '\0';
-
-        /// <inheritdoc cref="Null_Constant"/>
-        public char Null => ICharacters.Null_Constant;
+        /// <inheritdoc cref="OpenBracket_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="OpenBracket"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="OpenBracket_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public char OpenBracket => ICharacters.OpenBracket_Constant;
 
         /// <inheritdoc cref="CharactersDocumentation.For_Period" path="/summary"/>
         /// <remarks>
@@ -185,12 +201,6 @@ namespace F10Y.L0000
         /// <para>Documentation: <inheritdoc cref="Period_Constant" path="descendant::documentation-reference"/></para>
         /// </remarks>
         public char Period => ICharacters.Period_Constant;
-
-        /// <inheritdoc cref="CharactersDocumentation.For_QuotationMark"/>
-        public const char QuotationMark_Constant = '"';
-
-        /// <inheritdoc cref="QuotationMark_Constant"/>
-        public char QuotationMark => ICharacters.QuotationMark_Constant;
 
         /// <inheritdoc cref="CharactersDocumentation.For_Slash" path="/summary"/>
         /// <remarks>
@@ -223,6 +233,50 @@ namespace F10Y.L0000
         /// <para>Documentation: <inheritdoc cref="Space_Constant" path="descendant::documentation-reference"/></para>
         /// </remarks>
         public char Space => ICharacters.Space_Constant;
+
+
+        /// <inheritdoc cref="CharactersDocumentation.For_Underscore" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Underscore_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="CharactersDocumentation.For_Underscore" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const char Underscore_Constant = '_';
+
+        /// <inheritdoc cref="Space_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Underscore"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Underscore_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public char Underscore => ICharacters.Underscore_Constant;
+
+        #endregion
+
+
+        /// <inheritdoc cref="CharactersDocumentation.For_Colon"/>
+        public const char Colon_Constant = ':';
+
+        /// <inheritdoc cref="Colon_Constant"/>
+        public char Colon => ICharacters.Colon_Constant;
+
+        /// <inheritdoc cref="CharactersDocumentation.For_NewLine"/>
+        public const char NewLine_Constant = '\n';
+
+        /// <inheritdoc cref="NewLine_Constant"/>
+        public char NewLine => ICharacters.NewLine_Constant;
+
+        /// <inheritdoc cref="CharactersDocumentation.For_Null"/>
+        public const char Null_Constant = '\0';
+
+        /// <inheritdoc cref="Null_Constant"/>
+        public char Null => ICharacters.Null_Constant;
+
+        /// <inheritdoc cref="CharactersDocumentation.For_QuotationMark"/>
+        public const char QuotationMark_Constant = '"';
+
+        /// <inheritdoc cref="QuotationMark_Constant"/>
+        public char QuotationMark => ICharacters.QuotationMark_Constant;
 
         /// <inheritdoc cref="CharactersDocumentation.For_Tab"/>
         public const char Tab_Constant = '\t';

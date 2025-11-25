@@ -12,33 +12,33 @@ namespace F10Y.L0000
     {
         /// <summary>
         /// The correct usage is:
-        /// <code>public Action&lt;RepositoryContext&gt; Default => Instances.ActionOperations.DoNothing_Synchronous;</code>
+        /// <code>Action&lt;RepositoryContext&gt; Default => Instances.ActionOperations.DoNothing_Synchronous;</code>
         /// (No need for a double arrow, => ... => ...;)
         /// </summary>
-        public void Do_Nothing_Synchronous<T>(T value)
+        void Do_Nothing_Synchronous<T>(T value)
         {
             // Do nothing.
         }
 
-        public Task Do_Nothing()
-        {
-            // Do nothing.
-            return Task.CompletedTask;
-        }
-
-        public Task Do_Nothing<T>(T value)
+        Task Do_Nothing()
         {
             // Do nothing.
             return Task.CompletedTask;
         }
 
-        public Task Do_Nothing<T1, T2>(T1 value1, T2 value2)
+        Task Do_Nothing<T>(T value)
         {
             // Do nothing.
             return Task.CompletedTask;
         }
 
-        public void Run_Action_OkIfDefault<TValue>(
+        Task Do_Nothing<T1, T2>(T1 value1, T2 value2)
+        {
+            // Do nothing.
+            return Task.CompletedTask;
+        }
+
+        void Run_Action_OkIfDefault<TValue>(
             TValue value,
             Action<TValue> action)
         {
@@ -51,7 +51,7 @@ namespace F10Y.L0000
             action(value);
         }
 
-        public void Run_Actions_OkIfDefault<TValue>(
+        void Run_Actions_OkIfDefault<TValue>(
             TValue value,
             IEnumerable<Action<TValue>> actions)
         {
@@ -63,14 +63,14 @@ namespace F10Y.L0000
             }
         }
 
-        public void Run_Action_ExceptionIfDefault<TValue>(
+        void Run_Action_ExceptionIfDefault<TValue>(
             TValue value,
             Action<TValue> action)
         {
             action(value);
         }
 
-        public void Run_Actions_ExceptionIfDefault<TValue>(
+        void Run_Actions_ExceptionIfDefault<TValue>(
             TValue value,
             IEnumerable<Action<TValue>> actions)
         {
@@ -85,7 +85,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Chooses <see cref="Run_Action_ExceptionIfDefault{TValue}(TValue, Action{TValue})"/> as the default.
         /// </remarks>
-        public void Run_Action<TValue>(
+        void Run_Action<TValue>(
             TValue value,
             Action<TValue> action)
             => this.Run_Action_ExceptionIfDefault(
@@ -95,7 +95,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Run_Actions_ExceptionIfDefault{TValue}(TValue, IEnumerable{Action{TValue}})"/> as the default.
         /// </summary>
-        public void Run_Actions<TValue>(
+        void Run_Actions<TValue>(
             TValue value,
             IEnumerable<Action<TValue>> actions)
             => this.Run_Actions_ExceptionIfDefault(

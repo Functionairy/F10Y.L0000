@@ -11,13 +11,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="IFileNameOperator.Get_FileName(string, string)"/>.
         /// </summary>
-        public string Add_FileExtension(string fileNameStem, string fileExtension)
+        string Add_FileExtension(string fileNameStem, string fileExtension)
             => this.Get_FileName(fileNameStem, fileExtension);
 
         /// <summary>
         /// Quality-of-life overload for <see cref="Get_FileName(string, string)"/>.
         /// </summary>
-        public string Append_FileExtension(
+        string Append_FileExtension(
             string fileNameStem,
             string fileExtension)
             => this.Get_FileName(
@@ -27,7 +27,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Places the appendix between the filename and the file extension.
         /// </summary>
-        public string Append_ToFileNameStem(
+        string Append_ToFileNameStem(
             string fileName,
             string appendix)
         {
@@ -43,13 +43,13 @@ namespace F10Y.L0000
             return newFileName;
         }
 
-        public string Get_FileExtension(string fileName)
+        string Get_FileExtension(string fileName)
             => Instances.FileExtensionOperator.Get_FileExtension(fileName);
 
         /// <summary>
         /// Provided a file name stem and file extension, get the resulting file name.
         /// </summary>
-        public string Get_FileName(
+        string Get_FileName(
             string fileNameStem,
             string fileExtension)
         {
@@ -62,7 +62,7 @@ namespace F10Y.L0000
         /// <summary>
         /// If the filename has no file extension separator, the whole file name is returned.
         /// </summary>
-        public string Get_FileNameStem(string fileName)
+        string Get_FileNameStem(string fileName)
         {
             var indexOrNotFound = Instances.StringOperator.Get_LastIndexOf_OrNotFound(
                 Instances.Values.FileExtension_Separator,
@@ -85,7 +85,7 @@ namespace F10Y.L0000
         /// <summary>
 		/// Quality-of-life alias for <see cref="IPathOperator.Has_FileExtension(string, string)"/>.
 		/// </summary>
-		public bool Has_FileExtension(
+		bool Has_FileExtension(
             string filePath,
             string fileExtension)
             => Instances.PathOperator.Has_FileExtension(

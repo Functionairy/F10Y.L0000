@@ -293,6 +293,17 @@ namespace F10Y.L0000
             return output;
         }
 
+        T[] From_WithAppendedValues<T>(
+            T[] values,
+            params T[] appendix_Values)
+        {
+            var output = values
+                .Append_Many(appendix_Values)
+                .ToArray();
+
+            return output;
+        }
+
         public T[] From<T>(
             T[] values,
             params T[][] appendix_Arrays)

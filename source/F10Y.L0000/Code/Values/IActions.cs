@@ -30,6 +30,7 @@ namespace F10Y.L0000
             => Instances.ActionOperator.Do_Nothing;
     }
 
+
     [ValuesMarker]
     public partial interface IActions<T1, T2>
     {

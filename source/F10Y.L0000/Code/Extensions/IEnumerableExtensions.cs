@@ -146,6 +146,9 @@ namespace F10Y.L0000.Extensions
                 key_Selector,
                 key_Comparison);
 
+        public static Dictionary<TKey, TElement[]> To_Dictionary<TKey, TElement>(this IEnumerable<IGrouping<TKey, TElement>> groups)
+            => Instances.DictionaryOperator.To_Dictionary(groups);
+
         public static HashSet<T> To_HashSet<T>(this IEnumerable<T> values)
             => Instances.EnumerableOperator.To_HashSet(values);
 

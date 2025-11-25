@@ -12,7 +12,7 @@ namespace F10Y.L0000.Q000
     public partial interface IVersionDemonstrations :
         IScriptTextOutputInfrastructure_Definition
     {
-        public async Task Increment_MajorVersion()
+        async Task Increment_MajorVersion()
         {
             /// Inputs.
             var version =

@@ -1,6 +1,6 @@
 using System;
 using System.Reflection;
-using System.Threading.Tasks.Sources;
+
 using F10Y.T0002;
 
 
@@ -9,7 +9,7 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ITypeOperator
     {
-        public bool Are_Equal(
+        bool Are_Equal(
             Type a,
             Type b)
         {
@@ -17,7 +17,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Assembly Get_AssemblyForType(Type type)
+        Assembly Get_AssemblyForType(Type type)
         {
             var output = type.Assembly;
             return output;
@@ -27,7 +27,7 @@ namespace F10Y.L0000
         /// Note, includes the generic parameter count. Example: ExampleClass01`1.
         /// <para>Gets the <see cref="MemberInfo.Name"/> of the type.</para>
         /// </summary>
-        public string Get_Name(Type type)
+        string Get_Name(Type type)
             => type.Name;
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Can handle nested types, using the nested type name separator used by <see cref="Type.FullName"/> (which is <see cref="ITokenSeparators.NestedTypeNameTokenSeparator"/>).
         /// </remarks>
-        public string Get_NamespacedTypeName(Type type)
+        string Get_NamespacedTypeName(Type type)
         {
             var isNestedType = this.Is_NestedType(type);
             if (isNestedType)
@@ -63,10 +63,10 @@ namespace F10Y.L0000
             }
         }
 
-        public string Get_NamespaceName(Type type)
+        string Get_NamespaceName(Type type)
             => type.Namespace;
 
-        public string Get_TypeName_Full(Type type)
+        string Get_TypeName_Full(Type type)
         {
             var output = Instances.TypeNameOperator.Get_TypeName_Full(type);
             return output;
@@ -75,49 +75,49 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Get_TypeName_Full(Type)"/> as the default.
         /// </summary>
-        public string Get_TypeName(Type type)
+        string Get_TypeName(Type type)
         {
             var output = Instances.TypeNameOperator.Get_TypeName(type);
             return output;
         }
 
-        /// <inheritdoc cref="ITypeNameOperator.Get_TypeNameOf_ImplementationType{T}(T)"/>
-        public string Get_TypeName_OfImplementationType<T>(T value)
+        /// <inheritdoc cref="ITypeNameOperator.Get_TypeName_OfImplementationType{T}(T)"/>
+        string Get_TypeName_OfImplementationType<T>(T value)
         {
-            var output = Instances.TypeNameOperator.Get_TypeNameOf_ImplementationType(value);
+            var output = Instances.TypeNameOperator.Get_TypeName_OfImplementationType(value);
             return output;
         }
 
-        /// <inheritdoc cref="ITypeNameOperator.Get_TypeNameOf_DeclaredType{T}()"/>
-        public string Get_TypeName_OfDeclaredType<T>()
+        /// <inheritdoc cref="ITypeNameOperator.Get_TypeName_OfDeclaredType{T}()"/>
+        string Get_TypeName_OfDeclaredType<T>()
         {
-            var output = Instances.TypeNameOperator.Get_TypeNameOf_DeclaredType<T>();
+            var output = Instances.TypeNameOperator.Get_TypeName_OfDeclaredType<T>();
             return output;
         }
 
-        /// <inheritdoc cref="ITypeNameOperator.Get_TypeNameOf_DeclaredType{T}(T)"/>
-        public string Get_TypeName_OfDeclaredType<T>(T instance)
+        /// <inheritdoc cref="ITypeNameOperator.Get_TypeName_OfDeclaredType{T}(T)"/>
+        string Get_TypeName_OfDeclaredType<T>(T instance)
         {
-            var output = Instances.TypeNameOperator.Get_TypeNameOf_DeclaredType(instance);
+            var output = Instances.TypeNameOperator.Get_TypeName_OfDeclaredType(instance);
             return output;
         }
 
-        /// <inheritdoc cref="ITypeNameOperator.Get_TypeNameOf{T}()"/>
-        public string Get_TypeName<T>()
+        /// <inheritdoc cref="ITypeNameOperator.Get_TypeName_Of{T}()"/>
+        string Get_TypeName<T>()
         {
-            var output = Instances.TypeNameOperator.Get_TypeNameOf<T>();
+            var output = Instances.TypeNameOperator.Get_TypeName_Of<T>();
             return output;
         }
 
-        /// <inheritdoc cref="ITypeNameOperator.Get_TypeNameOf{T}()"/>
-        public string Get_TypeNameOf<T>()
+        /// <inheritdoc cref="ITypeNameOperator.Get_TypeName_Of{T}()"/>
+        string Get_TypeNameOf<T>()
         {
-            var output = Instances.TypeNameOperator.Get_TypeNameOf<T>();
+            var output = Instances.TypeNameOperator.Get_TypeName_Of<T>();
             return output;
         }
 
         /// <inheritdoc cref="ITypeNameOperator.Get_TypeNameOf{T}(T)"/>
-        public string Get_TypeName<T>(T instance)
+        string Get_TypeName<T>(T instance)
         {
             var output = Instances.TypeNameOperator.Get_TypeNameOf(instance);
             return output;
@@ -127,7 +127,7 @@ namespace F10Y.L0000
 		/// Gets the type of the <typeparamref name="T"/>.
         /// (Returns the value from the typeof operator.)
 		/// </summary>
-		public Type Get_Type_DeclaredType<T>()
+		Type Get_Type_DeclaredType<T>()
         {
             var output = typeof(T);
             return output;
@@ -140,14 +140,14 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Get_Type_DeclaredType{T}()" path="/summary"/>
         /// </para>
         /// </summary>
-        public Type Get_Type_DeclaredType<T>(T instance)
+        Type Get_Type_DeclaredType<T>(T instance)
             => this.Get_Type_DeclaredType<T>();
 
         /// <summary>
         /// Gets the type of the given <paramref name="instance"/>.
         /// (Returns the result of <see cref="object.GetType"/>.)
         /// </summary>
-        public Type Get_Type_ImplementationType<T>(T instance)
+        Type Get_Type_ImplementationType<T>(T instance)
         {
             var output = instance.GetType();
             return output;
@@ -159,14 +159,14 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Get_Type_ImplementationType{T}(T)" path="/summary"/>
         /// </para>
         /// </summary>
-        public Type Get_Type<T>(T instance)
+        Type Get_Type<T>(T instance)
             => this.Get_Type_ImplementationType(instance);
 
         /// <summary>
         /// Returns <see cref="Get_Type_ImplementationType{T}(T)"/> of the instance is not null,
         /// else returns <see cref="Get_Type_DeclaredType{T}()"/>.
         /// </summary>
-        public Type Get_Type_AllowNull<T>(T instance)
+        Type Get_Type_AllowNull<T>(T instance)
         {
             var value_IsNull = Instances.NullOperator.Is_Null(instance);
 
@@ -184,7 +184,7 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Get_Type_DeclaredType{T}()" path="/summary"/>
         /// </para>
         /// </summary>
-        public Type Get_Type<T>()
+        Type Get_Type<T>()
             => this.Get_Type_DeclaredType<T>();
 
         /// <summary>
@@ -193,10 +193,10 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Get_Type_DeclaredType{T}()" path="/summary"/>
         /// </para>
         /// </summary>
-        public Type Get_TypeOf<T>()
+        Type Get_TypeOf<T>()
             => this.Get_Type_DeclaredType<T>();
 
-        public Func<Type, bool> Get_TypeEquals_Predicate(Type type)
+        Func<Type, bool> Get_TypeEquals_Predicate(Type type)
         {
             bool Internal(Type other)
             {
@@ -210,7 +210,7 @@ namespace F10Y.L0000
             return Internal;
         }
 
-        public void If_TypeIs<T>(
+        void If_TypeIs<T>(
             object @object,
             Action<T> action)
         {
@@ -224,7 +224,7 @@ namespace F10Y.L0000
             }
         }
 
-        public bool Is_DeclaredType<T>(
+        bool Is_DeclaredType<T>(
             T instance,
             Type type,
             out Type declaredType)
@@ -238,7 +238,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_DeclaredType<T>(
+        bool Is_DeclaredType<T>(
             T instance,
             Type type)
         {
@@ -253,7 +253,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Allows testing that the type parameter <typeparamref name="T"/> as declared in code is the type given by the type parameter <paramref name="type"/>.
         /// </summary>
-        public bool Is_DeclaredType<T>(
+        bool Is_DeclaredType<T>(
             Type type,
             out Type declaredType)
         {
@@ -266,7 +266,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_DeclaredType<T>(Type type)
+        bool Is_DeclaredType<T>(Type type)
         {
             var output = this.Is_DeclaredType<T>(
                 type,
@@ -279,13 +279,13 @@ namespace F10Y.L0000
         /// Returns <see cref="Type.IsGenericParameter"/>,
         /// whic is true for both generic type parameter types and generic method parameter types.
         /// </summary>
-        public bool Is_GenericParameter(Type type)
+        bool Is_GenericParameter(Type type)
         {
             var output = type.IsGenericParameter;
             return output;
         }
 
-        public bool Is_ImplementationType(
+        bool Is_ImplementationType(
             object @object,
             Type type,
             out Type implementationType)
@@ -299,7 +299,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_ImplementationType<T>(
+        bool Is_ImplementationType<T>(
             object @object,
             out Type implementationType)
         {
@@ -313,7 +313,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_ImplementationType<T>(object @object)
+        bool Is_ImplementationType<T>(object @object)
         {
             var output = this.Is_ImplementationType<T>(
                 @object,
@@ -322,7 +322,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_ImplementationType<T>(
+        bool Is_ImplementationType<T>(
             T instance,
             Type type,
             out Type implementationType)
@@ -336,7 +336,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_ImplementationType<T>(
+        bool Is_ImplementationType<T>(
             T instance,
             Type type)
         {
@@ -348,7 +348,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_OfType<TInstance>(
+        bool Is_OfType<TInstance>(
             TInstance instance,
             Type type)
         {
@@ -361,13 +361,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_NestedType(Type type)
+        bool Is_NestedType(Type type)
         {
             var output = Instances.NullOperator.Is_NotNull(type.DeclaringType);
             return output;
         }
 
-        public bool Is_Type<T>(Type type)
+        bool Is_Type<T>(Type type)
         {
             var declaredType = this.Get_Type_DeclaredType<T>();
 
@@ -378,13 +378,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Type(Type a, Type b)
+        bool Is_Type(Type a, Type b)
         {
             var output = a == b;
             return output;
         }
 
-        public bool Is_Type<T>(object @object)
+        bool Is_Type<T>(object @object)
         {
             var output = this.Is_ImplementationType<T>(
                 @object);
@@ -395,7 +395,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Implements the is-operator such that the object "is" of type <typeparamref name="T"/>.
         /// </summary>
-        public bool Type_Is<T>(object @object)
+        bool Type_Is<T>(object @object)
         {
             var output = @object is T;
             return output;
@@ -407,7 +407,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Note: the is-operator returns false for null values.
         /// </remarks>
-        public bool Type_Is<T>(
+        bool Type_Is<T>(
             object @object,
             out T object_IsT)
         {
@@ -428,13 +428,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Implements the is-operator such that the instance of type <typeparamref name="T1"/> "is" of type <typeparamref name="T2"/>.
         /// </summary>
-        public bool Type_Is<T1, T2>(T1 instance)
+        bool Type_Is<T1, T2>(T1 instance)
         {
             var output = instance is T2;
             return output;
         }
 
-        public bool Type_Is<T1, T2>(
+        bool Type_Is<T1, T2>(
             T1 instance,
             out T2 instance_IsType)
         {
@@ -452,7 +452,7 @@ namespace F10Y.L0000
             }
         }
 
-        public void Verify_Is_ImplementationType<T>(
+        void Verify_Is_ImplementationType<T>(
             T instance,
             Type type)
         {
@@ -478,7 +478,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Y0000.Documentation.TypeCheckDeterminesEquality" path="/summary"/>
         /// </remarks>
-        public bool TypeCheckDeterminesEquality_Instance<T>(
+        bool TypeCheckDeterminesEquality_Instance<T>(
             T a,
             T b,
             out bool typesAreEqual)
@@ -498,7 +498,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Y0000.Documentation.TypeCheckDeterminesEquality" path="/summary"/>
         /// </remarks>
-        public bool TypeCheckDeterminesEquality<T>(
+        bool TypeCheckDeterminesEquality<T>(
             T a,
             T b,
             out bool typesAreEqual)
@@ -507,7 +507,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public void Verify_Is_DeclaredType<T>(
+        void Verify_Is_DeclaredType<T>(
             T instance,
             Type type)
         {
@@ -527,7 +527,7 @@ namespace F10Y.L0000
             }
         }
 
-        public void Verify_Is_DeclaredType<T>(Type type)
+        void Verify_Is_DeclaredType<T>(Type type)
         {
             var is_DeclaredType = this.Is_DeclaredType<T>(
                 type,
@@ -545,14 +545,14 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Type_Is{T}(object)"/>
-        public void Verify_Type_Is<T>(
+        void Verify_Type_Is<T>(
             object @object)
         {
             var typeIs = this.Type_Is<T>(@object);
             if(!typeIs)
             {
-                var implementationType_TypeName = Instances.TypeNameOperator.Get_TypeNameOf_ImplementationType(@object);
-                var type_TypeName = Instances.TypeNameOperator.Get_TypeNameOf<T>();
+                var implementationType_TypeName = Instances.TypeNameOperator.Get_TypeName_OfImplementationType(@object);
+                var type_TypeName = Instances.TypeNameOperator.Get_TypeName_Of<T>();
 
                 var message = $"Type failure.\nExpected object type is: {type_TypeName}\nFound: {implementationType_TypeName}";
 
@@ -561,13 +561,13 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Type_Is{T1, T2}(T1)"/>
-        public void Verify_Type_Is<T1, T2>(T1 instance)
+        void Verify_Type_Is<T1, T2>(T1 instance)
         {
             var typeIs = this.Type_Is<T1, T2>(instance);
             if (!typeIs)
             {
-                var implementationType_TypeName = Instances.TypeNameOperator.Get_TypeNameOf_ImplementationType(instance);
-                var type_TypeName = Instances.TypeNameOperator.Get_TypeNameOf<T2>();
+                var implementationType_TypeName = Instances.TypeNameOperator.Get_TypeName_OfImplementationType(instance);
+                var type_TypeName = Instances.TypeNameOperator.Get_TypeName_Of<T2>();
 
                 var message = $"Type failure.\nExpected to be of type: {type_TypeName}\nFound: {implementationType_TypeName}";
 
@@ -575,7 +575,7 @@ namespace F10Y.L0000
             }
         }
 
-        public void Verify_Type_Is<T1, T2>(
+        void Verify_Type_Is<T1, T2>(
             T1 instance,
             out T2 instance_IsType)
         {
@@ -585,13 +585,31 @@ namespace F10Y.L0000
 
             if (!typeIs)
             {
-                var implementationType_TypeName = Instances.TypeNameOperator.Get_TypeNameOf_ImplementationType(instance);
-                var type_TypeName = Instances.TypeNameOperator.Get_TypeNameOf<T2>();
+                var implementationType_TypeName = Instances.TypeNameOperator.Get_TypeName_OfImplementationType(instance);
+                var type_TypeName = Instances.TypeNameOperator.Get_TypeName_Of<T2>();
 
                 var message = $"Type failure.\nExpected to be of type: {type_TypeName}\nFound: {implementationType_TypeName}";
 
                 throw new Exception(message);
             }
         }
+
+        TOut Verify_Type_Is<T1, T2, TOut>(
+            T1 value_AsT1,
+            Func<T2, TOut> function)
+        {
+            this.Verify_Type_Is(
+                value_AsT1,
+                out T2 value_AsT2);
+
+            var output = function(value_AsT2);
+            return output;
+        }
+
+        Func<T1, TOut> Verify_Type_Is<T1, T2, TOut>(
+            Func<T2, TOut> function)
+            => value_AsT1 => this.Verify_Type_Is(
+                value_AsT1,
+                function);
     }
 }

@@ -14,6 +14,12 @@ using F10Y.L0000.Extensions;
 
 namespace F10Y.L0000
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// <inheritdoc cref="Documentation.Project_SelfDescription" path="/summary"/>
+    /// </remarks>
     [FunctionsMarker]
     public partial interface IXElementOperator :
         IXContainerOperator
@@ -21,7 +27,7 @@ namespace F10Y.L0000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public IXContainerOperator _XContainerOperator => XContainerOperator.Instance;
+        IXContainerOperator _XContainerOperator => XContainerOperator.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
@@ -29,7 +35,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Acquires an attribute with the specified name.
         /// </summary>
-        public XAttribute Acquire_Attribute(
+        XAttribute Acquire_Attribute(
             XElement element,
             string attributeName)
         {
@@ -48,7 +54,7 @@ namespace F10Y.L0000
             return attribute;
         }
 
-        public XElement Acquire_Child(
+        XElement Acquire_Child(
             XElement element,
             Func<XElement, XElement> select_Child_OrDefault,
             string childName)
@@ -67,7 +73,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XElement Acquire_ChildOfChild(
+        XElement Acquire_ChildOfChild(
             XElement element,
             Func<XElement, XElement> select_Child_OrDefault,
             string childName,
@@ -85,14 +91,14 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XElement Acquire_Child(
+        XElement Acquire_Child(
             XElement element,
             string childElementName)
             => Instances.XContainerOperator.Acquire_Child(
                 element,
                 childElementName);
 
-        public XAttribute Add_Attribute(
+        XAttribute Add_Attribute(
             XElement element,
             string attributeName)
         {
@@ -103,7 +109,7 @@ namespace F10Y.L0000
             return attribute;
         }
 
-        public XAttribute Add_Attribute(
+        XAttribute Add_Attribute(
             XElement element,
             string attributeName,
             string attributeValue)
@@ -122,28 +128,28 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Append_Child(XElement, XElement)"/>.
         /// </summary>
-        public void Add_Child(
+        void Add_Child(
             XElement parent,
             XElement child)
             => this.Append_Child(
                 parent,
                 child);
 
-        public void Append_Child(
+        void Append_Child(
             XElement parent,
             XElement child)
             => Instances.XContainerOperator.Append_Child(
                 parent,
                 child);
 
-        public XElement Append_Child(
+        XElement Append_Child(
             XElement parent,
             string childName)
             => Instances.XContainerOperator.Append_Child(
                 parent,
                 childName);
 
-        public XElement Append_Child(
+        XElement Append_Child(
             XElement parent,
             string childName,
             IEnumerable<Action<XElement>> childActions)
@@ -159,7 +165,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XElement Append_Child(
+        XElement Append_Child(
             XElement parent,
             string childName,
             string childValue)
@@ -178,7 +184,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Append_Child(XElement, string, string)"/>.
         /// </summary>
-        public XElement Add_Child(
+        XElement Add_Child(
             XElement parent,
             string childName,
             string childValue)
@@ -187,7 +193,7 @@ namespace F10Y.L0000
                 childName,
                 childValue);
 
-        public Action<XElement> Get_Add_Child(
+        Action<XElement> Get_Add_Child(
             string childName,
             string childValue)
             => parent => this.Add_Child(
@@ -198,7 +204,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Add_Child(XElement, string, IEnumerable{Action{XElement}})"/>.
         /// </summary>
-        public XElement Add_Child(
+        XElement Add_Child(
             XElement parent,
             string childName,
             IEnumerable<Action<XElement>> childActions)
@@ -207,32 +213,32 @@ namespace F10Y.L0000
                 childName,
                 childActions);
 
-        public IEnumerable<XAttribute> Enumerate_Attrbutes(XElement element)
+        IEnumerable<XAttribute> Enumerate_Attrbutes(XElement element)
             => element.Attributes();
 
-        public IEnumerable<XAttribute> Enumerate_Attrbutes(
+        IEnumerable<XAttribute> Enumerate_Attrbutes(
             XElement element,
             string attributeName)
             => element.Attributes(attributeName);
 
-        public IEnumerable<XAttribute> Enumerate_Attrbutes(
+        IEnumerable<XAttribute> Enumerate_Attrbutes(
             XElement element,
             XName attributeName)
             => element.Attributes(attributeName);
 
-        public IEnumerable<XElement> Enumerate_ChildElements(XElement element)
+        IEnumerable<XElement> Enumerate_ChildElements(XElement element)
         {
             var output = element.Elements();
             return output;
         }
 
-        public IEnumerable<XNode> Enumerate_ChildNodes(XElement element)
+        IEnumerable<XNode> Enumerate_ChildNodes(XElement element)
         {
             var output = element.Nodes();
             return output;
         }
 
-        public IEnumerable<TNode> Enumerate_ChildNodesOfType<TNode>(XElement element)
+        IEnumerable<TNode> Enumerate_ChildNodesOfType<TNode>(XElement element)
             where TNode : XNode
         {
             var output = this.Enumerate_ChildNodes(element)
@@ -242,19 +248,19 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<XElement> Enumerate_DescendantElements(XElement element)
+        IEnumerable<XElement> Enumerate_DescendantElements(XElement element)
         {
             var output = element.Descendants();
             return output;
         }
 
-        public IEnumerable<XNode> Enumerate_DescendantNodes(XElement element)
+        IEnumerable<XNode> Enumerate_DescendantNodes(XElement element)
         {
             var output = element.DescendantNodes();
             return output;
         }
 
-        public IEnumerable<TNode> Enumerate_DescendantNodesOfType<TNode>(XElement element)
+        IEnumerable<TNode> Enumerate_DescendantNodesOfType<TNode>(XElement element)
             where TNode : XNode
         {
             var output = this.Enumerate_DescendantNodes(element)
@@ -264,20 +270,20 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<XText> Enumerate_DescendantTextNodes(XElement element)
+        IEnumerable<XText> Enumerate_DescendantTextNodes(XElement element)
         {
             var output = this.Enumerate_DescendantNodesOfType<XText>(element);
             return output;
         }
 
-        public Action<XElement> Get_Add_Child(
+        Action<XElement> Get_Add_Child(
             string childName,
             params Action<XElement>[] childActions)
             => this.Get_Add_Child(
                 childName,
                 childActions.AsEnumerable());
 
-        public Action<XElement> Get_Add_Child(
+        Action<XElement> Get_Add_Child(
             string childName,
             IEnumerable<Action<XElement>> childActions)
             => parent => this.Add_Child(
@@ -285,7 +291,7 @@ namespace F10Y.L0000
                 childName,
                 childActions);
 
-        public XAttribute Get_Attribute(
+        XAttribute Get_Attribute(
             XElement element,
             string attributeName)
         {
@@ -302,7 +308,7 @@ namespace F10Y.L0000
             return attribute;
         }
 
-        public TValue Get_Attribute_Value<TValue>(
+        TValue Get_Attribute_Value<TValue>(
             XElement element,
             string attributeName,
             Func<XAttribute, TValue> valueSelector)
@@ -315,7 +321,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Attribute_Value(
+        string Get_Attribute_Value(
             XElement element,
             string attributeName)
             => this.Get_Attribute_Value(
@@ -323,10 +329,10 @@ namespace F10Y.L0000
                 attributeName,
                 Instances.XAttributeOperator.Get_Value_AsString);
 
-        public IEnumerable<XAttribute> Get_Attributes(XElement element)
+        IEnumerable<XAttribute> Get_Attributes(XElement element)
             => element.Attributes();
 
-        public bool Has_Attribute_First(
+        bool Has_Attribute_First(
             XElement element,
             string attributeName,
             out XAttribute attribute_OrDefault)
@@ -342,7 +348,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Has_Attribute_First(XElement, string, out XAttribute)"/> as the default.
         /// </summary>
-        public bool Has_Attribute(
+        bool Has_Attribute(
             XElement element,
             string attributeName,
             out XAttribute attribute_OrDefault)
@@ -351,7 +357,7 @@ namespace F10Y.L0000
                 attributeName,
                 out attribute_OrDefault);
 
-        public bool Has_AttributeValue(
+        bool Has_AttributeValue(
             XElement element,
             string attributeName,
             out string value_OrDefault)
@@ -369,7 +375,7 @@ namespace F10Y.L0000
             return has_Attribute;
         }
 
-        public bool Has_AttributeValue<TValue>(
+        bool Has_AttributeValue<TValue>(
             XElement element,
             string attributeName,
             out TValue value_OrDefault,
@@ -388,7 +394,7 @@ namespace F10Y.L0000
             return has_Attribute;
         }
 
-        public bool Has_AttributeWithValue_Any(
+        bool Has_AttributeWithValue_Any(
             XElement element,
             string attributeName,
             string attributeValue)
@@ -407,13 +413,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Has_AttributeWithValue_Any(XElement, string, string)"/> as the default.
         /// </summary>
-        public bool Has_AttributeWithValue(
+        bool Has_AttributeWithValue(
             XElement element,
             string attributeName,
             string attributeValue)
             => this.Has_AttributeWithValue_Any(element, attributeName, attributeValue);
 
-        public bool Has_AttributeWithValue_First(
+        bool Has_AttributeWithValue_First(
             XElement element,
             string attributeName,
             string attributeValue,
@@ -431,7 +437,10 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_FirstChildNode(
+        bool Has_Children_Any(XElement element)
+            => element.HasElements;
+
+        bool Has_FirstChildNode(
             XElement element,
             out XNode firstChildNode_OrDefault)
         {
@@ -443,7 +452,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Is_Name(XElement, string)"/>
-        public bool Name_Is(XElement element, string elementName)
+        bool Name_Is(XElement element, string elementName)
         {
             return this.Is_Name(element, elementName);
         }
@@ -454,21 +463,21 @@ namespace F10Y.L0000
         /// You might want to just construct an element, then set its name (as in this method).
         /// The default name is used to allow this.
         /// </summary>
-        public XElement New()
+        XElement New()
             => new XElement(
                 Instances.Values.XElementName_Default);
 
-        public XElement New(string elementName)
+        XElement New(string elementName)
             => new XElement(elementName);
 
-        public XElement New(
+        XElement New(
             string elementName,
             params Action<XElement>[] elementActions)
             => this.New(
                 elementName,
                 elementActions.AsEnumerable());
 
-        public XElement New(
+        XElement New(
             string elementName,
             IEnumerable<Action<XElement>> elementActions)
         {
@@ -488,7 +497,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Y0000.Documentation.For_Xml.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
-        public XElement Clone(XElement element)
+        XElement Clone(XElement element)
         {
             // Use the constructor.
             var output = new XElement(element);
@@ -498,23 +507,23 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="New(string)"/>.
         /// </summary>
-        public XElement Create_Element_FromName(string elementName)
+        XElement Create_Element_FromName(string elementName)
             => this.New(elementName);
 
         /// <summary>
         /// Chooses <see cref="Create_Element_FromName(string)"/> as the default.
         /// </summary>
-        public XElement Create_Element(string elementName)
+        XElement Create_Element(string elementName)
             => this.Create_Element_FromName(elementName);
 
-        public XElement Create_Element(
+        XElement Create_Element(
             string elementName,
             IEnumerable<Action<XElement>> elementActions)
             => this.New(
                 elementName,
                 elementActions);
 
-        public XElement Create_Element(
+        XElement Create_Element(
             string elementName,
             params Action<XElement>[] elementActions)
             => this.New(
@@ -1001,13 +1010,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Get_Name_AsString(XElement)"/> as the default.
         /// </summary>
-        public string Get_Name(XElement element)
+        string Get_Name(XElement element)
             => this.Get_Name_AsString(element);
 
-        public XName Get_Name_AsXName(XElement element)
+        XName Get_Name_AsXName(XElement element)
             => element.Name;
 
-        public string Get_Name_AsString(XElement element)
+        string Get_Name_AsString(XElement element)
         {
             var name = this.Get_Name_AsXName(element);
 
@@ -1015,7 +1024,10 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_LocalName(XElement element, string elementName)
+        XElement Get_Parent(XElement element)
+            => element.Parent;
+
+        bool Is_LocalName(XElement element, string elementName)
         {
             var name = this.Get_Name_AsXName(element);
 
@@ -1029,10 +1041,10 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses the <see cref="XName.LocalName"/> property to avoid the crazed namespace BS.
         /// </summary>
-        public bool Is_Name(XElement element, string elementName)
+        bool Is_Name(XElement element, string elementName)
             => this.Is_LocalName(element, elementName);
 
-        public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, string elementName)
+        IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, string elementName)
         {
             var predicate = this.Get_Is_Name(elementName);
 
@@ -1043,7 +1055,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public void Verify_NameIs(
+        void Verify_NameIs(
             XElement element,
             string name)
         {
@@ -1058,13 +1070,5 @@ namespace F10Y.L0000
                 throw new Exception($"Element did not have expected name '{name}'; name was '{actualName}'.");
             }
         }
-
-        //public IEnumerable<XElement> Where_HasAttibuteWithValue(
-        //    IEnumerable<XElement> elements,
-        //    string attributeName,
-        //    string attibuteValue)
-        //{
-
-        //}
     }
 }

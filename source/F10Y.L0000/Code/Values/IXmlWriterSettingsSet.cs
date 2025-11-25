@@ -13,7 +13,7 @@ namespace F10Y.L0000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public Raw.IXmlWriterSettingsSet _Raw => Raw.XmlWriterSettingsSet.Instance;
+        Raw.IXmlWriterSettingsSet _Raw => Raw.XmlWriterSettingsSet.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
@@ -28,7 +28,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Does not set <see cref="XmlWriterSettings.Async"/>.
         /// </remarks>
-        public XmlWriterSettings OmitXmlDeclaration_Synchronous => new XmlWriterSettings
+        XmlWriterSettings OmitXmlDeclaration_Synchronous => new XmlWriterSettings
         {
             OmitXmlDeclaration = true,
         };
@@ -41,7 +41,7 @@ namespace F10Y.L0000
         /// <item><see cref="XmlWriterSettings.Async"/></item>
         /// </list>
         /// </summary>
-        public XmlWriterSettings OmitXmlDeclaration_Asynchronous => new XmlWriterSettings
+        XmlWriterSettings OmitXmlDeclaration_Asynchronous => new XmlWriterSettings
         {
             Async = true,
             OmitXmlDeclaration = true,
@@ -56,7 +56,7 @@ namespace F10Y.L0000
         /// <item><see cref="XmlWriterSettings.OmitXmlDeclaration"/></item>
         /// </list>
         /// </summary>
-        public XmlWriterSettings OmitXmlDeclaration_Fragment_Asynchronous => new XmlWriterSettings
+        XmlWriterSettings OmitXmlDeclaration_Fragment_Asynchronous => new XmlWriterSettings
         {
             Async = true,
             ConformanceLevel = ConformanceLevel.Fragment,
@@ -67,9 +67,9 @@ namespace F10Y.L0000
         /// Chooses <see cref="OmitXmlDeclaration_Asynchronous"/> as the default,
         /// because synchronous operations do no care about the <see cref="XmlWriterSettings.Async"/> setting.
         /// </summary>
-        public XmlWriterSettings OmitXmlDeclaration => this.OmitXmlDeclaration_Asynchronous;
+        XmlWriterSettings OmitXmlDeclaration => this.OmitXmlDeclaration_Asynchronous;
 
         /// <inheritdoc cref="Raw.IXmlWriterSettingsSet.N_001"/>
-        public XmlWriterSettings Indent_AndOmitXmlDeclaration => _Raw.N_001;
+        XmlWriterSettings Indent_AndOmitXmlDeclaration => _Raw.N_001;
     }
 }

@@ -122,6 +122,13 @@ namespace F10Y.L0000
             return output;
         }
 
+        public bool Is_FieldInfo(
+            MemberInfo memberInfo,
+            out FieldInfo fieldInfo_OrDefault)
+            => Instances.TypeOperator.Type_Is(
+                memberInfo,
+                out fieldInfo_OrDefault);
+
         public bool Is_PropertyInfo(
             MemberInfo memberInfo,
             out PropertyInfo propertyInfo_OrDefault)

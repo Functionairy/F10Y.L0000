@@ -11,13 +11,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Get_Exception(string)"/>.
         /// </summary>
-        public Exception From(string message)
+        Exception From(string message)
         {
             var output = this.Get_Exception(message);
             return output;
         }
 
-        public Exception Get_AttributeNotFoundException(string attributeName)
+        Exception Get_AttributeNotFoundException(string attributeName)
         {
             var message = Instances.ExceptionMessageOperator.Get_AttributeNotFoundMessage(attributeName);
 
@@ -25,7 +25,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Exception Get_Exception(string message)
+        Exception Get_Exception(string message)
         {
             var output = new Exception(message);
             return output;
@@ -34,7 +34,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Length must be greater-than-or-equal-to zero.
         /// </summary>
-        public Exception Get_InvalidLengthException(int length)
+        Exception Get_InvalidLengthException(int length)
         {
             var message = Instances.ExceptionMessageOperator.Get_InvalidLengthMessage(length);
 
@@ -42,16 +42,35 @@ namespace F10Y.L0000
             return output;
         }
 
-        public void Throw(string message)
+        ArgumentNullException New_ArgumentNullException(string argumentName)
+            => new ArgumentNullException(argumentName);
+
+        void Throw(string message)
         {
             var exception = this.From(message);
 
             this.Throw(exception);
         }
 
-        public void Throw(Exception exception)
+        void Throw(Exception exception)
         {
             throw exception;
+        }
+
+        void Throw_NotImplementedException()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Output value is to allow fitting into Func&lt;TOut&gt;.
+        /// </remarks>
+        TOut Throw_NotImplementedException<TOut>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

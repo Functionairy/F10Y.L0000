@@ -21,7 +21,7 @@ namespace F10Y.L0000.Q000
         /// as does the <see cref="Object.GetHashCode"/> method.
         /// </para>
         /// </summary>
-        public async Task WhatIs_HashCode_OfInteger()
+        async Task WhatIs_HashCode_OfInteger()
         {
             var value = Instances.Integers.One;
 
@@ -55,7 +55,7 @@ namespace F10Y.L0000.Q000
         /// </para>
         /// </summary>
         /// <returns></returns>
-        public async Task WhatIs_HashCode_OfNonNull()
+        async Task WhatIs_HashCode_OfNonNull()
         {
             var value = Instances.Strings.Apple;
 
@@ -95,7 +95,7 @@ namespace F10Y.L0000.Q000
         /// </list>
         /// </para>
         /// </summary>
-        public async Task WhatIs_HashCode_OfNull()
+        async Task WhatIs_HashCode_OfNull()
         {
             object null_AsObject = null;
             string null_AsString = null;

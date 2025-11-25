@@ -25,7 +25,7 @@ namespace F10Y.L0000.V000.Raw
         /// <item><inheritdoc cref="IExpectations.N_004" path="descendant::value[1]"/></item>
         /// </list>
         /// </summary>
-        public ExpectationTypes.IExpectation<string, string>[] N_001 =>
+        ExpectationTypes.IExpectation<string, string>[] N_001 =>
         [
             _Expectations.For_Ensure_Enquoted,
             _Expectations._Raw.N_002,

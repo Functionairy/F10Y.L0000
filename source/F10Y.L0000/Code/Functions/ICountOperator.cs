@@ -16,13 +16,19 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ICountOperator
     {
-        public int Count<T>(IEnumerable<T> enumerable)
+        int Count<T>(ICollection<T> collection)
+            => this.Get_CountOf(collection);
+
+        int Count<T>(IEnumerable<T> enumerable)
             => this.Get_CountOf(enumerable);
 
-        public int Get_CountOf<T>(IEnumerable<T> enumerable)
+        int Get_CountOf<T>(IEnumerable<T> enumerable)
             => Instances.EnumerableOperator.Get_Count(enumerable);
 
-        public int Get_CountOf<T>(ICollection<T> collection)
+        Dictionary<TKey, int> Get_Counts_ByKey<TKey, TElement>(IDictionary<TKey, TElement[]> arrays_ByKey)
+            => Instances.DictionaryOperator.Get_Counts_ByKey(arrays_ByKey);
+
+        int Get_CountOf<T>(ICollection<T> collection)
             => Instances.CollectionOperator.Get_Count(collection);
     }
 }

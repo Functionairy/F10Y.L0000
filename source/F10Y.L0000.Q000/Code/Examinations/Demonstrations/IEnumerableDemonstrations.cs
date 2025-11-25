@@ -18,7 +18,7 @@ namespace F10Y.L0000.Q000
         /// Result: the max throws an exception when the enumerable's type is a struct, and null when it is a 
         /// </para>
         /// </summary>
-        public async Task WhatIsMax_OfEmpty()
+        async Task WhatIsMax_OfEmpty()
         {
             var enumerable = Instances.EnumerableOperator
                 //.Empty<string>() // Max is null.

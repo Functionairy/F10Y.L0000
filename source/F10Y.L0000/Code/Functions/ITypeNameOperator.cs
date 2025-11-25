@@ -14,7 +14,7 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ITypeNameOperator
     {
-        public string Append_NestedTypeName(
+        string Append_NestedTypeName(
             string nestedParentTypeName,
             string typeName)
         {
@@ -22,23 +22,29 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_TypeName_Full(Type type)
+        string Get_TypeName_Full(Type type)
         {
             var output = type.FullName;
+            return output;
+        }
+
+        string Get_TypeName_Short(Type type)
+        {
+            var output = type.Name;
             return output;
         }
 
         /// <summary>
         /// Chooses <see cref="Get_TypeName_Full(Type)"/> as the default.
         /// </summary>
-        public string Get_TypeName(Type type)
+        string Get_TypeName(Type type)
         {
             var output = this.Get_TypeName_Full(type);
             return output;
         }
 
         /// <inheritdoc cref="ITypeOperator.Get_Type_ImplementationType{T}(T)"/>
-        public string Get_TypeNameOf_ImplementationType<T>(T value)
+        string Get_TypeName_OfImplementationType<T>(T value)
         {
             var type = Instances.TypeOperator.Get_Type_ImplementationType(value);
 
@@ -46,8 +52,26 @@ namespace F10Y.L0000
             return typeName;
         }
 
+        /// <inheritdoc cref="ITypeOperator.Get_Type_ImplementationType{T}(T)"/>
+        string Get_TypeName_Short_OfImplementationType<T>(T value)
+        {
+            var type = Instances.TypeOperator.Get_Type_ImplementationType(value);
+
+            var typeName = this.Get_TypeName_Short(type);
+            return typeName;
+        }
+
         /// <inheritdoc cref="ITypeOperator.Get_Type_DeclaredType{T}()"/>
-        public string Get_TypeNameOf_DeclaredType<T>()
+        string Get_TypeName_OfDeclaredType<T>()
+        {
+            var type = Instances.TypeOperator.Get_Type_DeclaredType<T>();
+
+            var typeName = this.Get_TypeName(type);
+            return typeName;
+        }
+
+        /// <inheritdoc cref="ITypeOperator.Get_Type_DeclaredType{T}()"/>
+        string Get_TypeName_Short_OfDeclaredType<T>()
         {
             var type = Instances.TypeOperator.Get_Type_DeclaredType<T>();
 
@@ -56,7 +80,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="ITypeOperator.Get_Type_DeclaredType{T}(T)"/>
-        public string Get_TypeNameOf_DeclaredType<T>(T instance)
+        string Get_TypeName_OfDeclaredType<T>(T instance)
         {
             var type = Instances.TypeOperator.Get_Type_DeclaredType(instance);
 
@@ -64,41 +88,74 @@ namespace F10Y.L0000
             return typeName;
         }
 
+        /// <inheritdoc cref="ITypeOperator.Get_Type_DeclaredType{T}(T)"/>
+        string Get_TypeName_Short_OfDeclaredType<T>(T instance)
+        {
+            var type = Instances.TypeOperator.Get_Type_DeclaredType(instance);
+
+            var typeName = this.Get_TypeName_Short(type);
+            return typeName;
+        }
+
         /// <summary>
-        /// Quality-of-life overload for <see cref="Get_TypeNameOf_DeclaredType{T}()"/>.
+        /// Quality-of-life overload for <see cref="Get_TypeName_OfDeclaredType{T}()"/>.
         /// <para>
-        /// <inheritdoc cref="Get_TypeNameOf_DeclaredType{T}()" path="/summary"/>
+        /// <inheritdoc cref="Get_TypeName_OfDeclaredType{T}()" path="/summary"/>
         /// </para>
         /// </summary>
-        public string Get_TypeNameOf<T>()
+        string Get_TypeName_Of<T>()
         {
-            var output = this.Get_TypeNameOf_DeclaredType<T>();
+            var output = this.Get_TypeName_OfDeclaredType<T>();
             return output;
         }
 
         /// <summary>
-        /// Chooses <see cref="Get_TypeNameOf_ImplementationType{T}(T)"/> as the default.
+        /// Quality-of-life overload for <see cref="Get_TypeName_OfDeclaredType{T}()"/>.
         /// <para>
-        /// <inheritdoc cref="Get_TypeNameOf_ImplementationType{T}(T)" path="/summary"/>
+        /// <inheritdoc cref="Get_TypeName_OfDeclaredType{T}()" path="/summary"/>
         /// </para>
         /// </summary>
-        public string Get_TypeNameOf<T>(T instance)
+        string Get_TypeName_Short_Of<T>()
         {
-            var output = this.Get_TypeNameOf_ImplementationType(instance);
+            var output = this.Get_TypeName_Short_OfDeclaredType<T>();
             return output;
         }
 
-        public bool Is_TypeName<T>(
+        /// <summary>
+        /// Chooses <see cref="Get_TypeName_OfImplementationType{T}(T)"/> as the default.
+        /// <para>
+        /// <inheritdoc cref="Get_TypeName_OfImplementationType{T}(T)" path="/summary"/>
+        /// </para>
+        /// </summary>
+        string Get_TypeNameOf<T>(T instance)
+        {
+            var output = this.Get_TypeName_OfImplementationType(instance);
+            return output;
+        }
+
+        /// <summary>
+        /// NOTE: will return "T"!
+        /// </summary>
+        string Get_NameOf<T>()
+            => nameof(T);
+
+        /// <summary>
+        /// NOTE: will return "T"!
+        /// </summary>
+        string Get_NameOf<T>(T value)
+            => nameof(T);
+
+        bool Is_TypeName<T>(
             string typeName,
             out string typeName_OfTypeParameter)
         {
-            typeName_OfTypeParameter = this.Get_TypeNameOf<T>();
+            typeName_OfTypeParameter = this.Get_TypeName_Of<T>();
 
             var output = typeName_OfTypeParameter == typeName;
             return output;
         }
 
-        public void Verify_TypeName<T>(string typeName)
+        void Verify_TypeName<T>(string typeName)
         {
             var is_TypeName = this.Is_TypeName<T>(
                 typeName,

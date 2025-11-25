@@ -144,12 +144,6 @@ namespace F10Y.L0000
         /// <inheritdoc cref="Semicolon_Constant"/>
         public string Semicolon => IStrings.Semicolon_Constant;
 
-        /// <inheritdoc cref="StringsDocumentation.For_Space"/>
-        public const string Space_Constant = " ";
-
-        /// <inheritdoc cref="Space_Constant"/>
-        public string Space => Space_Constant;
-
         /// <inheritdoc cref="StringsDocumentation.For_Slash" path="/summary"/>
         /// <remarks>
         /// <para>---</para>
@@ -256,6 +250,42 @@ namespace F10Y.L0000
 
         /// <inheritdoc cref="Pipe_Constant"/>
         public string Pipe => IStrings.Pipe_Constant;
+
+        #endregion
+
+        #region Whitespace
+
+        /// <inheritdoc cref="StringsDocumentation.For_Space" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Space_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Space" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const string Space_Constant = " ";
+
+        /// <inheritdoc cref="Space_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Space"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Space_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public string Space => Space_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_Tab" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Slash_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Tab" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const string Tab_Constant = "\t";
+
+        /// <inheritdoc cref="Tab_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Tab"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Tab_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public string Tab => Tab_Constant;
 
         #endregion
 

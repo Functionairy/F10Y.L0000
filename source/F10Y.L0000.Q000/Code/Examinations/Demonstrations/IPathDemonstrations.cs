@@ -14,7 +14,7 @@ namespace F10Y.L0000.Q000
     public partial interface IPathDemonstrations :
         IScriptTextOutputInfrastructure_Definition
     {
-        public async Task Get_FileName_OfFilePath()
+        async Task Get_FileName_OfFilePath()
         {
             /// Inputs.
             var path = Instances.Paths
@@ -35,7 +35,7 @@ namespace F10Y.L0000.Q000
         /// <summary>
         /// Display the last path part.
         /// </summary>
-        public async Task Display_PathPart_Last()
+        async Task Display_PathPart_Last()
         {
             /// Inputs.
             var path = Instances.Paths
@@ -60,7 +60,7 @@ namespace F10Y.L0000.Q000
         /// This is a demonstration of <demonstration-of><see cref="F10Y.L0000.IPathOperator.Get_PathParts_NonEmpty(string)"/>.</demonstration-of>
         /// </para>
         /// </summary>
-        public async Task Display_PathParts_NonEmpty()
+        async Task Display_PathParts_NonEmpty()
         {
             /// Inputs.
             var path = Instances.Paths

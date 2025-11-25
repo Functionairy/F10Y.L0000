@@ -18,6 +18,7 @@ namespace F10Y.L0000
         public static IComparerOperator ComparerOperator => L0000.ComparerOperator.Instance;
         public static IComparisonResults ComparisonResults => L0000.ComparisonResults.Instance;
         public static IConsoleOperator ConsoleOperator => L0000.ConsoleOperator.Instance;
+        public static ICountOperator CountOperator => L0000.CountOperator.Instance;
         public static ICultureInfos CultureInfos => L0000.CultureInfos.Instance;
         public static IDateTimeFormats DateTimeFormats => L0000.DateTimeFormats.Instance;
         public static IDateTimeOperator DateTimeOperator => L0000.DateTimeOperator.Instance;
@@ -33,6 +34,7 @@ namespace F10Y.L0000
         public static IDriveInfoOperator DriveInfoOperator => L0000.DriveInfoOperator.Instance;
         public static IEncodings Encodings => L0000.Encodings.Instance;
         public static IEnumerableOperator EnumerableOperator => L0000.EnumerableOperator.Instance;
+        public static IEnumerationOperator EnumerationOperator => L0000.EnumerationOperator.Instance;
         public static IEnvironmentOperator EnvironmentOperator => L0000.EnvironmentOperator.Instance;
         public static IEqualityComparerOperator EqualityComparerOperator => L0000.EqualityComparerOperator.Instance;
         public static IEqualityOperator EqualityOperator => L0000.EqualityOperator.Instance;
@@ -66,6 +68,8 @@ namespace F10Y.L0000
         public static IMemoryStreamOperator MemoryStreamOperator => L0000.MemoryStreamOperator.Instance;
         public static IMethodBaseOperator MethodBaseOperator => L0000.MethodBaseOperator.Instance;
         public static INamespacedTypeNameOperator NamespacedTypeNameOperator => L0000.NamespacedTypeNameOperator.Instance;
+        public static INewLines NewLines => L0000.NewLines.Instance;
+        public static INowOperator NowOperator => L0000.NowOperator.Instance;
         public static INullOperator NullOperator => L0000.NullOperator.Instance;
         public static IObjectOperator ObjectOperator => L0000.ObjectOperator.Instance;
         public static IOrderOperator OrderOperator => L0000.OrderOperator.Instance;
@@ -83,6 +87,8 @@ namespace F10Y.L0000
         public static ISwitchOperator SwitchOperator => L0000.SwitchOperator.Instance;
         public static ITaskOperator TaskOperator => L0000.TaskOperator.Instance;
         public static ITimeSpanOperator TimeSpanOperator => L0000.TimeSpanOperator.Instance;
+        public static ITimestampOperator TimestampOperator => L0000.TimestampOperator.Instance;
+        public static ITimestamps Timestamps => L0000.Timestamps.Instance;
         public static ITokenSeparators TokenSeparators => L0000.TokenSeparators.Instance;
         public static ITypeInfoOperator TypeInfoOperator => L0000.TypeInfoOperator.Instance;
         public static ITypeNameOperator TypeNameOperator => L0000.TypeNameOperator.Instance;

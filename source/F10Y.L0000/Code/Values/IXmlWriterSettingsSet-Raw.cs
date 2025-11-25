@@ -14,11 +14,11 @@ namespace F10Y.L0000.Raw
         /// Sets:
         /// <list type="bullet">
         /// <item><see cref="XmlWriterSettings.Async"/></item>
-        /// <item><see cref="XmlWriterSettings.OmitXmlDeclaration"/></item>
+        /// <item><see cref="XmlWriterSettings.Indent"/></item>
         /// <item><see cref="XmlWriterSettings.OmitXmlDeclaration"/></item>
         /// </list>
         /// </summary>
-        public XmlWriterSettings N_001 => new XmlWriterSettings
+        XmlWriterSettings N_001 => new XmlWriterSettings
         {
             Async = true,
             Indent = true,

@@ -32,6 +32,9 @@ namespace F10Y.L0000
         /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate"/>
         public char Environment_Alternate => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate();
 
+        /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Opposite"/>
+        public char Environment_Opposite => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Opposite();
+
         /// <summary>
         /// The non-Windows path directory separator.
         /// <para>---</para>

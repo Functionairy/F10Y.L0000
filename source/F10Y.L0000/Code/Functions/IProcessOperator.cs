@@ -1,4 +1,3 @@
-using F10Y.T0002;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,13 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using F10Y.T0002;
+
 
 namespace F10Y.L0000
 {
     [FunctionsMarker]
     public partial interface IProcessOperator
     {
-        public DataReceivedEventHandler Add_Filter(
+        DataReceivedEventHandler Add_Filter(
             DataReceivedEventHandler handler,
             Func<string, bool> filter_Data_ToInclude)
         {
@@ -34,33 +35,33 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="DataReceivedHandler_WriteToConsole(object, DataReceivedEventArgs)"/> as the default.
         /// </summary>
-        public void DataReceivedHandler_Default(object sender, DataReceivedEventArgs eventArgs)
+        void DataReceivedHandler_Default(object sender, DataReceivedEventArgs eventArgs)
             => this.DataReceivedHandler_WriteToConsole(sender, eventArgs);
 
-        public void DataReceivedHandler_Throw(object sender, DataReceivedEventArgs eventArgs)
+        void DataReceivedHandler_Throw(object sender, DataReceivedEventArgs eventArgs)
         {
             this.DataReceivedHandler_WriteToConsole(sender, eventArgs);
 
             throw new Exception(eventArgs.Data);
         }
 
-        public void DataReceivedHandler_WriteToConsole(object sender, DataReceivedEventArgs eventArgs)
+        void DataReceivedHandler_WriteToConsole(object sender, DataReceivedEventArgs eventArgs)
         {
             Instances.ConsoleOperator.Write_Line(eventArgs.Data);
         }
 
-        public void ErrorReceivedHandler_Default(object sender, DataReceivedEventArgs eventArgs)
+        void ErrorReceivedHandler_Default(object sender, DataReceivedEventArgs eventArgs)
         {
             this.DataReceivedHandler_Throw(sender, eventArgs);
         }
 
-        public bool Filter_ExcludeNull(string data)
+        bool Filter_ExcludeNull(string data)
             => Instances.StringOperator.Is_NotNull(data);
 
-        public bool Filter_IncludeAll(string data)
+        bool Filter_IncludeAll(string data)
             => true;
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler_Synchronous(
+        DataReceivedEventHandler Get_DataReceivedEventHandler_Synchronous(
             StreamWriter writer)
         {
             void Internal(object sender, DataReceivedEventArgs dataReceived)
@@ -71,11 +72,11 @@ namespace F10Y.L0000
             return Internal;
         }
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler(
+        DataReceivedEventHandler Get_DataReceivedEventHandler(
             List<string> accumulator)
             => this.Get_DataReceivedEventHandler_ExcludeNull(accumulator);
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler_Aggregate(
+        DataReceivedEventHandler Get_DataReceivedEventHandler_Aggregate(
             IEnumerable<DataReceivedEventHandler> dataReceivedEventHandlers)
         {
             void Internal(object sender, DataReceivedEventArgs dataReceived)
@@ -89,18 +90,18 @@ namespace F10Y.L0000
             return Internal;
         }
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler_Aggregate(
+        DataReceivedEventHandler Get_DataReceivedEventHandler_Aggregate(
             params DataReceivedEventHandler[] dataReceivedEventHandlers)
             => this.Get_DataReceivedEventHandler_Aggregate(
                 dataReceivedEventHandlers.AsEnumerable());
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler_ExcludeNull(
+        DataReceivedEventHandler Get_DataReceivedEventHandler_ExcludeNull(
             List<string> accumulator)
             => this.Add_Filter(
                 this.Get_DataReceivedEventHandler_WithoutFilter(accumulator),
                 this.Filter_ExcludeNull);
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler_WithoutFilter(List<string> accumulator)
+        DataReceivedEventHandler Get_DataReceivedEventHandler_WithoutFilter(List<string> accumulator)
         {
             void Internal(object sender, DataReceivedEventArgs dataReceived)
             {
@@ -112,7 +113,7 @@ namespace F10Y.L0000
             return Internal;
         }
 
-        public DataReceivedEventHandler Get_DataReceivedEventHandler_WithoutFilter(out List<string> accumulator)
+        DataReceivedEventHandler Get_DataReceivedEventHandler_WithoutFilter(out List<string> accumulator)
         {
             accumulator = new List<string>();
 
@@ -122,19 +123,60 @@ namespace F10Y.L0000
             return output;
         }
 
-        public void OutputReceivedHandler_Default(object sender, DataReceivedEventArgs eventArgs)
+        void OutputReceivedHandler_Default(object sender, DataReceivedEventArgs eventArgs)
         {
             this.DataReceivedHandler_Default(sender, eventArgs);
         }
 
-        public int Run_Synchronous(
+        int Run_Synchronous(
             string command,
             string arguments,
             string workingDirectory,
             DataReceivedEventHandler output_Handler,
             DataReceivedEventHandler error_Handler)
         {
-            var startInfo = new ProcessStartInfo(command, arguments)
+            var startInfo = this.Get_ProcessStartInfo(
+                command,
+                arguments,
+                workingDirectory);
+
+            var output = this.Run_Synchronous(
+                startInfo,
+                output_Handler,
+                error_Handler);
+
+            return output;
+        }
+
+        int Run_Synchronous(
+            string command,
+            string arguments,
+            string workingDirectory,
+            DataReceivedEventHandler output_Handler,
+            DataReceivedEventHandler error_Handler,
+            Action<ProcessStartInfo> configure_ProcessStartInfo)
+        {
+            var startInfo = this.Get_ProcessStartInfo(
+                command,
+                arguments,
+                workingDirectory);
+
+            configure_ProcessStartInfo(startInfo);
+
+            var output = this.Run_Synchronous(
+                startInfo,
+                output_Handler,
+                error_Handler);
+
+            return output;
+        }
+
+        ProcessStartInfo Get_ProcessStartInfo(
+            string command,
+            string arguments,
+            string workingDirectory)
+        {
+            var output = new ProcessStartInfo(command, arguments)
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -143,6 +185,14 @@ namespace F10Y.L0000
                 WorkingDirectory = workingDirectory,
             };
 
+            return output;
+        }
+
+        int Run_Synchronous(
+            ProcessStartInfo startInfo,
+            DataReceivedEventHandler output_Handler,
+            DataReceivedEventHandler error_Handler)
+        {
             using var process = new Process()
             {
                 StartInfo = startInfo
@@ -168,7 +218,7 @@ namespace F10Y.L0000
             return exitCode;
         }
 
-        public int Run_Synchronous(
+        int Run_Synchronous(
             string command,
             string arguments,
             string workingDirectory,
@@ -180,7 +230,7 @@ namespace F10Y.L0000
                 output_Handler,
                 this.DataReceivedHandler_Default);
 
-        public int Run_Synchronous(
+        int Run_Synchronous(
             string command,
             string arguments,
             string workingDirectory)
@@ -191,7 +241,7 @@ namespace F10Y.L0000
                 this.DataReceivedHandler_Default,
                 this.DataReceivedHandler_Default);
 
-        public async Task<int> Run_Asynchronous(
+        async Task<int> Run_Asynchronous(
             string command,
             string arguments,
             string workingDirectory,
@@ -246,7 +296,7 @@ namespace F10Y.L0000
             return exitCode;
         }
 
-        public Task<int> Run_Asynchronous(
+        Task<int> Run_Asynchronous(
             string command,
             string arguments,
             string workingDirectory)

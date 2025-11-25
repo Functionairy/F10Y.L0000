@@ -8,7 +8,18 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface ISwitchOperator
     {
-        public Exception Get_DefaultCaseException<TValue>(TValue switchValue)
+        /// <summary>
+        /// Produces an exception for use in the default case of a switch statement based on values of the <typeparamref name="TEnum"/> enumeration.
+        /// Note: there is no method just throwing the exception, as the VS linter does not detect that a method call will always produce an exception, and thus demands that switch default case behavior cannot fall through one default case to another. The throw keyword in the switch default case must be present.
+        /// </summary>
+        Exception Get_DefaultCaseException_ForEnumeration<TEnum>(TEnum value)
+            where TEnum : Enum
+        {
+            var exception = this.Get_UnexpectedEnumerationValueException(value);
+            return exception;
+        }
+
+        Exception Get_DefaultCaseException<TValue>(TValue switchValue)
         {
             var message = $"{switchValue}: unhandled switch value";
 
@@ -19,7 +30,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns an exception with a message generated using the type (<see cref="ITypeOperator.Get_Type{T}(T)"/>) of the given value.
         /// </summary>
-        public Exception Get_DefaultCaseException_ForType<T>(
+        Exception Get_DefaultCaseException_ForType<T>(
             T value,
             Func<Type, string> message_Generator)
         {
@@ -34,7 +45,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns an exception with a message generated using the type name (<see cref="ITypeOperator.Get_TypeName{T}(T)"/>) of the given value.
         /// </summary>
-        public Exception Get_DefaultCaseException_ForType<T>(
+        Exception Get_DefaultCaseException_ForType<T>(
             T value,
             Func<string, string> message_FromTypeName_Generator)
         {
@@ -43,6 +54,14 @@ namespace F10Y.L0000
             var message = message_FromTypeName_Generator(typeName);
 
             var output = Instances.ExceptionOperator.From(message);
+            return output;
+        }
+
+        /// <inheritdoc cref="IEnumerationOperator.Get_UnexpectedEnumerationValueException{TEnum}(TEnum)"/>
+        public Exception Get_UnexpectedEnumerationValueException<TEnum>(TEnum unexpectedValue)
+            where TEnum : Enum
+        {
+            var output = Instances.EnumerationOperator.Get_UnexpectedEnumerationValueException(unexpectedValue);
             return output;
         }
     }

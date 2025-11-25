@@ -8,13 +8,16 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFunctionOperator
     {
-        public T Return<T>(T value)
+        Func<TOut> From_ReturnValue<TOut>(TOut returnValue)
+            => () => returnValue;
+
+        T Return<T>(T value)
             => value;
 
         /// <summary>
 		/// Chooses <see cref="Run_Function_OkIfDefault{T, TOutput}(T, Func{T, TOutput})"/> as the default.
 		/// </summary>
-        public TOutput Run<T, TOutput>(
+        TOutput Run<T, TOutput>(
             T value,
             Func<T, TOutput> function = default)
         {
@@ -28,7 +31,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Run_Function_OkIfDefault{T, TOutput}(T, Func{T, TOutput})"/> as the default.
         /// </summary>
-        public TOutput Run_Function<T, TOutput>(
+        TOutput Run_Function<T, TOutput>(
             T value,
             Func<T, TOutput> function = default)
         {
@@ -39,7 +42,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public TOutput Run_Function_OkIfDefault<T, TOutput>(
+        TOutput Run_Function_OkIfDefault<T, TOutput>(
             T value,
             Func<T, TOutput> function = default)
         {

@@ -14,7 +14,7 @@ namespace F10Y.L0000.Q000
         /// <summary>
         /// Generates a new, seeded guid, that will always be exactly the same: 351673f3-4a09-8529-fdff-2cb38696b28f.
         /// </summary>
-        public async Task Generate_New_Guid_Seeded()
+        async Task Generate_New_Guid_Seeded()
         {
             var guid = Instances.GuidOperator.New_Seeded(
                 Instances.Seeds.Default);
@@ -29,7 +29,7 @@ namespace F10Y.L0000.Q000
         /// <summary>
         /// Generates a new guid that will be different each time.
         /// </summary>
-        public async Task Generate_New_Guid()
+        async Task Generate_New_Guid()
         {
             var guid = Instances.GuidOperator.New();
 

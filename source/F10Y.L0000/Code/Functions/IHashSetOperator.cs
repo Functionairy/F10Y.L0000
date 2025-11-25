@@ -120,6 +120,10 @@ namespace F10Y.L0000
             => new HashSet<T>();
 
         public HashSet<T> New<T>(
+            IEnumerable<T> items)
+            => new HashSet<T>(items);
+
+        public HashSet<T> New<T>(
             params T[] items)
             => new HashSet<T>(items);
 

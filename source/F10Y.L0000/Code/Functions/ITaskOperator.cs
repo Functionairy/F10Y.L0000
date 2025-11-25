@@ -29,5 +29,33 @@ namespace F10Y.L0000
 
         Task When_All(IEnumerable<Task> tasks)
             => Task.WhenAll(tasks);
+
+        async Task<(T1, T2)> When_All<T1, T2>((Task<T1>, Task<T2>) tasks)
+        {
+            await Task.WhenAll(
+                tasks.Item1,
+                tasks.Item2);
+
+            var output = (
+                tasks.Item1.Result,
+                tasks.Item2.Result);
+
+            return output;
+        }
+
+        async Task<(T1, T2, T3)> When_All<T1, T2, T3>((Task<T1>, Task<T2>, Task<T3>) tasks)
+        {
+            await Task.WhenAll(
+                tasks.Item1,
+                tasks.Item2,
+                tasks.Item3);
+
+            var output = (
+                tasks.Item1.Result,
+                tasks.Item2.Result,
+                tasks.Item3.Result);
+
+            return output;
+        }
     }
 }

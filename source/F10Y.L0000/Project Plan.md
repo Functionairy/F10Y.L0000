@@ -1,7 +1,12 @@
 # F10Y.L0000
-.NET Standard 2.1 foundation library.
+.NET Standard 2.1 language-only (foundation) library.
 
 The generally-applicable, unopinionated, netstandard2.1, C#/.NET foundation library.
+
+The only dependencies allowed for this netstandard2.1-specific language-only library are:
+
+	- netstandard2.1
+	- marker libraries
 
 
 ## Instance Set Descriptor

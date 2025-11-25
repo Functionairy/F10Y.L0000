@@ -14,12 +14,12 @@ namespace F10Y.L0000.V000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public Raw.IExpectationSets _Raw => Raw.ExpectationSets.Instance;
+        Raw.IExpectationSets _Raw => Raw.ExpectationSets.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
 
         /// <inheritdoc cref="Raw.IExpectationSets.N_001"/>
-        public ExpectationTypes.IExpectation<string, string>[] For_Ensure_Enquoted_All => _Raw.N_001;
+        ExpectationTypes.IExpectation<string, string>[] For_Ensure_Enquoted_All => _Raw.N_001;
     }
 }

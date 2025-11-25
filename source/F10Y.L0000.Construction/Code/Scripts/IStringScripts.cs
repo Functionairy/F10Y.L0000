@@ -9,7 +9,7 @@ namespace F10Y.L0000.Construction
     [ScriptsMarker]
     public partial interface IStringScripts
     {
-        public Task Try_Ensure_Enquoted()
+        Task Try_Ensure_Enquoted()
         {
             var text =
                 Instances.Texts.Example_Text

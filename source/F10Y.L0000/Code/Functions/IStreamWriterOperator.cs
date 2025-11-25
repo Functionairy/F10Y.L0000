@@ -10,10 +10,10 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IStreamWriterOperator
     {
-        public StreamWriter New(string filePath)
+        StreamWriter New(string filePath)
             => new StreamWriter(filePath);
 
-        public StreamWriter New(
+        StreamWriter New(
             string filePath,
             Encoding encoding,
             bool overwrite = IValues.Overwrite_Default_Constant)
@@ -29,22 +29,27 @@ namespace F10Y.L0000
         }
             
 
-        public StreamWriter New(
+        StreamWriter New(
             Stream stream,
             Encoding encoding)
             => new StreamWriter(
                 stream,
                 encoding);
 
-        public StreamWriter New_WithByteOrderMark(Stream stream)
+        StreamWriter New_WithByteOrderMark(Stream stream)
             => this.New(
                 stream,
+                Instances.Encodings.UTF8_WithBOM);
+
+        StreamWriter New_WithByteOrderMark(string filePath)
+            => this.New(
+                filePath,
                 Instances.Encodings.UTF8_WithBOM);
 
         /// <summary>
         /// Chooses <see cref="New_CloseAfter(Stream)"/> as the default, since by default the stream write closes its underlying stream.
         /// </summary>
-        public StreamWriter New(Stream stream)
+        StreamWriter New(Stream stream)
             => this.New_CloseAfter(stream);
 
         /// <summary>
@@ -54,7 +59,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Note: Returned writer produces no BOM.
         /// </remarks>
-        public StreamWriter New_CloseAfter(Stream stream)
+        StreamWriter New_CloseAfter(Stream stream)
         {
             // This constructor produces no BOM as proven in an ExaminingCSharp experiment.
             var output = new StreamWriter(stream);
@@ -69,7 +74,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Note: Whether or not the returned writer produces a byte-order mark (BOM) 
         /// </remarks>
-        public StreamWriter New_LeaveOpen(
+        StreamWriter New_LeaveOpen(
             Stream stream,
             Encoding encoding)
         {
@@ -85,13 +90,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="New_LeaveOpen_WithByteOrderMark(Stream)"/> as the default, since the default UTF8 encoding includes the BOM.
         /// </summary>
-        public StreamWriter New_LeaveOpen(Stream stream)
+        StreamWriter New_LeaveOpen(Stream stream)
             => this.New_LeaveOpen_WithByteOrderMark(stream);
 
         /// <summary>
         /// Returns a writer that will produce initial byte-order-marks (BOM).
         /// </summary>
-        public StreamWriter New_LeaveOpen_WithByteOrderMark(Stream stream)
+        StreamWriter New_LeaveOpen_WithByteOrderMark(Stream stream)
             => this.New_LeaveOpen(
                 stream,
                 Instances.Encodings.UTF8_WithBOM);
@@ -100,7 +105,7 @@ namespace F10Y.L0000
         /// Note new UTF8Encoding(false), instead of Encoding.UTF8, to prevent random byte-order-marks (BOM) marks.
         /// This was a big problem in writing to existing memory streams since the odd-number of BOM bytes (3) would be placed where writing started, in the middle of the memory stream!
         /// </summary>
-        public StreamWriter New_LeaveOpen_WithoutByteOrderMark(Stream stream)
+        StreamWriter New_LeaveOpen_WithoutByteOrderMark(Stream stream)
             => this.New_LeaveOpen(
                 stream,
                 Instances.Encodings.UTF8_WithoutBOM);
@@ -108,7 +113,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets a new file stream opened for writing.
         /// </summary>
-        public StreamWriter New_Write(
+        StreamWriter New_Write(
             string filePath,
             bool overwrite = IValues.Overwrite_Default_Constant)
         {

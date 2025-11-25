@@ -99,6 +99,11 @@ namespace F10Y.L0000
         Dictionary<TKey, TValue> Empty<TKey, TValue>()
             => this.New<TKey, TValue>();
 
+        Dictionary<TKey, int> Get_Counts_ByKey<TKey, TValue>(IDictionary<TKey, TValue[]> arrays_ByKey)
+            => arrays_ByKey.ToDictionary(
+                pair => pair.Key,
+                pair => Instances.CountOperator.Count(pair.Value));
+
         TKey Get_Key<TKey, TValue>(KeyValuePair<TKey, TValue> pair)
             => Instances.KeyValuePairOperator.Get_Key(pair);
 
@@ -166,6 +171,12 @@ namespace F10Y.L0000
             => this.New<TKey, TValue>(
                 keys,
                 default);
+
+        Dictionary<TKey, TElement[]> To_Dictionary<TKey, TElement>(IEnumerable<IGrouping<TKey, TElement>> groups)
+            => groups
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.ToArray());
 
         Dictionary<TKey, TValue> To_Dictionary<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>> pairs)
             => pairs

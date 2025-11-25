@@ -21,18 +21,18 @@ namespace F10Y.L0000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public Implementations.IPathOperator _Implementations => Implementations.PathOperator.Instance;
+        Implementations.IPathOperator _Implementations => Implementations.PathOperator.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
 
-        public string Combine(params string[] pathParts)
+        string Combine(params string[] pathParts)
         {
             var output = Path.Combine(pathParts);
             return output;
         }
 
-        public IEnumerable<string> Ensure_AreDirectoryIndicated(IEnumerable<string> paths)
+        IEnumerable<string> Ensure_AreDirectoryIndicated(IEnumerable<string> paths)
             => paths
                 .Select(this.Ensure_IsDirectoryIndicated)
                 ;
@@ -42,7 +42,7 @@ namespace F10Y.L0000
 		/// The directory separator to use is detected within the path.
 		/// </summary>
         /// <inheritdoc cref="Make_DirectoryIndicated(string)" path="/remarks"/>
-		public string Ensure_IsDirectoryIndicated(string pathPart)
+		string Ensure_IsDirectoryIndicated(string pathPart)
         {
             var isDirectoryIndicated = this.Is_DirectoryIndicated(pathPart);
 
@@ -54,7 +54,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Ensure_NotDirectoryIndicated(string pathPart)
+        string Ensure_NotDirectoryIndicated(string pathPart)
         {
             var isDirectoryIndicated = this.Is_DirectoryIndicated(pathPart);
 
@@ -66,7 +66,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_DirectoryName(string directoryPath)
+        string Get_DirectoryName(string directoryPath)
         {
             var directoryInfo = Instances.DirectoryInfoOperator.From(directoryPath);
 
@@ -74,7 +74,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_DirectoryPath(
+        string Get_DirectoryPath(
             string baseDirectoryPath,
             string relativeDirectoryPath)
         {
@@ -86,7 +86,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_DirectoryPath(
+        string Get_DirectoryPath(
             string parentDirectoryPath,
             IEnumerable<string> directoryNames)
         {
@@ -101,7 +101,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_DirectoryPath(
+        string Get_DirectoryPath(
             string parentDirectoryPath,
             params string[] directoryNames)
         {
@@ -118,13 +118,13 @@ namespace F10Y.L0000
         /// <remarks>
         /// Chooses <see cref="Implementations.IPathOperator.Get_FileName_ViaLastPathPart(string)"/> as the default implementation.
         /// </remarks>
-        public string Get_FileName(string filePath)
+        string Get_FileName(string filePath)
         {
             var output = _Implementations.Get_FileName_ViaLastPathPart(filePath);
             return output;
         }
 
-        public string Get_FileNameStem(string filePath)
+        string Get_FileNameStem(string filePath)
         {
             var fileName = this.Get_FileName(filePath);
 
@@ -132,7 +132,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_FilePath(
+        string Get_FilePath(
             string directoryPath,
             string fileName)
         {
@@ -143,7 +143,19 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_ParentDirectoryPath_ForDirectory(string directoryPath)
+        /// <summary>
+        /// Gets the characters that cannot occur in file names on the system executing the function.
+        /// </summary>
+        /// <remarks>
+        /// Returns the result of <see cref="Path.GetInvalidFileNameChars"/>.
+        /// </remarks>
+        char[] Get_InvalidFileNameCharacters()
+        {
+            var output = Path.GetInvalidFileNameChars();
+            return output;
+        }
+
+        string Get_ParentDirectoryPath_ForDirectory(string directoryPath)
         {
             var directoryInfo = Instances.DirectoryInfoOperator.From(directoryPath);
 
@@ -151,7 +163,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_ParentDirectoryPath_ForFile(string filePath)
+        string Get_ParentDirectoryPath_ForFile(string filePath)
         {
             var fileInfo = new FileInfo(filePath);
 
@@ -162,7 +174,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Path(
+        string Get_Path(
             string basePath,
             string path_RelativeToBasePath)
         {
@@ -173,7 +185,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_PathPart_Last(string path)
+        string Get_PathPart_Last(string path)
         {
             var pathParts = this.Get_PathParts_NonEmpty(path);
 
@@ -181,7 +193,7 @@ namespace F10Y.L0000
             return fileName;
         }
 
-        public string[] Get_PathParts_NonEmpty(string path)
+        string[] Get_PathParts_NonEmpty(string path)
         {
             var directorySeparators = Instances.DirectorySeparators.Both;
 
@@ -197,7 +209,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Get_PathParts_NonEmpty(string)"/> as the default.
         /// </summary>
-        public string[] Get_PathParts(string path)
+        string[] Get_PathParts(string path)
         {
             var output = this.Get_PathParts_NonEmpty(path);
             return output;
@@ -206,7 +218,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets the relative path from A to B.
         /// </summary>
-        public string Get_RelativePath(
+        string Get_RelativePath(
             string pathA,
             string pathB)
         {
@@ -217,7 +229,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Has_FileExtension(
+        bool Has_FileExtension(
             string filePath,
             string fileExtension)
         {
@@ -234,7 +246,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Null or empty paths are not directory indicated.
         /// </remarks>
-        public bool Is_DirectoryIndicated(string path)
+        bool Is_DirectoryIndicated(string path)
         {
             var hasLastCharacter = Instances.StringOperator.Has_Character_Last(
                 path,
@@ -257,7 +269,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Note that "C:" is <em>not</em> root indicated! It lacks a directory separator. (So "C:\" is root-indicated.)
         /// </remarks>
-        public bool Is_RootIndicated(string path)
+        bool Is_RootIndicated(string path)
         {
             // Does the path start with a directory separator?
             var hasFirstCharacter = Instances.StringOperator.Has_Character_First(
@@ -299,7 +311,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Resolved(string path)
+        bool Is_Resolved(string path)
         {
             // The opposite of unresolved.
             var isUnresolved = this.Is_Unresolved(path);
@@ -311,7 +323,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Is a path unresolved? (Does it contain the current directory (<see cref="IDirectoryNames.Current"/>) or parent directory (<see cref="IDirectoryNames.Parent"/>) directory names?)
         /// </summary>
-        public bool Is_Unresolved(string path)
+        bool Is_Unresolved(string path)
         {
             // Split the path, test if any path parts are the current or parent directory names.
             var pathParths = this.Split(path);
@@ -323,7 +335,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Platform_Mixed(string path)
+        bool Is_Platform_Mixed(string path)
         {
             var output = Instances.StringOperator.Contains(
                 path,
@@ -332,7 +344,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Platform_NonWindows(
+        bool Is_Platform_NonWindows(
             string path,
             bool default_IfNone = true)
             => this.Is_DirectorySeparator_First(
@@ -340,7 +352,7 @@ namespace F10Y.L0000
                 Instances.DirectorySeparators.NonWindows,
                 default_IfNone);
 
-        public bool Is_Platform_Windows(
+        bool Is_Platform_Windows(
             string path,
             bool default_IfNone = true)
             => this.Is_DirectorySeparator_First(
@@ -348,7 +360,7 @@ namespace F10Y.L0000
                 Instances.DirectorySeparators.Windows,
                 default_IfNone);
 
-        public bool Is_DirectorySeparator_First(
+        bool Is_DirectorySeparator_First(
             string path,
             char directorySeparator,
             bool default_IfNone = true)
@@ -374,19 +386,19 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Make_DirectoryIndicated(string path)
+        string Make_DirectoryIndicated(string path)
         {
             var output = path + Instances.DirectorySeparators.Environment;
             return output;
         }
 
-        public string Make_NotDirectoryIndicated(string path)
+        string Make_NotDirectoryIndicated(string path)
         {
             var output = path.TrimEnd(Instances.DirectorySeparators.Both);
             return output;
         }
 
-        public string Resolve(string path_Unresolved)
+        string Resolve(string path_Unresolved)
         {
             var output = _Implementations.Resolve_GetFullPath(path_Unresolved);
             return output;
@@ -395,13 +407,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Split_WithDirectorySeparators_KeepEmpty(string)"/> as the default.
         /// </summary>
-        public string[] Split(string path)
+        string[] Split(string path)
             => this.Split_WithDirectorySeparators_KeepEmpty(path);
 
         /// <summary>
         /// Splits a path into path parts using directory separators as 
         /// </summary>
-        public string[] Split_WithDirectorySeparators_KeepEmpty(string path)
+        string[] Split_WithDirectorySeparators_KeepEmpty(string path)
         {
             var output = Instances.StringOperator.Split(
                 Instances.DirectorySeparators.Both,

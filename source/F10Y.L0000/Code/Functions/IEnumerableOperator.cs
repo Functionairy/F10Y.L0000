@@ -441,6 +441,11 @@ namespace F10Y.L0000
             return output;
         }
 
+        IEnumerable<T> Repeat<T>(T instance, int count)
+        {
+            return Enumerable.Repeat(instance, count);
+        }
+
         IEnumerable<T> Select_Many<T>(params IEnumerable<T>[] enumerables)
         {
             var output = enumerables
