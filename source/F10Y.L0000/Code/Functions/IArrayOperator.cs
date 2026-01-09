@@ -21,6 +21,34 @@ namespace F10Y.L0000
 #pragma warning restore IDE1006 // Naming Styles
 
 
+        T[] Append<T>(
+            T[] array,
+            IEnumerable<T> appendix)
+            => array.Append(appendix).ToArray();
+
+        T[] Append<T>(
+            T[] array,
+            params T[] appendix)
+            => this.Append(
+                array,
+                appendix.AsEnumerable());
+
+        T[] Append_OrInitialize<T>(
+            T[] array,
+            params T[] appendix)
+        {
+            var is_Null = Instances.NullOperator.Is_Null(array);
+
+            var output = is_Null
+                ? appendix
+                : this.Append(
+                    array,
+                    appendix)
+                ;
+
+            return output;
+        }
+
         /// <summary>
         /// Tests if two arrays are equal handling checks for:
         /// <list type="bullet">
@@ -54,6 +82,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Uses the default equality comparer for the type <typeparamref name="T"/>. (<see cref="IEqualityComparerOperator.Get_Default{T}()"/>)
+        /// </summary>
         bool Are_Equal<T>(
            T[] a,
            T[] b)
@@ -279,8 +310,21 @@ namespace F10Y.L0000
             return output;
         }
 
+        object[] From(params object[] objects)
+            => objects;
+
+        object[] From_Objects(params object[] objects)
+            => objects;
+
         T[] From<T>(params T[] values)
             => values;
+
+        TOut[] From<TIn, TOut>(
+            IEnumerable<TIn> values,
+            Func<TIn, TOut> converter)
+            => values
+                .Select(converter)
+                .Now();
 
         T[] From<T>(
             T[] values,

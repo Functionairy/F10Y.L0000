@@ -13,12 +13,15 @@ namespace F10Y.L0000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public Implementations.IHashCodeOperator _Implementations => Implementations.HashCodeOperator.Instance;
+        Implementations.IHashCodeOperator _Implementations => Implementations.HashCodeOperator.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
 
-        public int Combine<T1, T2>(
+        int Combine<T>(params T[] values)
+            => this.Get_HashCode_OfArray(values);
+
+        int Combine<T1, T2>(
             T1 value1,
             T2 value2)
         {
@@ -29,7 +32,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Combine<T1, T2, T3>(
+        int Combine<T1, T2, T3>(
             T1 value1,
             T2 value2,
             T3 value3)
@@ -42,18 +45,42 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Default<T>(T obj)
+        int Default<T>(T obj)
             // Use the combine method to handle null.
             => HashCode.Combine(obj);
 
-        public int Get_HashCode<T>(T value)
+        int Get_HashCode<T>(T value)
             // Use the combine method to handle null.
             => HashCode.Combine(value);
 
-        public int Get_HashCode_OfArray<T>(T[] value)
+        int Get_HashCode<T>(params T[] values)
+            // Use the combine method to handle null.
+            => Get_HashCode_OfArray(values);
+
+        /// <inheritdoc cref="Get_HashCode_OfArray{T}(T[], Func{T, int})"/>
+        int Get_HashCode_OfArray<T>(T[] value)
+            => this.Get_HashCode_OfArray(
+                value,
+                this.Get_HashCode<T>);
+
+        /// <summary>
+        /// For an array of elements, get the hash code of each element and then combine them all.
+        /// </summary>
+        /// <remarks>
+        /// For null arrays, the hash code for null is returned (<see cref="IHashCodes.For_Null"/>).
+        /// </remarks>
+        int Get_HashCode_OfArray<T>(
+            T[] value,
+            Func<T, int> element_HashCode_Provider)
         {
+            var is_Null = Instances.NullOperator.Is_Null(value);
+            if (is_Null)
+            {
+                return Instances.HashCodes.For_Null;
+            }
+
             var elementHashes = value
-                .Select(this.Get_HashCode<T>)
+                .Select(element_HashCode_Provider)
                 .ToArray();
 
             // Dummy value to start.
@@ -69,7 +96,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Get_HashCode<T1, T2>(
+        int Get_HashCode<T1, T2>(
             T1 t1,
             T2 t2)
         {
@@ -80,7 +107,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public int Get_HashCode<T1, T2, T3>(
+        int Get_HashCode<T1, T2, T3>(
             T1 t1,
             T2 t2,
             T3 t3)

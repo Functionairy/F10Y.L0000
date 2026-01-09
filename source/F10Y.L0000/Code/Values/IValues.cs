@@ -120,6 +120,5 @@ namespace F10Y.L0000
         /// <para><value>true</value></para>
         /// </summary>
         bool True => true;
-
     }
 }

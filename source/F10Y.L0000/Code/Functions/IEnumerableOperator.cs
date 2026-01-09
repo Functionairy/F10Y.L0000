@@ -114,6 +114,15 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Enumerates the enumerable at this point.
+        /// </summary>
+        T[] Enumerate<T>(IEnumerable<T> items)
+        {
+            var output = items.ToArray();
+            return output;
+        }
+
         IEnumerable<T> Enumerate_Distinct<T>(IEnumerable<T> enumerable)
             => enumerable.Distinct();
 
@@ -288,6 +297,19 @@ namespace F10Y.L0000
                     }
                 }
             }
+        }
+
+        IEnumerable<T> Modify_If<T>(
+            bool value,
+            Func<IEnumerable<T>, IEnumerable<T>> modifier,
+            IEnumerable<T> items)
+        {
+            var output = value
+                ? modifier(items)
+                : items
+                ;
+
+            return output;
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 
 /// Note: do not put extension in system namespaces in this library. See notes in project plan.
@@ -56,6 +57,12 @@ namespace F10Y.L0000.Extensions
             return output;
         }
 
+        public static T[] Enumerate<T>(this IEnumerable<T> items)
+        {
+            var output = Instances.EnumerableOperator.Enumerate(items);
+            return output;
+        }
+
         public static IEnumerable<T> Except<T>(this IEnumerable<T> items,
             T item)
         {
@@ -93,6 +100,14 @@ namespace F10Y.L0000.Extensions
             var output = Instances.EnumerableOperator.Except_Last(enumerable, numberOfElements);
             return output;
         }
+
+        public static IEnumerable<T> Modify_If<T>(this IEnumerable<T> items,
+            bool value,
+            Func<IEnumerable<T>, IEnumerable<T>> modifier)
+            => Instances.EnumerableOperator.Modify_If(
+                value,
+                modifier,
+                items);
 
         public static T[] Now<T>(this IEnumerable<T> enumerable)
         {

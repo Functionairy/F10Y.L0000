@@ -9,10 +9,36 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IEqualityOperator
     {
+        bool Are_Equal<T>(T a, T b)
+            where T : IEquatable<T>
+            => a.Equals(b);
+
+        bool Are_Equal_AsObjects<T>(
+            T a,
+            T b)
+        {
+            var output = Object.Equals(
+                a,
+                b);
+
+            return output;
+        }
+
+        bool Are_Equal_ByReference<T>(
+            T a,
+            T b)
+        {
+            var output = Object.ReferenceEquals(
+                a,
+                b);
+
+            return output;
+        }
+
         /// <summary>
         /// Useful as the implementation of the overridden equality operator.
         /// </summary>
-        public bool Equals<T>(
+        bool Equals<T>(
             object other,
             T value,
             Func<T, T, bool> equality)
@@ -31,11 +57,11 @@ namespace F10Y.L0000
             }
         }
 
-        public Func<T, T, bool> Get_Equality<T>()
+        Func<T, T, bool> Get_Equality<T>()
             where T : IEquatable<T>
             => (a, b) => a.Equals(b);
 
-        public EqualityComparer<T> Get_EqualityComparer_Default<T>()
+        EqualityComparer<T> Get_EqualityComparer_Default<T>()
         {
             var output = Instances.EqualityComparerOperator.Get_Default<T>();
             return output;

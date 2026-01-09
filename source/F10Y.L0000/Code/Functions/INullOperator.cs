@@ -8,7 +8,22 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface INullOperator
     {
-        public bool Is_NotNull<T>(T value)
+        TOut If_Null_Else<T, TOut>(
+            T value,
+            Func<T, TOut> converter)
+            where TOut : class
+        {
+            var is_Null = this.Is_Null(value);
+
+            var output = is_Null
+                ? null
+                : converter(value)
+                ;
+
+            return output;
+        }
+
+        bool Is_NotNull<T>(T value)
         {
             // A great, quick null check.
             var output = value is object;
@@ -23,7 +38,7 @@ namespace F10Y.L0000
         /// Note: there is no requirement for the generic type parameter to be a reference type.
         /// The is-operator with "is null" will only return true if the generic type is a reference type.
         /// </remarks>
-        public bool Is_Null<T>(T value)
+        bool Is_Null<T>(T value)
         {
             // Use "is" instead of:
             // * == null - Equality operator eventually just uses Object.ReferenceEquals().
@@ -35,7 +50,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="NullCheckDeterminesEquality{T}(T, T, out bool)"/>
-        public bool NullCheckDeterminesEquality_Else<T>(T a, T b,
+        bool NullCheckDeterminesEquality_Else<T>(T a, T b,
             Func<T, T, bool> equality)
             where T : class
         {
@@ -51,6 +66,10 @@ namespace F10Y.L0000
             return output;
         }
 
+        T Null<T>()
+            where T : class
+            => null;
+
         /// <summary>
         /// Returns whether a null check can decide whether two instances are equal,
         /// and if so, what equality the null check provides.
@@ -58,7 +77,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Y0000.Documentation.NullCheckDeterminesEquality" path="/summary"/>
         /// </remarks>
-        public bool NullCheckDeterminesEquality<T>(T a, T b, out bool areEqual)
+        bool NullCheckDeterminesEquality<T>(T a, T b, out bool areEqual)
             // Restrict to reference types so that we don't accidentally use this on value types (since the "is null" syntax works for value types, this operation is unneccesary).
             where T : class
         {

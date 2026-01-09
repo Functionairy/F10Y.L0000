@@ -12,6 +12,11 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IGuidOperator
     {
+        bool Are_Equal(
+            Guid a,
+            Guid b)
+            => a.Equals(b);
+
         /// <summary>
         /// A quality-of-life overload for <see cref="Parse(string)"/>.
         /// </summary>

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Security.Cryptography.X509Certificates;
 using F10Y.T0002;
 
 
@@ -99,6 +99,15 @@ namespace F10Y.L0000
         Dictionary<TKey, TValue> Empty<TKey, TValue>()
             => this.New<TKey, TValue>();
 
+        Dictionary<TKey, TValue> From<TKey, TValue>(
+            IEnumerable<TValue> values,
+            Func<TValue, TKey> keySelector,
+            IEqualityComparer<TKey> comparer)
+            => values
+                .ToDictionary(
+                    keySelector,
+                    comparer);
+
         Dictionary<TKey, int> Get_Counts_ByKey<TKey, TValue>(IDictionary<TKey, TValue[]> arrays_ByKey)
             => arrays_ByKey.ToDictionary(
                 pair => pair.Key,
@@ -192,6 +201,18 @@ namespace F10Y.L0000
                 //Instances.KeyValuePairOperations.Get_Value<TKey, List<TValue>, TValue[]>(Instances.ListOperator.To_Array)
                 x => x.Value.ToArray()
                 );
+
+        bool Try_GetValue<TKey, TValue>(
+            IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            out TValue value_OrDefault)
+        {
+            var output = dictionary.TryGetValue(
+                key,
+                out value_OrDefault);
+
+            return output;
+        }
 
         void Verify_ContainsKey<TKey, TValue>(
             IDictionary<TKey, TValue> dictionary,

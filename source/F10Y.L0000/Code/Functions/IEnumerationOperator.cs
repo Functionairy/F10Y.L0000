@@ -9,6 +9,15 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IEnumerationOperator
     {
+        bool Are_Equal<TEnum>(
+            TEnum a,
+            TEnum b)
+            where TEnum : Enum
+        {
+            var output = a.Equals(b);
+            return output;
+        }
+
         /// <summary>
         /// Gets a message indicating the the input value of the <typeparamref name="TEnum"/> enumeration was unexpected.
         /// This is useful in producing an error in the default case for switch statements based on enumeration values.
@@ -104,6 +113,10 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        TEnum From<TEnum>(int value)
+            where TEnum : Enum
+            => (TEnum)Enum.ToObject(typeof(TEnum), value);
 
         int To_Int32<TEnum>(TEnum value)
             where TEnum : Enum
