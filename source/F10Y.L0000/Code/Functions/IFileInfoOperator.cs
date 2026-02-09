@@ -9,28 +9,34 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFileInfoOperator
     {
-        public FileInfo From(string filePath)
+        FileInfo From(string filePath)
         {
             var output = new FileInfo(filePath);
             return output;
         }
 
-        public string Get_FileName(FileInfo fileInfo)
+        string Get_FileName(FileInfo fileInfo)
         {
             var output = fileInfo.Name;
             return output;
         }
 
-        public string Get_FilePath(FileInfo fileInfo)
+        string Get_FilePath(FileInfo fileInfo)
         {
             var output = fileInfo.FullName;
             return output;
         }
 
-        public DirectoryInfo Get_ParentDirectory(FileInfo fileInfo)
+        DateTime Get_LastModifiedTime(FileInfo fileInfo)
+            => fileInfo.LastWriteTime;
+
+        DateTime Get_LastModifiedTime_UTC(FileInfo fileInfo)
+            => fileInfo.LastWriteTimeUtc;
+
+        DirectoryInfo Get_ParentDirectory(FileInfo fileInfo)
             => fileInfo.Directory;
 
-        public string Get_ParentDirectoryPath(FileInfo fileInfo)
+        string Get_ParentDirectoryPath(FileInfo fileInfo)
         {
             var parent = this.Get_ParentDirectory(fileInfo);
 

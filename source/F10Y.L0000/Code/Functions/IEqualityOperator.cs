@@ -13,6 +13,9 @@ namespace F10Y.L0000
             where T : IEquatable<T>
             => a.Equals(b);
 
+        bool Are_Equal<T>(T a, T b, IEqualityComparer<T> equalityComparer)
+            => equalityComparer.Equals(a, b);
+
         bool Are_Equal_AsObjects<T>(
             T a,
             T b)

@@ -6,6 +6,9 @@ using F10Y.T0002;
 
 namespace F10Y.L0000
 {
+    /// <summary>
+    /// Simple command line functions for running commands on arguments.
+    /// </summary>
     [FunctionsMarker]
     public partial interface ICommandLineOperator
     {

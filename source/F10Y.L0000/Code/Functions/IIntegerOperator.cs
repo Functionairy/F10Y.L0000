@@ -8,10 +8,20 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IIntegerOperator
     {
+        bool Are_Equal(
+            int a,
+            int b)
+            => a == b;
+
+        bool Are_Equal_Not(
+            int a,
+            int b)
+            => a != b;
+
         /// <summary>
         /// Returns true if X is greater than, or equal to, Y.
         /// </summary>
-        public bool GreaterThan_OrEqualTo(
+        bool GreaterThan_OrEqualTo(
             int x,
             int y)
         {
@@ -19,7 +29,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool GreaterThan_OrEqualTo_Zero(int value)
+        bool GreaterThan_OrEqualTo_Zero(int value)
         {
             // Implement using greater-than.
             var output = this.GreaterThan(
@@ -32,7 +42,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns true if X is greater than Y.
         /// </summary>
-        public bool GreaterThan(
+        bool GreaterThan(
             int x,
             int y)
         {
@@ -40,25 +50,25 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Equal(int a, int b)
+        bool Is_Equal(int a, int b)
         {
             var output = a.Equals(b);
             return output;
         }
 
-        public bool Is_NotEqual(int a, int b)
+        bool Is_NotEqual(int a, int b)
         {
             var output = !this.Is_Equal(a, b);
             return output;
         }
 
-        public bool Is_LessThanZero(int integer)
+        bool Is_LessThanZero(int integer)
             => integer < Instances.Integers.Zero;
 
-        public bool Is_Negative(int integer)
+        bool Is_Negative(int integer)
             => this.Is_LessThanZero(integer);
 
-        public string To_String(int integer)
+        string To_String(int integer)
             => integer.ToString();
     }
 }

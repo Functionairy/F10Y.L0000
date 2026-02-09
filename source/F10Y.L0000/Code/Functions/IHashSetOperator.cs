@@ -14,14 +14,14 @@ namespace F10Y.L0000
         /// Chooses <see cref="Add_Range_KeepLast{T}(HashSet{T}, IEnumerable{T})"/> as the default behavior (which it is for <see cref="HashSet{T}"/>).
         /// Idempotent.
         /// </summary>
-        public HashSet<T> Add_Range<T>(HashSet<T> hashSet, IEnumerable<T> items)
+        HashSet<T> Add_Range<T>(HashSet<T> hashSet, IEnumerable<T> items)
             => this.Add_Range_KeepLast(hashSet, items);
 
         /// <summary>
         /// If the hash set already contains the item, replace it with any later items.
         /// (This is the default behavior for <see cref="HashSet{T}"/>.)
         /// </summary>
-        public HashSet<T> Add_Range_KeepLast<T>(HashSet<T> hashSet, IEnumerable<T> items)
+        HashSet<T> Add_Range_KeepLast<T>(HashSet<T> hashSet, IEnumerable<T> items)
         {
             foreach (var item in items)
             {
@@ -34,7 +34,7 @@ namespace F10Y.L0000
         /// <summary>
         /// If the hash set already contains the item, do not replace it with any later items.
         /// </summary>
-        public HashSet<T> Add_Range_KeepFirst<T>(HashSet<T> hashSet, IEnumerable<T> items)
+        HashSet<T> Add_Range_KeepFirst<T>(HashSet<T> hashSet, IEnumerable<T> items)
         {
             foreach (var item in items)
             {
@@ -50,7 +50,7 @@ namespace F10Y.L0000
             return hashSet;
         }
 
-        public void Add_Range_ThrowIfDuplicate<T>(HashSet<T> hashSet, IEnumerable<T> items)
+        void Add_Range_ExceptionIfDuplicate<T>(HashSet<T> hashSet, IEnumerable<T> items)
         {
             foreach (var item in items)
             {
@@ -59,10 +59,12 @@ namespace F10Y.L0000
                 {
                     throw this.Get_ValueAlreadyExistsException(item);
                 }
+
+                hashSet.Add(item);
             }
         }
 
-        public bool Contains<T>(
+        bool Contains<T>(
             HashSet<T> hashSet,
             T item)
         {
@@ -70,7 +72,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Not_Contains<T>(
+        bool Not_Contains<T>(
             HashSet<T> hashSet,
             T item)
             => !this.Contains(
@@ -81,19 +83,19 @@ namespace F10Y.L0000
         /// <para>Chooses <see cref="From_KeepLast{T}(IEnumerable{T})"/> as the default.</para>
         /// <inheritdoc cref="From_KeepLast{T}(IEnumerable{T})" path="/summary"/>
         /// </summary>
-        public HashSet<T> From<T>(IEnumerable<T> values)
+        HashSet<T> From<T>(IEnumerable<T> values)
             => this.From_KeepLast(values);
 
         /// <inheritdoc cref="Add_Range_KeepLast{T}(HashSet{T}, IEnumerable{T})"/>
-        public HashSet<T> From_KeepLast<T>(IEnumerable<T> items)
+        HashSet<T> From_KeepLast<T>(IEnumerable<T> items)
             // Leverage the default behavior of the hashset (which is keep last).
             => new HashSet<T>(items);
 
-        public HashSet<T> From_KeepFirst<T>(
+        HashSet<T> From_KeepFirst<T>(
             IEnumerable<T> items,
             IEqualityComparer<T> equalityComparer)
         {
-            var output = this.New<T>(equalityComparer);
+            var output = this.New(equalityComparer);
 
             this.Add_Range_KeepFirst(
                 output,
@@ -102,49 +104,62 @@ namespace F10Y.L0000
             return output;
         }
 
-        public HashSet<T> From_KeepFirst<T>(IEnumerable<T> items)
+        HashSet<T> From_KeepFirst<T>(IEnumerable<T> items)
             => this.From_KeepFirst(
                 items,
                 Instances.EqualityComparerOperator.Get_Default<T>());
 
-        public Exception Get_ValueAlreadyExistsException<T>(T value)
+        HashSet<T> From_ExceptionIfDuplicate<T>(
+            IEnumerable<T> items,
+            IEqualityComparer<T> equality_Comparer)
+        {
+            var output = this.New(equality_Comparer);
+
+            this.Add_Range_ExceptionIfDuplicate(
+                output,
+                items);
+
+            return output;
+        }
+
+        Exception Get_ValueAlreadyExistsException<T>(T value)
         {
             var output = new Exception($"Value already exists. Attempted to add duplicate value: {value}");
             return output;
         }
 
-        public bool Has_Any<T>(HashSet<T> hash)
+        bool Has_Any<T>(HashSet<T> hash)
             => hash.Count > 0;
 
-        public HashSet<T> New<T>()
+        HashSet<T> New<T>()
             => new HashSet<T>();
 
-        public HashSet<T> New<T>(
+        HashSet<T> New<T>(
             IEnumerable<T> items)
             => new HashSet<T>(items);
 
-        public HashSet<T> New<T>(
+        HashSet<T> New<T>(
             params T[] items)
             => new HashSet<T>(items);
 
-        public HashSet<T> New<T>(IEqualityComparer<T> equalityComparer)
+        HashSet<T> New<T>(IEqualityComparer<T> equalityComparer)
             => new HashSet<T>(equalityComparer);
 
-        public HashSet<T> New_WithEqualityComparer<T>(IEqualityComparer<T> equalityComparer)
+        HashSet<T> New_WithEqualityComparer<T>(IEqualityComparer<T> equalityComparer)
             => new HashSet<T>(equalityComparer);
 
-        public bool Remove<T>(
+        bool Remove<T>(
             HashSet<T> hash,
             T item)
             => hash.Remove(item);
 
-        public void Remove_Idempotent<T>(
+        void Remove_Idempotent<T>(
             HashSet<T> hash,
             T item)
             // The hashset's remove method is idempotent (returns false if the element was not present).
             => hash.Remove(item);
 
-        public void Remove_Range<T>(
+        void Remove_Range<T>(
             HashSet<T> hash,
             IEnumerable<T> itemsToRemove)
         {
@@ -154,13 +169,13 @@ namespace F10Y.L0000
             }
         }
 
-        public void Remove_Range_Idempotent<T>(
+        void Remove_Range_Idempotent<T>(
             HashSet<T> hash,
             IEnumerable<T> itemsToRemove)
             // The hashset's remove method is idempotent (returns false if the element was not present).
             => this.Remove_Range(hash, itemsToRemove);
 
-        public T[] To_Arary<T>(HashSet<T> hash)
+        T[] To_Arary<T>(HashSet<T> hash)
             => hash.ToArray();
     }
 }

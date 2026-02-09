@@ -210,6 +210,46 @@ namespace F10Y.L0000
             return Internal;
         }
 
+        bool If_TypeIs_ElseFalse<T, TDerived>(
+            TDerived derived,
+            T value,
+            Func<TDerived, TDerived, bool> predicate)
+            where TDerived : T
+        {
+            if (value is TDerived value_AsDerived)
+            {
+                var output = predicate(
+                    derived,
+                    value_AsDerived);
+
+                return output;
+            }
+
+            return false;
+        }
+
+        bool Is_TypeName<T>(
+            string typeName,
+            out string typeName_OfTypeParameter)
+        {
+            typeName_OfTypeParameter = this.Get_TypeName_OfDeclaredType<T>();
+
+            var output = typeName_OfTypeParameter == typeName;
+            return output;
+        }
+
+        void Verify_TypeName<T>(string typeName)
+        {
+            var is_TypeName = this.Is_TypeName<T>(
+                typeName,
+                out var typeName_OfTypeParameter);
+
+            if (!is_TypeName)
+            {
+                throw new Exception($"Type name mismatch. Expected: {typeName_OfTypeParameter}, found: {typeName}");
+            }
+        }
+
         void If_TypeIs<T>(
             object @object,
             Action<T> action)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Resources;
+
 using F10Y.T0002;
 
 
@@ -93,6 +93,17 @@ namespace F10Y.L0000
             => Enumerable.Concat(
                 enumerable,
                 appendix);
+
+        bool Are_Equal_Counts<T1, T2>(
+            IEnumerable<T1> a,
+            IEnumerable<T2> b)
+        {
+            var count_OfA = this.Get_Count(a);
+            var count_OfB = this.Get_Count(b);
+
+            var output = Instances.EqualityOperator.Are_Equal(count_OfA, count_OfB);
+            return output;
+        }
 
         int Get_Count<T>(IEnumerable<T> enumerable)
             => enumerable.Count();
@@ -468,6 +479,17 @@ namespace F10Y.L0000
             return Enumerable.Repeat(instance, count);
         }
 
+        IEnumerable<TOut> Select<TIn, TOut>(
+            IEnumerable<TIn> enumerables,
+            Func<TIn, TOut> selector)
+        {
+            var output = enumerables
+                .Select(selector)
+                ;
+
+            return output;
+        }
+
         IEnumerable<T> Select_Many<T>(params IEnumerable<T>[] enumerables)
         {
             var output = enumerables
@@ -477,8 +499,11 @@ namespace F10Y.L0000
             return output;
         }
 
-        HashSet<T> To_HashSet<T>(IEnumerable<T> values)
-            => Instances.HashSetOperator.From(values);
+        HashSet<T> To_HashSet<T>(IEnumerable<T> items)
+            => Instances.HashSetOperator.From(items);
+
+        IReadOnlyCollection<T> To_ReadOnlyCollection<T>(IEnumerable<T> items)
+            => items.ToArray();
 
         IEnumerable<(T, T)> Zip<T>(
             IEnumerable<T> a,

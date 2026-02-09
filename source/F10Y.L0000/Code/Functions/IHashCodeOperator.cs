@@ -45,6 +45,38 @@ namespace F10Y.L0000
             return output;
         }
 
+        int Combine<T1, T2, T3, T4>(
+            T1 value1,
+            T2 value2,
+            T3 value3,
+            T4 value4)
+        {
+            var output = HashCode.Combine(
+                value1,
+                value2,
+                value3,
+                value4);
+
+            return output;
+        }
+
+        int Combine<T1, T2, T3, T4, T5>(
+            T1 value1,
+            T2 value2,
+            T3 value3,
+            T4 value4,
+            T5 value5)
+        {
+            var output = HashCode.Combine(
+                value1,
+                value2,
+                value3,
+                value4,
+                value5);
+
+            return output;
+        }
+
         int Default<T>(T obj)
             // Use the combine method to handle null.
             => HashCode.Combine(obj);

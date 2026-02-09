@@ -160,6 +160,23 @@ namespace F10Y.L0000
         }
 
         /// <summary>
+        /// Determines if arrays have equal elements in each position.
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Documentation.Inputs_NullChecked" path="/summary"/>
+        /// </remarks>
+        public bool Are_Equal_OrderDependent<T>(
+            T[] a,
+            T[] b,
+            IEqualityComparer<T> equalityComparer)
+        {
+            var output = Instances.NullOperator.NullCheckDeterminesEquality_Else(a, b,
+                (a, b) => _Unchecked.Are_Equal_OrderDependent(a, b, equalityComparer));
+
+            return output;
+        }
+
+        /// <summary>
         /// Considers: counts. AAB is equal to BAA and ABA.
         /// </summary>
         /// <remarks>
@@ -173,17 +190,6 @@ namespace F10Y.L0000
             var output = Instances.NullOperator.NullCheckDeterminesEquality_Else(a, b,
                 (a, b) => _Unchecked.Are_Equal_OrderIndependent(a, b, equalityComparer));
 
-            return output;
-        }
-
-        /// <inheritdoc cref="Are_Equal_OrderIndependent{T}(T[], T[], IEqualityComparer{T})"/>
-        bool Are_Equal_OrderIndependent<T>(
-            T[] a,
-            T[] b)
-        {
-            var equalityComparer = Instances.EqualityComparerOperator.Get_Default<T>();
-
-            var output = this.Are_Equal_OrderIndependent(a, b, equalityComparer);
             return output;
         }
 
@@ -468,5 +474,24 @@ namespace F10Y.L0000
 
         T[] To_Array<T>(IEnumerable<T> enumerable)
             => enumerable.ToArray();
+
+        string[] To_Strings<T>(
+            T[] values,
+            Func<T, string> to_String)
+            => values
+                .Select(to_String)
+                .Now();
+
+        void Verify_LengthIs(
+            Array array,
+            int length)
+        {
+            var length_Found = this.Get_Length(array);
+
+            if(length != length_Found)
+            {
+                throw new Exception($"Invalid length. Expected {length}, found {length_Found}.");
+            }
+        }
     }
 }

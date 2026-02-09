@@ -49,7 +49,7 @@ namespace F10Y.L0000.Extensions
 
         public static void Add_Range_ThrowIfDuplicate<T>(this HashSet<T> hashSet,
             IEnumerable<T> items)
-            => Instances.HashSetOperator.Add_Range_ThrowIfDuplicate(
+            => Instances.HashSetOperator.Add_Range_ExceptionIfDuplicate(
                 hashSet,
                 items);
     }

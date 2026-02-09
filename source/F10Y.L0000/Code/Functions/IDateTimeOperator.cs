@@ -25,6 +25,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        bool Are_Equal(DateTime a, DateTime b)
+            => a == b;
+
         DateTime From(
             int year,
             int month,

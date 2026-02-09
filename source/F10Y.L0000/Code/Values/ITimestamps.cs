@@ -12,9 +12,12 @@ namespace F10Y.L0000
         /// 
         /// </summary>
         /// <remarks>
-        /// Timestamps are always in UTC.
+        /// Timestamps are in UTC by default.
         /// </remarks>
         DateTime Now
             => Instances.TimestampOperator.Stamp();
+
+        DateTime Now_Local
+            => Instances.TimestampOperator.Stamp_Local();
     }
 }

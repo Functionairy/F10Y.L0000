@@ -469,6 +469,22 @@ namespace F10Y.L0000
             return output;
         }
 
+        DateTime Get_LastModifiedTime_ForFile(string filePath)
+        {
+            var fileInfo = Instances.FileInfoOperator.From(filePath);
+
+            var output = Instances.FileInfoOperator.Get_LastModifiedTime(fileInfo);
+            return output;
+        }
+
+        DateTime Get_LastModifiedTime_UTC_ForFile(string filePath)
+        {
+            var fileInfo = Instances.FileInfoOperator.From(filePath);
+
+            var output = Instances.FileInfoOperator.Get_LastModifiedTime_UTC(fileInfo);
+            return output;
+        }
+
         /// <summary>
         /// <inheritdoc cref="IDirectoryInfoOperator.Get_LastModifiedTime(DirectoryInfo)" path="/summary"/>
         /// </summary>

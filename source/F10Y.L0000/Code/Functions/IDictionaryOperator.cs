@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+
 using F10Y.T0002;
 
 
@@ -181,17 +181,25 @@ namespace F10Y.L0000
                 keys,
                 default);
 
+        bool Remove<TKey, TValue>(
+            IDictionary<TKey, TValue> dictionary,
+            TKey key)
+            => dictionary.Remove(key);
+
         Dictionary<TKey, TElement[]> To_Dictionary<TKey, TElement>(IEnumerable<IGrouping<TKey, TElement>> groups)
-            => groups
-                .ToDictionary(
-                    group => group.Key,
-                    group => group.ToArray());
+            => groups.ToDictionary(
+                group => group.Key,
+                group => group.ToArray());
 
         Dictionary<TKey, TValue> To_Dictionary<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>> pairs)
-            => pairs
-                .ToDictionary(
-                    pair => pair.Key,
-                    pair => pair.Value);
+            => pairs.ToDictionary(
+                pair => pair.Key,
+                pair => pair.Value);
+
+        Dictionary<TKey, TValue> To_Dictionary<TKey, TValue>(
+            IEnumerable<TValue> values,
+            Func<TValue, TKey> key_Provider)
+           => values.ToDictionary(key_Provider);
 
         Dictionary<TKey, TValue[]> To_Dictionary_OfArrays<TKey, TValue, TValueList>(IDictionary<TKey, TValueList> valueLists_ByKey)
             where TValueList : IList<TValue>

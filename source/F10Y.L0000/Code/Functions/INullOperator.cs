@@ -53,9 +53,14 @@ namespace F10Y.L0000
         bool NullCheckDeterminesEquality_Else<T>(T a, T b,
             Func<T, T, bool> equality)
             where T : class
+            => this.NullCheckDeterminesEquality_Else_AllowValueTypes(a, b, equality);
+
+        /// <inheritdoc cref="NullCheckDeterminesEquality_AllowValueTypes{T}(T, T, out bool)"/>
+        bool NullCheckDeterminesEquality_Else_AllowValueTypes<T>(T a, T b,
+            Func<T, T, bool> equality)
         {
             // Does a null check on the values determine equality?
-            var nullCheckDeterminesEquality = this.NullCheckDeterminesEquality(a, b, out var areEqual);
+            var nullCheckDeterminesEquality = this.NullCheckDeterminesEquality_AllowValueTypes(a, b, out var areEqual);
             if (nullCheckDeterminesEquality)
             {
                 return areEqual;
@@ -80,6 +85,17 @@ namespace F10Y.L0000
         bool NullCheckDeterminesEquality<T>(T a, T b, out bool areEqual)
             // Restrict to reference types so that we don't accidentally use this on value types (since the "is null" syntax works for value types, this operation is unneccesary).
             where T : class
+            => this.NullCheckDeterminesEquality_AllowValueTypes(a, b, out areEqual);
+
+        /// <summary>
+        /// Returns whether a null check can decide whether two instances are equal,
+        /// and if so, what equality the null check provides.
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Y0000.Documentation.NullCheckDeterminesEquality" path="/summary"/>
+        /// </remarks>
+        bool NullCheckDeterminesEquality_AllowValueTypes<T>(T a, T b, out bool areEqual)
+            // Do not restrict to reference types so that we don't accidentally use this on value types (since the "is null" syntax works for value types, this operation is unneccesary).
         {
             if (a is null)
             {

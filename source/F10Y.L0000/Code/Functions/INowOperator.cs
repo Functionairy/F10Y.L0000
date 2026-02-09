@@ -16,9 +16,9 @@ namespace F10Y.L0000
             return currentYear;
         }
 
-        public int Get_CurrentYear_Utc()
+        public int Get_CurrentYear_UTC()
         {
-            var nowLocal = this.Get_Now_Utc();
+            var nowLocal = this.Get_Now_UTC();
 
             var currentYear = nowLocal.Year;
             return currentYear;
@@ -41,7 +41,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="IDateTimeOperator.Get_Now_Utc"/>
-        public DateTime Get_Now_Utc()
+        public DateTime Get_Now_UTC()
         {
             var output = Instances.DateTimeOperator.Get_Now_Utc();
             return output;
@@ -62,9 +62,9 @@ namespace F10Y.L0000
             return output;
         }
 
-        public DateTime Get_Today_Utc()
+        public DateTime Get_Today_UTC()
         {
-            var now = this.Get_Now_Utc();
+            var now = this.Get_Now_UTC();
 
             var output = now.Date;
             return output;

@@ -13,7 +13,7 @@ namespace F10Y.L0000
         /// If the value is not the default, then run the converter on the value.
         /// Otherwise return the default for the converted type.
         /// </summary>
-        public T2 Convert<T1, T2>(
+        T2 Convert<T1, T2>(
             T1 value,
             Func<T1, T2> converter)
         {
@@ -27,26 +27,55 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IDefaultOperator<T> For<T>()
+        IDefaultOperator<T> For<T>()
             => DefaultOperator<T>.Instance;
 
-        public T Get_Default<T>()
+        T Get_Default<T>()
         {
             T output = default;
             return output;
         }
 
-        public bool Is_Default<T>(
+        bool Is_Default<T>(
             T value,
+            T @default,
             IEqualityComparer<T> equalityComparer)
         {
-            var output = equalityComparer.Equals(value, default);
+            var output = equalityComparer.Equals(value, @default);
             return output;
         }
 
-        public bool Is_Default<T>(T value)
+        bool Is_Default<T>(
+            T value,
+            T @default)
         {
-            var equalityComparer = EqualityComparer<T>.Default;
+            var equalityComparer = Instances.EqualityComparerOperator.Get_Default<T>();
+
+            var output = this.Is_Default(
+                 value,
+                 @default,
+                 equalityComparer);
+
+            return output;
+        }
+
+        bool Is_Default<T>(
+            T value,
+            IEqualityComparer<T> equalityComparer)
+        {
+            var @default = this.Get_Default<T>();
+
+            var output = this.Is_Default(
+                value,
+                @default,
+                equalityComparer);
+
+            return output;
+        }
+
+        bool Is_Default<T>(T value)
+        {
+            var equalityComparer = Instances.EqualityComparerOperator.Get_Default<T>();
 
             var output = this.Is_Default(
                 value,
@@ -55,7 +84,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_NotDefault<T>(T value)
+        bool Is_NotDefault<T>(T value)
         {
             var isDefault = this.Is_Default(value);
 
@@ -63,7 +92,19 @@ namespace F10Y.L0000
             return output;
         }
 
-        public void Verify_NotDefault<T>(T value)
+        bool Is_NotDefault<T>(
+            T value,
+            T @default)
+        {
+            var isDefault = this.Is_Default(
+                value,
+                @default);
+
+            var output = !isDefault;
+            return output;
+        }
+
+        void Verify_NotDefault<T>(T value)
         {
             var is_Default = this.Is_Default(value);
 

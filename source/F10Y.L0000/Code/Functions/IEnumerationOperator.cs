@@ -46,6 +46,10 @@ namespace F10Y.L0000
             where TEnum : Enum
             => Instances.SwitchOperator.Get_DefaultCaseException(value);
 
+        string Get_Name<TEnum>(TEnum @enum)
+            where TEnum : Enum
+            => this.Get_StringRepresentation(@enum);
+
         /// <summary>
         /// 
         /// </summary>

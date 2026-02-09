@@ -12,10 +12,20 @@ namespace F10Y.L0000
         /// Gets a timestamp.
         /// </summary>
         /// <remarks>
-        /// Uses <see cref="INowOperator.Get_Now_Utc"/>.
-        /// (Timestamps are always in UTC.)
+        /// Uses <see cref="INowOperator.Get_Now_UTC"/>.
+        /// (Timestamps are in UTC by default.)
         /// </remarks>
         DateTime Stamp()
-            => Instances.NowOperator.Get_Now_Utc();
+            => Instances.NowOperator.Get_Now_UTC();
+
+        /// <summary>
+        /// Gets a timestamp.
+        /// </summary>
+        /// <remarks>
+        /// Uses <see cref="INowOperator.Get_Now_Local"/>.
+        /// (Timestamps are in UTC by default.)
+        /// </remarks>
+        DateTime Stamp_Local()
+            => Instances.NowOperator.Get_Now_Local();
     }
 }

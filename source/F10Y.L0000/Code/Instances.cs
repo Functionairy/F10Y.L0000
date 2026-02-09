@@ -55,6 +55,7 @@ namespace F10Y.L0000
         public static IFileSystemOperator FileSystemOperator => L0000.FileSystemOperator.Instance;
         public static IFunctionOperator FunctionOperator => L0000.FunctionOperator.Instance;
         public static IFunctions Functions => L0000.Functions.Instance;
+        public static IGuidOperator GuidOperator => L0000.GuidOperator.Instance;
         public static IHashCodes HashCodes => L0000.HashCodes.Instance;
         public static IHashSetOperator HashSetOperator => L0000.HashSetOperator.Instance;
         public static IIndexOperator IndexOperator => L0000.IndexOperator.Instance;

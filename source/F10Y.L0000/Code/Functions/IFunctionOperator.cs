@@ -11,8 +11,23 @@ namespace F10Y.L0000
         Func<TOut> From_ReturnValue<TOut>(TOut returnValue)
             => () => returnValue;
 
+        /// <summary>
+        /// The function that returns its input.
+        /// </summary>
         T Return<T>(T value)
             => value;
+
+        /// <summary>
+        /// The function that, no matter its input, returns false.
+        /// </summary>
+        bool Return_False<T>(T _)
+            => false;
+
+        /// <summary>
+        /// The function that, no matter its input, returns true.
+        /// </summary>
+        bool Return_True<T>(T _)
+            => true;
 
         /// <summary>
 		/// Chooses <see cref="Run_Function_OkIfDefault{T, TOutput}(T, Func{T, TOutput})"/> as the default.

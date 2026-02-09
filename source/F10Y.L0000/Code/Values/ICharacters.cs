@@ -202,6 +202,24 @@ namespace F10Y.L0000
         /// </remarks>
         public char Period => ICharacters.Period_Constant;
 
+
+        /// <inheritdoc cref="CharactersDocumentation.For_Pipe" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Pipe_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="CharactersDocumentation.For_Pipe" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        public const char Pipe_Constant = '|';
+
+        /// <inheritdoc cref="Pipe_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Pipe"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Pipe_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        public char Pipe => ICharacters.Pipe_Constant;
+
+
         /// <inheritdoc cref="CharactersDocumentation.For_Slash" path="/summary"/>
         /// <remarks>
         /// <para>---</para>
