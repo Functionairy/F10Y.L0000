@@ -232,6 +232,13 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Clones child elements.
+        /// </summary>
+        IEnumerable<XElement> Enumerate_ChildElements_Cloned(XElement element)
+            => this.Enumerate_ChildElements(element)
+                .Select(this.Clone);
+
         IEnumerable<XNode> Enumerate_ChildNodes(XElement element)
         {
             var output = element.Nodes();
@@ -440,6 +447,60 @@ namespace F10Y.L0000
         bool Has_Children_Any(XElement element)
             => element.HasElements;
 
+        bool Has_DescendantElement_FirstOrDefault(
+            XElement element,
+            Func<XElement, bool> predicate,
+            out XElement descendant_FirstOrDefault)
+            => Instances.EnumerationOperator.Has_FirstOrDefault(
+                this.Enumerate_DescendantElements(element),
+                predicate,
+                out descendant_FirstOrDefault);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Has_DescendantElement_FirstOrDefault(XElement, Func{XElement, bool}, out XElement)"/> as the default.
+        /// </remarks>
+        bool Has_DescendantElement(
+            XElement element,
+            Func<XElement, bool> predicate,
+            out XElement descendant_FirstOrDefault)
+            => this.Has_DescendantElement_FirstOrDefault(
+                element,
+                predicate,
+                out descendant_FirstOrDefault);
+
+        bool Has_DescendantElement_OfName_FirstOrDefault(
+            XElement element,
+            string descendantElement_Name,
+            out XElement descendant_FirstOrDefault)
+        {
+            var predicate = Instances.XElementOperations.Name_Is(descendantElement_Name);
+
+            var output = this.Has_DescendantElement_FirstOrDefault(
+                element,
+                predicate,
+                out descendant_FirstOrDefault);
+
+            return output;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Has_DescendantElement_OfName_FirstOrDefault(XElement, string, out XElement)"/> as the default.
+        /// </remarks>
+        bool Has_DescendantElement_OfName(
+            XElement element,
+            string descendantElement_Name,
+            out XElement descendant_FirstOrDefault)
+            => this.Has_DescendantElement_OfName_FirstOrDefault(
+                element,
+                descendantElement_Name,
+                out descendant_FirstOrDefault);
+
         bool Has_FirstChildNode(
             XElement element,
             out XNode firstChildNode_OrDefault)
@@ -537,7 +598,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// <inheritdoc cref="Y0000.Documentation.For_Xml.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
-        public XElement Deep_Copy(XElement element)
+        XElement Deep_Copy(XElement element)
         {
             return this.Clone(element);
         }
@@ -545,7 +606,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Loads while preserving insignificant whitespace. (<see cref="LoadOptions.PreserveWhitespace"/>)
         /// </summary>
-        public Task<XElement> Load_PreserveWhitespace(string xmlFilePath)
+        Task<XElement> Load_PreserveWhitespace(string xmlFilePath)
             => this.Load(
                 xmlFilePath,
                 Instances.LoadOptionsSet.PreserveWhitespace);
@@ -553,10 +614,10 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Load_PreserveWhitespace(string)"/> as the default.
         /// </summary>
-        public Task<XElement> Load(string xmlFilePath)
+        Task<XElement> Load(string xmlFilePath)
             => this.Load_PreserveWhitespace(xmlFilePath);
 
-        public async Task<XElement> Load(
+        async Task<XElement> Load(
             string xmlFilePath,
             LoadOptions loadOptions)
         {
@@ -570,7 +631,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XElement Load_PreserveWhitespace_Synchronous(string xmlFilePath)
+        XElement Load_PreserveWhitespace_Synchronous(string xmlFilePath)
             => this.Load_Synchronous(
                 xmlFilePath,
                 Instances.LoadOptionsSet.PreserveWhitespace);
@@ -578,30 +639,30 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Load_PreserveWhitespace_Synchronous(string)"/> as the default.
         /// </summary>
-        public XElement Load_Synchronous(string xmlFilePath)
+        XElement Load_Synchronous(string xmlFilePath)
             => this.Load_PreserveWhitespace_Synchronous(xmlFilePath);
 
         /// <summary>
         /// The default <see cref="LoadOptions.PreserveWhitespace"/> value removes (insignificant) whitespace.
         /// </summary>
-        public XElement Load_WithoutInsignificantWhitespace_Synchronous(string xmlFilePath)
+        XElement Load_WithoutInsignificantWhitespace_Synchronous(string xmlFilePath)
             => XElement.Load(xmlFilePath);
 
-        public XElement Load_Synchronous(
+        XElement Load_Synchronous(
             string xmlFilePath,
             LoadOptions loadOptions)
             => XElement.Load(
                 xmlFilePath,
                 loadOptions);
 
-        public XElement Parse(
+        XElement Parse(
             string text,
             LoadOptions loadOptions)
             => XElement.Parse(
                 text,
                 loadOptions);
 
-        public XElement Parse_PreserveWhitespace(string text)
+        XElement Parse_PreserveWhitespace(string text)
             => this.Parse(
                 text,
                 Instances.LoadOptionsSet.PreserveWhitespace);
@@ -609,13 +670,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Parse_PreserveWhitespace(string)"/> as the default.
         /// </summary>
-        public XElement Parse(string xmlText)
+        XElement Parse(string xmlText)
             => this.Parse_PreserveWhitespace(xmlText);
 
         /// <summary>
         /// Uses <see cref="IXmlWriterSettingsSet.OmitXmlDeclaration_Asynchronous"/>.
         /// </summary>
-        public Task Save_WithoutXmlDeclaration(
+        Task Save_WithoutXmlDeclaration(
             XElement element,
             string xmlFilePath)
             => this.Save(
@@ -626,7 +687,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="IXmlWriterSettingsSet.OmitXmlDeclaration_Fragment_Asynchronous"/>.
         /// </summary>
-        public Task Save_WithoutXmlDeclaration(
+        Task Save_WithoutXmlDeclaration(
             IEnumerable<XElement> elements,
             string xmlFilePath)
             => this.Save(
@@ -637,14 +698,14 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Save_WithoutXmlDeclaration(XElement, string)"/> as the default.
         /// </summary>
-        public Task Save(
+        Task Save(
             XElement element,
             string xmlFilePath)
             => this.Save_WithoutXmlDeclaration(
                 element,
                 xmlFilePath);
 
-        public async Task Save(
+        async Task Save(
             XElement element,
             string xmlFilePath,
             XmlWriterSettings xmlWriterSettings)
@@ -658,7 +719,7 @@ namespace F10Y.L0000
                 Instances.CancellationTokens.None);
         }
 
-        public async Task Save(
+        async Task Save(
             IEnumerable<XElement> elements,
             string xmlFilePath,
             XmlWriterSettings xmlWriterSettings,
@@ -683,7 +744,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="F10Y.L0000.IStrings.NewLine_ForEnvironment"/> as the element separator.
         /// </summary>
-        public Task Save(
+        Task Save(
             IEnumerable<XElement> elements,
             string xmlFilePath,
             XmlWriterSettings xmlWriterSettings)
@@ -697,7 +758,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Save_WithoutXmlDeclaration(IEnumerable{XElement}, string)"/> as the default.
         /// </summary>
-        public Task Save(
+        Task Save(
             IEnumerable<XElement> elements,
             string xmlFilePath)
             => this.Save_WithoutXmlDeclaration(
@@ -707,7 +768,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Save(XElement, string, XmlWriterSettings)"/>.
         /// </summary>
-        public Task To_File(
+        Task To_File(
             XElement element,
             string xmlFilePath,
             XmlWriterSettings xmlWriterSettings)
@@ -719,7 +780,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="IXmlWriterSettingsSet.OmitXmlDeclaration_Synchronous"/>.
         /// </summary>
-        public void Save_Synchronous(
+        void Save_Synchronous(
             XElement element,
             string xmlFilePath)
             => this.Save_Synchronous(
@@ -727,7 +788,7 @@ namespace F10Y.L0000
                 xmlFilePath,
                 Instances.XmlWriterSettingsSet.OmitXmlDeclaration_Synchronous);
 
-        public void Save_Synchronous(
+        void Save_Synchronous(
             XElement element,
             string xmlFilePath,
             XmlWriterSettings xmlWriterSettings)
@@ -742,12 +803,12 @@ namespace F10Y.L0000
         /// <summary>
         /// The default <see cref="SaveOptions.DisableFormatting"/> value reformats (indents) the XML, and adds an XML declaration.
         /// </summary>
-        public void Save_WithReformattingAndAddedDeclaration_Synchronous(
+        void Save_WithReformattingAndAddedDeclaration_Synchronous(
             XElement element,
             string xmlFilePath)
             => element.Save(xmlFilePath);
 
-        public void Save_Synchronous(
+        void Save_Synchronous(
             XElement element,
             string xmlFilePath,
             SaveOptions saveOptions)
@@ -759,7 +820,7 @@ namespace F10Y.L0000
         /// Acquires the attribute and sets its value.
         /// (No exception is thrown if the attribute does not exist.)
         /// </summary>
-        public XAttribute Set_Attribute_Value_Acquire(
+        XAttribute Set_Attribute_Value_Acquire(
             XElement element,
             string attributeName,
             string attributeValue)
@@ -779,7 +840,7 @@ namespace F10Y.L0000
         /// Get the attribute and sets its value.
         /// (An exception is thrown if the attribute does not exist.)
         /// </summary>
-        public XAttribute Set_Attribute_Value_Get(
+        XAttribute Set_Attribute_Value_Get(
             XElement element,
             string attributeName,
             string attributeValue)
@@ -798,7 +859,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Set_Attribute_Value_Acquire(XElement, string, string)"/> as the default.
         /// </summary>
-        public XAttribute Set_Attribute_Value(
+        XAttribute Set_Attribute_Value(
             XElement element,
             string attributeName,
             string attributeValue)
@@ -807,17 +868,17 @@ namespace F10Y.L0000
                 attributeName,
                 attributeValue);
 
-        public void Set_Name(
+        void Set_Name(
             XElement element,
             string name)
             => element.Name = name;
 
-        public void Set_Value(
+        void Set_Value(
             XElement element,
             string value)
             => element.Value = value;
 
-        public void Set_Value<TValue>(
+        void Set_Value<TValue>(
             XElement element,
             TValue value,
             Func<TValue, string> converter)
@@ -829,7 +890,7 @@ namespace F10Y.L0000
                 value_AsString);
         }
 
-        public Action<XElement> Get_Set_Attribute_Value(
+        Action<XElement> Get_Set_Attribute_Value(
             string attributeName,
             string attributeValue)
             => element => this.Set_Attribute_Value(
@@ -841,13 +902,13 @@ namespace F10Y.L0000
         /// Gets the inner text of the element, without any XML tags.
         /// To get the inner XML of the element (text including XML tags), use <see cref="Get_InnerXml(XElement)"/>.
         /// </summary>
-        public string Get_Value(XElement element)
+        string Get_Value(XElement element)
         {
             var output = element.Value;
             return output;
         }
 
-        public bool Get_Value_AsBoolean(XElement element)
+        bool Get_Value_AsBoolean(XElement element)
         {
             var value = this.Get_Value(element);
 
@@ -855,7 +916,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public Version Get_Value_AsVersion(XElement element)
+        Version Get_Value_AsVersion(XElement element)
         {
             var value = this.Get_Value(element);
 
@@ -866,13 +927,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Overload of <see cref="Get_Value(XElement)"/>.
         /// </summary>
-        public string Get_Value_AsString(XElement element)
+        string Get_Value_AsString(XElement element)
             => this.Get_Value(element);
 
         /// <summary>
         /// Chooses <see cref="Get_ChildElement_ByLocalName(XElement, string)"/> as the default.
         /// </summary>
-        public XElement Get_ChildElement(
+        XElement Get_ChildElement(
             XElement element,
             string childName)
         {
@@ -883,7 +944,15 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XElement Get_ChildElement_ByLocalName(
+        XNode[] Get_ChildNodes(XElement element)
+        {
+            var output = this.Enumerate_ChildNodes(element)
+                .ToArray();
+
+            return output;
+        }
+
+        XElement Get_ChildElement_ByLocalName(
             XElement element,
             string childName)
         {
@@ -894,7 +963,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public TNode[] Get_DescendantNodesOfType<TNode>(XElement element)
+        TNode[] Get_DescendantNodesOfType<TNode>(XElement element)
             where TNode : XNode
         {
             var output = this.Enumerate_DescendantNodesOfType<TNode>(element)
@@ -903,7 +972,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XText[] Get_DescendantTextNodes(XElement element)
+        XText[] Get_DescendantTextNodes(XElement element)
         {
             var output = this.Enumerate_DescendantTextNodes(element)
                 .ToArray();
@@ -914,7 +983,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Get_Value(XElement)"/>
         /// </summary>
-        public string Get_InnerText(XElement element)
+        string Get_InnerText(XElement element)
             => this.Get_Value(element);
 
         /// <summary>
@@ -924,7 +993,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Source: https://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
         /// </remarks>
-        public string Get_InnerXml(XElement element)
+        string Get_InnerXml(XElement element)
         {
             using var reader = element.CreateReader();
 
@@ -937,14 +1006,14 @@ namespace F10Y.L0000
         /// <summary>
         /// A quality-of-life overload for <see cref="Save_WithoutXmlDeclaration(XElement, string)"/>.
         /// </summary>
-        public Task To_File_WithoutXmlDeclaration(
+        Task To_File_WithoutXmlDeclaration(
             XElement element,
             string xmlFilePath)
             => this.Save_WithoutXmlDeclaration(
                 element,
                 xmlFilePath);
 
-        public string To_Text(
+        string To_Text(
             XElement element,
             XmlWriterSettings xmlWriterSettings)
         {
@@ -959,7 +1028,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string To_Text_WithoutXmlDeclaration(XElement element)
+        string To_Text_WithoutXmlDeclaration(XElement element)
             => this.To_Text(
                 element,
                 Instances.XmlWriterSettingsSet.OmitXmlDeclaration_Synchronous);
@@ -967,10 +1036,10 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="To_Text_WithoutXmlDeclaration(XElement)"/> as the default.
         /// </summary>
-        public string To_Text(XElement element)
+        string To_Text(XElement element)
             => this.To_Text_WithoutXmlDeclaration(element);
 
-        public string[] To_Text_AsLines(
+        string[] To_Text_AsLines(
             XElement element,
             XmlWriterSettings xmlWriterSettings)
         {
@@ -985,7 +1054,7 @@ namespace F10Y.L0000
             return lines;
         }
 
-        public string[] To_Text_AsLines_WithoutXmlDeclaration(XElement element)
+        string[] To_Text_AsLines_WithoutXmlDeclaration(XElement element)
             => this.To_Text_AsLines(
                 element,
                 Instances.XmlWriterSettingsSet.OmitXmlDeclaration_Synchronous);
@@ -993,16 +1062,16 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="To_Text_AsLines_WithoutXmlDeclaration(XElement)"/> as the default.
         /// </summary>
-        public string[] To_Text_AsLines(XElement element)
+        string[] To_Text_AsLines(XElement element)
             => this.To_Text_AsLines_WithoutXmlDeclaration(element);
 
-        public string To_String(XElement xElement)
+        string To_String(XElement xElement)
             => xElement.ToString();
 
-        public Func<XElement, bool> Get_Is_Name(string elementName)
+        Func<XElement, bool> Get_Is_Name(string elementName)
             => this.Get_Is_LocalName(elementName);
 
-        public Func<XElement, bool> Get_Is_LocalName(string elementName)
+        Func<XElement, bool> Get_Is_LocalName(string elementName)
             => element => this.Is_LocalName(
                 element,
                 elementName);

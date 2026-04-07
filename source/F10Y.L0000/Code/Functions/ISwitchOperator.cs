@@ -58,11 +58,19 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="IEnumerationOperator.Get_UnexpectedEnumerationValueException{TEnum}(TEnum)"/>
-        public Exception Get_UnexpectedEnumerationValueException<TEnum>(TEnum unexpectedValue)
+        Exception Get_UnexpectedEnumerationValueException<TEnum>(TEnum unexpectedValue)
             where TEnum : Enum
         {
             var output = Instances.EnumerationOperator.Get_UnexpectedEnumerationValueException(unexpectedValue);
             return output;
+        }
+
+        ArgumentException Get_UnrecognizedSwitchTypeExpression<T>(T value)
+        {
+            var typeName = Instances.TypeOperator.Get_TypeNameOf(value);
+
+            var exception = new ArgumentException($"{typeName} - Unrecognized type.");
+            return exception;
         }
     }
 }

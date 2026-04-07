@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using F10Y.T0002;
 
 
@@ -104,6 +104,38 @@ namespace F10Y.L0000
 
         Array Get_Values_AsArray(Type enuemrationType)
             => Enum.GetValues(enuemrationType);
+
+        bool Has_FirstOrDefault<T>(
+            IEnumerable<T> enumerable,
+            Func<T, bool> predicate,
+            T @default,
+            IEqualityComparer<T> equalityComparer,
+            out T first_OrDefault)
+        {
+            first_OrDefault = enumerable
+                .Where(predicate)
+                .FirstOrDefault();
+
+            var output = Instances.DefaultOperator.Is_Default(
+                first_OrDefault,
+                @default,
+                equalityComparer);
+
+            return output;
+        }
+
+        bool Has_FirstOrDefault<T>(
+            IEnumerable<T> enumerable,
+            Func<T, bool> predicate,
+            out T first_OrDefault)
+        {
+            first_OrDefault = enumerable
+                .Where(predicate)
+                .FirstOrDefault();
+
+            var output = Instances.DefaultOperator.Is_NotDefault(first_OrDefault);
+            return output;
+        }
 
         TOut Switch_OnValue<TEnum, TOut>(
             TEnum value,

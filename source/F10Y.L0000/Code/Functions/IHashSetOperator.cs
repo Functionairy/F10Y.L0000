@@ -175,7 +175,7 @@ namespace F10Y.L0000
             // The hashset's remove method is idempotent (returns false if the element was not present).
             => this.Remove_Range(hash, itemsToRemove);
 
-        T[] To_Arary<T>(HashSet<T> hash)
+        T[] To_Array<T>(HashSet<T> hash)
             => hash.ToArray();
     }
 }

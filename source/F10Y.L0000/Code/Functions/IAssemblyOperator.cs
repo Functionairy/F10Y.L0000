@@ -27,9 +27,14 @@ namespace F10Y.L0000
 
         /// <inheritdoc cref="Enumerate_AssemblyFilePaths_AssumeAllDlls(string)"/>
         IEnumerable<string> Enumerate_AssemblyFilePaths(string directoryPath)
-        {
-            return this.Enumerate_AssemblyFilePaths_AssumeAllDlls(directoryPath);
-        }
+            => this.Enumerate_AssemblyFilePaths_AssumeAllDlls(directoryPath);
+
+        IEnumerable<CustomAttributeData> Enumerate_CustomAttributes(Assembly assembly)
+            => assembly.CustomAttributes;
+
+        CustomAttributeData[] Get_CustomAttributes(Assembly assembly)
+            => this.Enumerate_CustomAttributes(assembly)
+                .Now();
 
         IEnumerable<string> Enumerate_AssemblyFilePaths_InDirectoryOfAssembly(string assemblyFilePath)
         {
@@ -40,12 +45,10 @@ namespace F10Y.L0000
         }
 
         /// <summary>
-        /// Get all DLL assembly files in the directory assuming all DLL files are assembly files.
+        /// Get all .NET assembly files in the directory, assuming all DLL files are .NET assembly files.
         /// </summary>
         IEnumerable<string> Enumerate_AssemblyFilePaths_AssumeAllDlls(string directoryPath)
-        {
-            return Instances.FileSystemOperator.Enumerate_DllFiles(directoryPath);
-        }
+            => Instances.FileSystemOperator.Enumerate_DllFiles(directoryPath);
 
         IEnumerable<MemberInfo> Enumerate_Members(Assembly assembly)
         {
@@ -64,8 +67,36 @@ namespace F10Y.L0000
         AssemblyName[] Get_AssemblyNames_OfReferencedAssemblies(Assembly assembly)
             => assembly.GetReferencedAssemblies();
 
-        string Get_FullName(Assembly assembly)
+        AssemblyName Get_AssemblyName(Assembly assembly)
+            => assembly.GetName();
+
+        /// <summary>
+        /// Returns "F10Y.L0000, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+        /// </summary>
+        string Get_Name_Full(Assembly assembly)
             => assembly.FullName;
+
+        /// <summary>
+        /// Returns "F10Y.L0000".
+        /// </summary>
+        string Get_Name_Simple(Assembly assembly)
+        {
+            var assemblyName = this.Get_AssemblyName(assembly);
+
+            var output = Instances.AssemblyNameOperator.Get_Name_Simple(assemblyName);
+            return output;
+        }
+
+        /// <inheritdoc cref="Get_Name_Simple(Assembly)" path="/summary"/>
+        /// <remarks>
+        /// Chooses <see cref="Get_Name_Simple(Assembly)"/> as the default.
+        /// </remarks>
+        string Get_Name(Assembly assembly)
+            => this.Get_Name_Simple(assembly);
+
+        /// <inheritdoc cref="Get_Name_Full(Assembly)"/>
+        string Get_FullName(Assembly assembly)
+            => this.Get_Name_Full(assembly);
 
         Assembly[] Get_ReferencedAssemblies_Direct(Assembly assembly)
         {
@@ -133,6 +164,7 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <inheritdoc cref="Enumerate_AssemblyFilePaths(string)"/>
         string[] Get_AssemblyFilePaths(string directoryPath)
             => this.Enumerate_AssemblyFilePaths(directoryPath)
                 .ToArray();
@@ -252,5 +284,16 @@ namespace F10Y.L0000
         /// </remarks>
         string Get_FilePath(Assembly assembly)
             => assembly.Location;
+
+        IEnumerable<TypeInfo> Where_Types(
+            Assembly assembly,
+            Func<TypeInfo, bool> typeSelector)
+        {
+            var output = assembly.DefinedTypes
+                .Where(typeSelector)
+                ;
+
+            return output;
+        }
     }
 }

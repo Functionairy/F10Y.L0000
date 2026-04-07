@@ -8,6 +8,7 @@ namespace F10Y.L0000
         public static IActionOperator ActionOperator => L0000.ActionOperator.Instance;
         public static IArrayOperator ArrayOperator => L0000.ArrayOperator.Instance;
         public static IAssemblyOperator AssemblyOperator => L0000.AssemblyOperator.Instance;
+        public static IAssemblyNameOperator AssemblyNameOperator => L0000.AssemblyNameOperator.Instance;
         public static IAttributeOperator AttributeOperator => L0000.AttributeOperator.Instance;
         public static IBooleanOperator BooleanOperator => L0000.BooleanOperator.Instance;
         public static IByteOperator ByteOperator => L0000.ByteOperator.Instance;
@@ -37,6 +38,7 @@ namespace F10Y.L0000
         public static IEnumerationOperator EnumerationOperator => L0000.EnumerationOperator.Instance;
         public static IEnvironmentOperator EnvironmentOperator => L0000.EnvironmentOperator.Instance;
         public static IEqualityComparerOperator EqualityComparerOperator => L0000.EqualityComparerOperator.Instance;
+        public static IEqualityComparers EqualityComparers => L0000.EqualityComparers.Instance;
         public static IEqualityOperator EqualityOperator => L0000.EqualityOperator.Instance;
         public static IExceptionMessageMasks ExceptionMessageMasks => L0000.ExceptionMessageMasks.Instance;
         public static IExceptionMessageOperator ExceptionMessageOperator => L0000.ExceptionMessageOperator.Instance;

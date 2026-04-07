@@ -21,6 +21,9 @@ namespace F10Y.L0000
         Task Delay_Infinite()
             => Task.Delay(Timeout.Infinite);
 
+        Task<T> From_Result<T>(T result)
+            => Task.FromResult(result);
+
         /// <summary>
         /// Calls <see cref="Delay(int)"/>.
         /// </summary>
@@ -74,6 +77,25 @@ namespace F10Y.L0000
                 tasks.Item2.Result,
                 tasks.Item3.Result,
                 tasks.Item4.Result);
+
+            return output;
+        }
+
+        async Task<(T1, T2, T3, T4, T5)> When_All<T1, T2, T3, T4, T5>((Task<T1>, Task<T2>, Task<T3>, Task<T4>, Task<T5>) tasks)
+        {
+            await this.When_All(
+                tasks.Item1,
+                tasks.Item2,
+                tasks.Item3,
+                tasks.Item4,
+                tasks.Item5);
+
+            var output = (
+                tasks.Item1.Result,
+                tasks.Item2.Result,
+                tasks.Item3.Result,
+                tasks.Item4.Result,
+                tasks.Item5.Result);
 
             return output;
         }

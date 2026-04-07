@@ -48,7 +48,7 @@ namespace F10Y.L0000
         /// <summary>
         /// If there is an expandable list of values for each key, add the value to either a new list (if the key does not already exist), or the existing list.
         /// </summary>
-        public void Add_Value<TKey, TValue>(
+        void Add_Value<TKey, TValue>(
             IDictionary<TKey, List<TValue>> dictionary,
             TKey key,
             TValue value)
@@ -63,6 +63,12 @@ namespace F10Y.L0000
 
             list.Add(value);
         }
+
+        void Add_Value<TKey, TValue>(
+            IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            TValue value)
+            => dictionary.Add(key, value);
 
         /// <summary>
         /// 
@@ -186,6 +192,21 @@ namespace F10Y.L0000
             TKey key)
             => dictionary.Remove(key);
 
+        /// <summary>
+        /// Allows specifing that the values of an enumerable are the keys of the dictionary
+        /// (where the values of the dictionary are some transformation of the values of the enumerable).
+        /// </summary>
+        TValue Key_Selector<TValue>(TValue value)
+            => value;
+
+        void Set<TKey, TValue>(
+            IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            TValue value)
+        {
+            dictionary[key] = value;
+        }
+
         Dictionary<TKey, TElement[]> To_Dictionary<TKey, TElement>(IEnumerable<IGrouping<TKey, TElement>> groups)
             => groups.ToDictionary(
                 group => group.Key,
@@ -197,9 +218,26 @@ namespace F10Y.L0000
                 pair => pair.Value);
 
         Dictionary<TKey, TValue> To_Dictionary<TKey, TValue>(
+            IEnumerable<KeyValuePair<TKey, TValue>> source,
+            IEqualityComparer<TKey> key_EqualityComparer)
+            => source
+                .ToDictionary(
+                    pair => pair.Key,
+                    pair => pair.Value,
+                    key_EqualityComparer);
+
+        Dictionary<TKey, TValue> To_Dictionary<TKey, TValue>(
             IEnumerable<TValue> values,
             Func<TValue, TKey> key_Provider)
            => values.ToDictionary(key_Provider);
+
+        Dictionary<TKey, TValue> To_Dictionary<T, TKey, TValue>(
+            IEnumerable<T> values,
+            Func<T, TKey> key_Provider,
+            Func<T, TValue> value_Provider)
+           => values.ToDictionary(
+               key_Provider,
+               value_Provider);
 
         Dictionary<TKey, TValue[]> To_Dictionary_OfArrays<TKey, TValue, TValueList>(IDictionary<TKey, TValueList> valueLists_ByKey)
             where TValueList : IList<TValue>

@@ -10,8 +10,20 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IEnumerableOperator
     {
-        bool Any<T>(IEnumerable<T> enumerable)
+        bool Any_DisallowNull<T>(IEnumerable<T> enumerable)
             => enumerable.Any();
+
+        bool Any_AllowNull<T>(IEnumerable<T> enumerable)
+            => enumerable?.Any() ?? false;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Any_AllowNull{T}(IEnumerable{T})"/> as the default.
+        /// </remarks>
+        bool Any<T>(IEnumerable<T> enumerable)
+            => this.Any_AllowNull(enumerable);
 
         IEnumerable<T> Append<T>(
             IEnumerable<T> enumerable,
@@ -504,6 +516,20 @@ namespace F10Y.L0000
 
         IReadOnlyCollection<T> To_ReadOnlyCollection<T>(IEnumerable<T> items)
             => items.ToArray();
+
+        IEnumerable<T> Union<T>(
+            IEnumerable<T> a,
+            IEnumerable<T> b,
+            IEqualityComparer<T> equalityComparer)
+            => a.Union(
+                b,
+                equalityComparer);
+
+        IEnumerable<T> Union<T>(
+            IEnumerable<T> a,
+            IEnumerable<T> b)
+            => this.Union(a, b,
+                Instances.EqualityComparers.For<T>().Default);
 
         IEnumerable<(T, T)> Zip<T>(
             IEnumerable<T> a,

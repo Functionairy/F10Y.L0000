@@ -20,6 +20,19 @@ namespace F10Y.L0000
         // Need an attribute that explicitly states what this value is.
         T Return<T>(T value)
             => value;
+
+        /// <summary>
+        /// For a value of a type, ignore the value, and return the default value for that type.
+        /// (Null for references types, initial state for value types.)
+        /// </summary>
+        T Return_Default<T>(T value)
+            => default;
+
+        /// <summary>
+        /// For a value of a type, ignore the value, and return false.
+        /// </summary>
+        bool Return_False<T>(T value)
+            => false;
     }
 
 

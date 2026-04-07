@@ -225,6 +225,45 @@ namespace F10Y.L0000
 
         Task Write_Lines(
             string textFilePath,
+            IEnumerable<string> lines,
+            string lineEnding)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            var text = Instances.StringOperator.Join(
+                lineEnding,
+                lines);
+
+            return File.WriteAllTextAsync(
+                textFilePath,
+                text);
+        }
+
+        async Task Write_Lines_WithByteOrderMark(
+            string textFilePath,
+            IEnumerable<string> lines,
+            string lineEnding)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            var text = Instances.StringOperator.Join(
+                lineEnding,
+                lines);
+
+            using var writer = Instances.StreamWriterOperator.New_WithByteOrderMark(textFilePath);
+
+            await writer.WriteAsync(text);
+        }
+
+        Task Write_Lines(
+            string textFilePath,
+            params string[] lines)
+            => this.Write_Lines(
+                textFilePath,
+                lines.AsEnumerable());
+
+        Task Write_Lines(
+            string textFilePath,
             Encoding encoding,
             IEnumerable<string> lines)
         {
@@ -236,6 +275,7 @@ namespace F10Y.L0000
                 encoding);
         }
 
+        /// <inheritdoc cref="F10Y.L0000.IFileOperator.Write_Lines(string, IEnumerable{string})"/>
         Task Write_Lines(
             string textFilePath,
             Encoding encoding,
@@ -244,6 +284,32 @@ namespace F10Y.L0000
                 textFilePath,
                 encoding,
                 lines.AsEnumerable());
+
+        /// <inheritdoc cref="F10Y.L0000.IFileOperator.Write_Lines(string, IEnumerable{string})"/>
+        void Write_Lines_Synchronous(
+            string textFilePath,
+            IEnumerable<string> lines)
+        {
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(textFilePath);
+
+            var text = Instances.StringOperator.Join(
+                Instances.Characters.NewLine,
+                lines);
+
+            File.WriteAllText(
+                textFilePath,
+                text);
+        }
+
+        /// <inheritdoc cref="F10Y.L0000.IFileOperator.Write_Lines(string, IEnumerable{string})"/>
+        void Write_Lines_Synchronous(
+            string textFilePath,
+            params string[] lines)
+        {
+            this.Write_Lines_Synchronous(
+                textFilePath,
+                lines.AsEnumerable());
+        }
 
         Task Write_Text(
             string textFilePath,

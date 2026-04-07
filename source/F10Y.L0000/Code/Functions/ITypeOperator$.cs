@@ -7,7 +7,8 @@ using F10Y.T0002;
 namespace F10Y.L0000
 {
     [FunctionsMarker]
-    public partial interface ITypeOperator
+    public partial interface ITypeOperator :
+        Heritable.ITypeOperator
     {
         bool Are_Equal(
             Type a,
@@ -22,6 +23,9 @@ namespace F10Y.L0000
             var output = type.Assembly;
             return output;
         }
+
+        string Get_FullName(Type type)
+            => type.FullName;
 
         /// <summary>
         /// Note, includes the generic parameter count. Example: ExampleClass01`1.
@@ -69,6 +73,12 @@ namespace F10Y.L0000
         string Get_TypeName_Full(Type type)
         {
             var output = Instances.TypeNameOperator.Get_TypeName_Full(type);
+            return output;
+        }
+
+        string Get_TypeName_Short(Type type)
+        {
+            var output = Instances.TypeNameOperator.Get_TypeName_Short(type);
             return output;
         }
 
@@ -122,6 +132,9 @@ namespace F10Y.L0000
             var output = Instances.TypeNameOperator.Get_TypeNameOf(instance);
             return output;
         }
+
+        string Get_TypeNameOf<T>(T instance)
+            => Instances.TypeNameOperator.Get_TypeNameOf(instance);
 
         /// <summary>
 		/// Gets the type of the <typeparamref name="T"/>.
@@ -546,6 +559,11 @@ namespace F10Y.L0000
             var output = this.TypeCheckDeterminesEquality_Instance(a, b, out typesAreEqual);
             return output;
         }
+
+        bool TypeName_Short_Is(
+            Type type,
+            string typeName_Short)
+            => typeName_Short == this.Get_TypeName_Short(type);
 
         void Verify_Is_DeclaredType<T>(
             T instance,

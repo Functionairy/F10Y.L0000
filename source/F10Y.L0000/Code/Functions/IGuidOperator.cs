@@ -35,6 +35,10 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <inheritdoc cref="New_From(Random)"/>
+        Guid New(Random random)
+            => this.New_From(random);
+
         Guid Parse(string guidString)
         {
             var output = Guid.Parse(guidString);

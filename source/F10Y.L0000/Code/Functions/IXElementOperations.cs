@@ -9,7 +9,7 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IXElementOperations
     {
-        public Func<XElement, bool> Has_AttributeWithValue(
+        Func<XElement, bool> Has_AttributeWithValue(
             string attributeName,
             string attributeValue)
             => element => Instances.XElementOperator.Has_AttributeWithValue(
@@ -17,12 +17,15 @@ namespace F10Y.L0000
                 attributeName,
                 attributeValue);
 
-        public Func<XElement, bool> Is_Named_Local(string elementName)
+        Func<XElement, bool> Is_Named_Local(string elementName)
             => element => Instances.XElementOperator.Is_LocalName(
                 element,
                 elementName);
 
-        public Func<XElement, bool> Is_Named(string elementName)
+        Func<XElement, bool> Is_Named(string elementName)
             => this.Is_Named_Local(elementName);
+
+        Func<XElement, bool> Name_Is(string element_Name)
+            => this.Is_Named_Local(element_Name);
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Runtime.CompilerServices;
 using F10Y.T0002;
 using F10Y.T0011;
 
@@ -33,6 +33,12 @@ namespace F10Y.L0000
                 this.Add(list, item);
             }
         }
+
+        List<T> From<T>(params T[] values)
+            => this.From(values.AsEnumerable());
+
+        List<T> From<T>(IEnumerable<T> values)
+            => new List<T>(values);
 
         int Get_Count<T>(IList<T> list)
             => list.Count;
@@ -107,6 +113,12 @@ namespace F10Y.L0000
 
         List<T> New<T>(int capacity_Initial)
             => new List<T>(capacity_Initial);
+
+        List<T> New<T>(IEnumerable<T> items)
+            => new List<T>(items);
+
+        List<T> New<T>(params T[] items)
+            => new List<T>(items);
 
         T[] To_Array<T>(IList<T> list)
             => list.ToArray();

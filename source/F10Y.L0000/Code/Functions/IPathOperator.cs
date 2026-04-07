@@ -74,6 +74,12 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Quality-of-life overload for <see cref="Get_DirectoryName(string)"/>.
+        /// </summary>
+        string Get_DirectoryName_FromDirectoryPath(string directoryPath)
+            => this.Get_DirectoryName(directoryPath);
+
         string Get_DirectoryPath(
             string baseDirectoryPath,
             string relativeDirectoryPath)

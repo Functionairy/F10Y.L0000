@@ -12,6 +12,15 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IFileSystemOperator
     {
+        void Copy_File(
+            string sourceFilePath,
+            string destinationFilePath,
+            bool overwrite = IValues.Overwrite_Default_Constant)
+            => Instances.FileOperator.Copy_File(
+                sourceFilePath,
+                destinationFilePath,
+                overwrite);
+
         /// <summary>
         /// Creates a directory idempotently (meaning there is no problem with issuing the command multiple times).
         /// </summary>

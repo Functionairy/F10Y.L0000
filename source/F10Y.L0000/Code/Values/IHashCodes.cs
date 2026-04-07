@@ -23,7 +23,7 @@ namespace F10Y.L0000
         /// However, the <see cref="HashCode.Combine{T1}(T1)"/> method does <strong>not</strong>; instead, it provides a value that varies with each run.
         /// </para>
         /// </remarks>
-        int For_Null_Fixed => 0;
+        int For_Null_Fixed => this.Zero;
 
         int For_Null_Variable => HashCode.Combine<object>(null);
 
@@ -34,5 +34,7 @@ namespace F10Y.L0000
         /// Choosees <see cref="For_Null_Fixed"/> as the default.
         /// </remarks>
         int For_Null => For_Null_Fixed;
+
+        int Zero => 0;
     }
 }

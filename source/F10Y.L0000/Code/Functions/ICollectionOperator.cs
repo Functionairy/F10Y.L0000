@@ -25,5 +25,8 @@ namespace F10Y.L0000
 
         bool Has_Multiple<T>(ICollection<T> collection)
             => collection.Count > 1;
+
+        bool Has_Single<T>(ICollection<T> collection)
+            => collection.Count == 1;
     }
 }

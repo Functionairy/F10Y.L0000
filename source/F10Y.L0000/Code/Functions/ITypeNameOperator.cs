@@ -145,6 +145,10 @@ namespace F10Y.L0000
         string Get_NameOf<T>(T value)
             => nameof(T);
 
+        /// <inheritdoc cref="ITypeOperator.Get_NamespacedTypeName(Type)"/>
+        string Get_NamespacedTypeName(Type type)
+            => TypeOperator.Instance.Get_NamespacedTypeName(type);
+
         bool Is_TypeName<T>(
             string typeName,
             out string typeName_OfTypeParameter)
