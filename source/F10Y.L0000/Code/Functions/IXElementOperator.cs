@@ -102,12 +102,19 @@ namespace F10Y.L0000
             XElement element,
             string attributeName)
         {
-            var attribute = Instances.XAttributeOperator.New_Attribute(attributeName);
+            var attribute = Instances.XAttributeOperator.Create(attributeName);
 
-            element.Add(attribute);
+            this.Add_Attribute(
+                element,
+                attribute);
 
             return attribute;
         }
+
+        void Add_Attribute(
+            XElement element,
+            XAttribute attribute)
+            => element.Add(attribute);
 
         XAttribute Add_Attribute(
             XElement element,

@@ -5,16 +5,22 @@ namespace F10Y.L0000
 {
     public partial interface ICharacters
     {
+        /// <inheritdoc cref="CloseBrace"/>
+        char Brace_Close => this.CloseBrace;
+
+        /// <inheritdoc cref="OpenBrace"/>
+        char Brace_Open => this.OpenBrace;
+
         /// <inheritdoc cref="CloseBracket"/>
-        public char Bracket_Close => this.CloseBracket;
+        char Bracket_Close => this.CloseBracket;
 
         /// <inheritdoc cref="OpenBracket"/>
-        public char Bracket_Open => this.OpenBracket;
+        char Bracket_Open => this.OpenBracket;
 
         /// <inheritdoc cref="QuotationMark"/>
-        public char Quote => this.QuotationMark;
+        char Quote => this.QuotationMark;
 
         /// <inheritdoc cref="QuotationMark"/>
-        public char QuotationMark_Double => this.QuotationMark;
+        char QuotationMark_Double => this.QuotationMark;
     }
 }

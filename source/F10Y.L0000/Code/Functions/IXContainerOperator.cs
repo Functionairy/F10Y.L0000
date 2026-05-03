@@ -229,6 +229,17 @@ namespace F10Y.L0000
                 container,
                 childName);
 
+        XElement Create_Child_XElement(
+            XContainer container,
+            string child_Name)
+        {
+            var child = Instances.XElementOperator.Create_Element(child_Name);
+
+            container.Add(child);
+
+            return child;
+        }
+
         TValue Get_Child_Value<TValue>(
             XContainer container,
             string childName,

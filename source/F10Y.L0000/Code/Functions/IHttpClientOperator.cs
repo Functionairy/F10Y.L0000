@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -11,15 +10,14 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IHttpClientOperator
     {
-        public async Task<HttpResponseMessage> Get_Reponse(
+        async Task<HttpResponseMessage> Get_Response(
+            HttpClient client,
             string url,
             bool ensureSuccessStatusCode = IValues.EnsureSuccessStatusCode_Default_Constant)
         {
-            using var client = new HttpClient();
-
             var response = await client.GetAsync(url);
 
-            if(ensureSuccessStatusCode)
+            if (ensureSuccessStatusCode)
             {
                 response.EnsureSuccessStatusCode();
             }
@@ -27,11 +25,29 @@ namespace F10Y.L0000
             return response;
         }
 
-        public async Task<string> Get_ReponseContent_AsString(
+        /// <summary>
+        /// Note: try to reuse the <see cref="HttpClient"/> (use <see cref="Get_Response(HttpClient, string, bool)"/>).
+        /// This prevents TCP socket exhaustion.
+        /// </summary>
+        async Task<HttpResponseMessage> Get_Response(
             string url,
             bool ensureSuccessStatusCode = IValues.EnsureSuccessStatusCode_Default_Constant)
         {
-            using var response = await this.Get_Reponse(
+            using var client = new HttpClient();
+
+            var output = await this.Get_Response(
+                client,
+                url,
+                ensureSuccessStatusCode);
+
+            return output;
+        }
+
+        async Task<string> Get_ResponseContent_AsString(
+            string url,
+            bool ensureSuccessStatusCode = IValues.EnsureSuccessStatusCode_Default_Constant)
+        {
+            using var response = await this.Get_Response(
                 url,
                 ensureSuccessStatusCode);
 

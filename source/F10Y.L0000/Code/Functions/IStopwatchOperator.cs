@@ -11,32 +11,32 @@ namespace F10Y.L0000
     public partial interface IStopwatchOperator
     {
         /// <inheritdoc cref="Stopwatch.Frequency"/>
-        public long Get_Frequency()
+        long Get_Frequency()
             => Instances.Values.Stopwatch_Frequency;
 
-        public bool Is_HighResolution()
+        bool Is_HighResolution()
             => Instances.Values.Stopwatch_Is_HighResolution;
 
         /// <summary>
         /// Gets a new stopwatch that has not been started.
         /// </summary>
-        public Stopwatch New_Stopwatch()
+        Stopwatch New_Stopwatch()
             => new Stopwatch();
 
         /// <summary>
         /// Gets a stopwatch that has been started.
         /// </summary>
-        public Stopwatch New_Stopwatch_Started()
+        Stopwatch New_Stopwatch_Started()
             => Stopwatch.StartNew();
 
         /// <inheritdoc cref="Stopwatch.Elapsed"/>
         /// <remarks>
         /// Note: does not stop the stopwatch.
         /// </remarks>
-        public TimeSpan Get_Elapsed(Stopwatch stopwatch)
+        TimeSpan Get_Elapsed(Stopwatch stopwatch)
             => stopwatch.Elapsed;
 
-        public TimeSpan Get_Elapsed_WithStop(Stopwatch stopwatch)
+        TimeSpan Get_Elapsed_WithStop(Stopwatch stopwatch)
         {
             this.Stop_Only(stopwatch);
 
@@ -45,40 +45,47 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Stopwatch.ElapsedMilliseconds"/>
-        public long Get_Elapsed_Milliseconds(Stopwatch stopwatch)
+        long Get_Elapsed_Milliseconds(Stopwatch stopwatch)
             => stopwatch.ElapsedMilliseconds;
 
         /// <inheritdoc cref="Stopwatch.ElapsedTicks"/>
-        public long Get_Elapsed_Ticks(Stopwatch stopwatch)
+        long Get_Elapsed_Ticks(Stopwatch stopwatch)
             => stopwatch.ElapsedTicks;
 
         /// <inheritdoc cref="Stopwatch.IsRunning"/>
-        public bool Is_Running(Stopwatch stopwatch)
+        bool Is_Running(Stopwatch stopwatch)
             => stopwatch.IsRunning;
 
         /// <inheritdoc cref="Stopwatch.Reset"/>
-        public void Reset(Stopwatch stopwatch)
+        void Reset(Stopwatch stopwatch)
             => stopwatch.Reset();
 
         /// <inheritdoc cref="Stopwatch.Restart"/>
-        public void Restart(Stopwatch stopwatch)
+        void Restart(Stopwatch stopwatch)
             => stopwatch.Restart();
 
+        /// <inheritdoc cref="New_Stopwatch_Started"/>
+        /// <remarks>
+        /// Quality-of-life overload for <see cref="New_Stopwatch_Started"/>.
+        /// </remarks>
+        Stopwatch Start()
+            => this.New_Stopwatch_Started();
+
         /// <inheritdoc cref="Stopwatch.Start"/>
-        public void Start(Stopwatch stopwatch)
+        void Start(Stopwatch stopwatch)
             => stopwatch.Start();
 
         /// <inheritdoc cref="Stopwatch.Stop"/>
-        public void Stop_Only(Stopwatch stopwatch)
+        void Stop_Only(Stopwatch stopwatch)
             => stopwatch.Stop();
 
         /// <summary>
         /// Quality-of-life overload for <see cref="Get_Elapsed_WithStop(Stopwatch)"/>.
         /// </summary>
-        public TimeSpan Stop(Stopwatch stopwatch)
+        TimeSpan Stop(Stopwatch stopwatch)
             => this.Get_Elapsed_WithStop(stopwatch);
 
-        public TimeSpan Measure_Duration(Action action)
+        TimeSpan Measure_Duration(Action action)
         {
             var stopwatch = this.New_Stopwatch_Started();
 
@@ -88,7 +95,7 @@ namespace F10Y.L0000
             return duration;
         }
 
-        public async Task<TimeSpan> Measure_Duration(Task action)
+        async Task<TimeSpan> Measure_Duration(Task action)
         {
             var stopwatch = this.New_Stopwatch_Started();
 
@@ -98,7 +105,7 @@ namespace F10Y.L0000
             return duration;
         }
 
-        public async Task<TimeSpan> Measure_Duration(Func<Task> action)
+        async Task<TimeSpan> Measure_Duration(Func<Task> action)
         {
             var stopwatch = this.New_Stopwatch_Started();
 
@@ -108,7 +115,7 @@ namespace F10Y.L0000
             return duration;
         }
 
-        public TOut Measure_Duration<TOut>(
+        TOut Measure_Duration<TOut>(
             Func<TOut> function,
             out TimeSpan duration)
         {
@@ -121,7 +128,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public async Task<(TOut Out, TimeSpan Duration)> Measure_Duration<TOut>(Func<Task<TOut>> function)
+        async Task<(TOut Out, TimeSpan Duration)> Measure_Duration<TOut>(Func<Task<TOut>> function)
         {
             var stopwatch = this.New_Stopwatch_Started();
 

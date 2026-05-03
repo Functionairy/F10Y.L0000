@@ -26,11 +26,40 @@ namespace F10Y.L0000
 #pragma warning restore IDE1006 // Naming Styles
 
 
-        string Combine(params string[] pathParts)
+        /// <summary>
+        /// A simple combination of path parts.
+        /// </summary>
+        string Combine_Simple(params string[] pathParts)
         {
             var output = Path.Combine(pathParts);
             return output;
         }
+
+        /// <summary>
+        /// Combines path parts, then ensures the result is a resolved path (with no relative path parts).
+        /// </summary>
+        string Combine_Ensure_IsResolved(params string[] pathParts)
+        {
+            var simple = this.Combine_Simple(pathParts);
+
+            var is_Unresolved = this.Is_Unresolved(simple);
+
+            var output = is_Unresolved
+                ? this.Resolve(simple)
+                : simple
+                ;
+
+            return output;
+        }
+
+        /// <summary>
+        /// Combines path parts.
+        /// </summary>
+        /// <remarks>
+        /// Chooses <see cref="Combine_Ensure_IsResolved(string[])"/> as the default.
+        /// </remarks>
+        string Combine(params string[] pathParts)
+            => this.Combine_Ensure_IsResolved(pathParts);
 
         IEnumerable<string> Ensure_AreDirectoryIndicated(IEnumerable<string> paths)
             => paths
@@ -142,7 +171,7 @@ namespace F10Y.L0000
             string directoryPath,
             string fileName)
         {
-            var output = this.Combine(
+            var output = this.Combine_Simple(
                 directoryPath,
                 fileName);
 

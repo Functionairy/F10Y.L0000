@@ -14,13 +14,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Get_Name_AsString(XAttribute)"/> as the default.
         /// </summary>
-        public string Get_Name(XAttribute attribute)
+        string Get_Name(XAttribute attribute)
             => this.Get_Name_AsString(attribute);
 
-        public XName Get_Name_AsXName(XAttribute attribute)
+        XName Get_Name_AsXName(XAttribute attribute)
             => attribute.Name;
 
-        public string Get_Name_AsString(XAttribute attribute)
+        string Get_Name_AsString(XAttribute attribute)
         {
             var name = this.Get_Name_AsXName(attribute);
 
@@ -28,7 +28,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Get_Value(XAttribute attribute)
+        string Get_Value(XAttribute attribute)
         {
             var output = attribute.Value;
             return output;
@@ -37,13 +37,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Get_Value(XAttribute)"/>.
         /// </summary>
-        public string Get_Value_AsString(XAttribute attribute)
+        string Get_Value_AsString(XAttribute attribute)
             => this.Get_Value(attribute);
 
         /// <summary>
         /// A helpfully named wrapper for <see cref="XAttribute.SetValue(object)"/>.
         /// </summary>
-        public void Set_Value(XAttribute attribute, object value)
+        void Set_Value(XAttribute attribute, object value)
         {
             attribute.SetValue(value);
         }
@@ -51,7 +51,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses the <see cref="XName.LocalName"/> property to avoid the crazed namespace BS.
         /// </summary>
-        public bool Is_Name(XAttribute attribute, string attributeName)
+        bool Is_Name(XAttribute attribute, string attributeName)
         {
             var name = this.Get_Name_AsXName(attribute);
 
@@ -62,7 +62,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public bool Is_Value(
+        bool Is_Value(
             XAttribute attribute,
             string value)
         {
@@ -75,15 +75,15 @@ namespace F10Y.L0000
             return output;
         }
 
-        public XAttribute New_Attribute(string attributeName, object value)
+        XAttribute Create(string attributeName, object value)
         {
             var output = new XAttribute(attributeName, value);
             return output;
         }
 
-        public XAttribute New_Attribute(string attributeName)
+        XAttribute Create(string attributeName)
         {
-            var output = this.New_Attribute(
+            var output = this.Create(
                 attributeName,
                 // Use the empty string for the attribute value, since a value must be specified when creating an XAttribute,
                 // but we don't want to specify the value just yet.
@@ -92,7 +92,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<XAttribute> Where_NameIs(IEnumerable<XAttribute> attributes, string attributeName)
+        IEnumerable<XAttribute> Where_NameIs(IEnumerable<XAttribute> attributes, string attributeName)
         {
             var output = attributes
                 .Where(attribute => this.Is_Name(attribute, attributeName))

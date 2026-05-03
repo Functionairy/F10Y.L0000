@@ -61,6 +61,9 @@ namespace F10Y.L0000
             this.Delete_Directory_Robust(directoryPath);
         }
 
+        /// <summary>
+        /// Idempotent deletion of a directory.
+        /// </summary>
         bool Delete_Directory_Idempotent(string directoryPath)
         {
             if (this.Exists_Directory(directoryPath))
@@ -116,6 +119,12 @@ namespace F10Y.L0000
             this.Delete_Directory_Idempotent(directoryPath);
         }
 
+        /// <summary>
+        /// Deletes a directory.
+        /// <para>
+        /// (Idempotent)
+        /// </para>
+        /// </summary>
         void Delete_Directory(string directoryPath)
             => this.Delete_Directory_Idempotent(directoryPath);
 

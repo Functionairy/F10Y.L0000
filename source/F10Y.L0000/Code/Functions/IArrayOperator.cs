@@ -460,6 +460,9 @@ namespace F10Y.L0000
         T[] New<T>(int length)
             => new T[length];
 
+        T[] New<T>(uint length)
+            => new T[length];
+
         T[] Null_IfEmpty<T>(T[] array)
         {
             var isEmpty = this.Is_Empty(array);

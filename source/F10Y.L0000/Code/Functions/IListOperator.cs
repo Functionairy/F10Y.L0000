@@ -34,6 +34,9 @@ namespace F10Y.L0000
             }
         }
 
+        void Clear<T>(List<T> list)
+            => list.Clear();
+
         List<T> From<T>(params T[] values)
             => this.From(values.AsEnumerable());
 
@@ -119,6 +122,17 @@ namespace F10Y.L0000
 
         List<T> New<T>(params T[] items)
             => new List<T>(items);
+
+        void Replace_With<T>(
+            List<T> list,
+            IEnumerable<T> items)
+        {
+            this.Clear(list);
+
+            this.Add(
+                list,
+                items);
+        }
 
         T[] To_Array<T>(IList<T> list)
             => list.ToArray();
