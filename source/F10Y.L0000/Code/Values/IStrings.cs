@@ -84,6 +84,38 @@ namespace F10Y.L0000
         /// </remarks>
         string Backslash => Backslash_Constant;
 
+        /// <inheritdoc cref="StringsDocumentation.For_Brace_Close" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Brace_Close_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Brace_Close" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        const string Brace_Close_Constant = "}";
+
+        /// <inheritdoc cref="Brace_Close_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Brace_Close"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Brace_Close_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        string Brace_Close => Brace_Close_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_Brace_Open" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Brace_Open_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Brace_Open" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        const string Brace_Open_Constant = "{";
+
+        /// <inheritdoc cref="Brace_Open_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Brace_Open"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Brace_Open_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        string Brace_Open => Brace_Open_Constant;
+
         /// <inheritdoc cref="StringsDocumentation.For_DoubleDash" path="/summary"/>
         /// <remarks>
         /// <para>---</para>

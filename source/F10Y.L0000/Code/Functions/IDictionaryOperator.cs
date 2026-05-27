@@ -20,6 +20,30 @@ namespace F10Y.L0000
             list.Add(value);
         }
 
+        void Add<TKey, TValue>(
+            Dictionary<TKey, TValue> dictionary,
+            IEnumerable<KeyValuePair<TKey, TValue>> pairs)
+            => this.Add_KeyValuePairs(
+                dictionary,
+                pairs);
+
+        void Add_KeyValuePair<TKey, TValue>(
+            Dictionary<TKey, TValue> dictionary,
+            KeyValuePair<TKey, TValue> pair)
+            => dictionary.Add(pair.Key, pair.Value);
+
+        void Add_KeyValuePairs<TKey, TValue>(
+            Dictionary<TKey, TValue> dictionary,
+            IEnumerable<KeyValuePair<TKey, TValue>> pairs)
+        {
+            foreach (var pair in pairs)
+            {
+                this.Add_KeyValuePair(
+                    dictionary,
+                    pair);
+            }
+        }
+
         /// <summary>
         /// Adds the key-value pair if the key does not exist, else replaces the value for the given key if the key already exists.
         /// </summary>

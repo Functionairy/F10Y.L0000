@@ -290,6 +290,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        XElement From(string xmlText)
+            => this.Parse(xmlText);
+
         Action<XElement> Get_Add_Child(
             string childName,
             params Action<XElement>[] childActions)

@@ -31,5 +31,13 @@ namespace F10Y.L0000
 
         /// <inheritdoc cref="One_Constant"/>
         public int One => One_Constant;
+
+        /// <summary>
+        /// <para><value>1</value></para>
+        /// </summary>
+        public const int Two_Constant = 2;
+
+        /// <inheritdoc cref="Two_Constant"/>
+        public int Two => Two_Constant;
     }
 }

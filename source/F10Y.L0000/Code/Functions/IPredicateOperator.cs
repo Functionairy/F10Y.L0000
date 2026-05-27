@@ -93,6 +93,9 @@ namespace F10Y.L0000
             return Internal;
         }
 
+        public Func<T, bool> Any<T>(params Func<T, bool>[] predicates)
+            => this.Any(predicates as ICollection<Func<T, bool>>);
+
         /// <summary>
         /// Returns a typed predicates value instance (<see cref="IPredicates{T}"/>).
         /// </summary>

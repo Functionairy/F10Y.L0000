@@ -27,18 +27,15 @@ namespace F10Y.L0000
             => Instances.CollectionOperator.Are_Equal_Counts(a, b);
 
         int Count<T>(ICollection<T> collection)
-            => this.Get_CountOf(collection);
+            => this.Get_Count(collection);
 
         int Count<T>(IEnumerable<T> enumerable)
-            => this.Get_CountOf(enumerable);
-
-        int Get_CountOf<T>(IEnumerable<T> enumerable)
-            => Instances.EnumerableOperator.Get_Count(enumerable);
+            => Instances.EnumerableOperator.Count(enumerable);
 
         Dictionary<TKey, int> Get_Counts_ByKey<TKey, TElement>(IDictionary<TKey, TElement[]> arrays_ByKey)
             => Instances.DictionaryOperator.Get_Counts_ByKey(arrays_ByKey);
 
-        int Get_CountOf<T>(ICollection<T> collection)
+        int Get_Count<T>(ICollection<T> collection)
             => Instances.CollectionOperator.Get_Count(collection);
     }
 }

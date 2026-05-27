@@ -486,8 +486,8 @@ namespace F10Y.L0000
                 .Now();
 
         void Verify_LengthIs(
-            Array array,
-            int length)
+            int length,
+            Array array)
         {
             var length_Found = this.Get_Length(array);
 

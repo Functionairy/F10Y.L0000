@@ -8,14 +8,7 @@ namespace F10Y.L0000
     [ValuesMarker]
     public partial interface IPredicates
     {
-        /// <inheritdoc cref="IPredicateOperator.For{T}" path="/summary"/>
-        /// <remarks>
-        /// See: <see cref="IPredicateOperator.For{T}"/>
-        /// </remarks>
-        // Allow a method in this values instance, for quality-of-life.
-        // It will *not* get picked up in instances survey.
-        public IPredicates<T> For<T>()
-            => Predicates<T>.Instance;
+        
     }
 
 

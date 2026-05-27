@@ -18,6 +18,7 @@ namespace F10Y.L0000
     }
 
 
+
     public class Predicates<T> : IPredicates<T>
     {
         #region Infrastructure

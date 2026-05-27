@@ -110,14 +110,14 @@ namespace F10Y.L0000
             IEnumerable<T1> a,
             IEnumerable<T2> b)
         {
-            var count_OfA = this.Get_Count(a);
-            var count_OfB = this.Get_Count(b);
+            var count_OfA = this.Count(a);
+            var count_OfB = this.Count(b);
 
             var output = Instances.EqualityOperator.Are_Equal(count_OfA, count_OfB);
             return output;
         }
 
-        int Get_Count<T>(IEnumerable<T> enumerable)
+        int Count<T>(IEnumerable<T> enumerable)
             => enumerable.Count();
 
         T Get_Nth<T>(
