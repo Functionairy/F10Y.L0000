@@ -23,6 +23,11 @@ namespace F10Y.L0000
         int Get_Count<T>(ICollection<T> collection)
             => collection.Count;
 
+        int Get_Count_OfZeroIfDefault<T>(ICollection<T> collection)
+            => Instances.DefaultOperator.Is_Default(collection)
+                ? 0
+                : this.Get_Count(collection);
+
         bool Has_Multiple<T>(ICollection<T> collection)
             => collection.Count > 1;
 

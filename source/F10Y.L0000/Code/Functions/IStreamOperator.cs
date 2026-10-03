@@ -9,7 +9,7 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IStreamOperator
     {
-        public void Seek_Beginnning(Stream stream)
+        void Seek_Beginnning(Stream stream)
         {
             stream.Seek(
                 0,

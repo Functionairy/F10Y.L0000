@@ -75,6 +75,14 @@ namespace F10Y.L0000
             return output;
         }
 
+        XAttribute Copy(XAttribute other)
+            => new XAttribute(other);
+
+        XAttribute Create(
+            XName xName,
+            object value)
+            => new XAttribute(xName, value);
+
         XAttribute Create(string attributeName, object value)
         {
             var output = new XAttribute(attributeName, value);

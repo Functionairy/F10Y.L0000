@@ -148,6 +148,22 @@ namespace F10Y.L0000
         /// </remarks>
         string DoublePipe => DoublePipe_Constant;
 
+        /// <inheritdoc cref="StringsDocumentation.For_ExclamationPoint" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="ExclamationPoint_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_ExclamationPoint" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        const string ExclamationPoint_Constant = "!";
+
+        /// <inheritdoc cref="ExclamationPoint_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="ExclamationPoint"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="ExclamationPoint_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        string ExclamationPoint => ExclamationPoint_Constant;
+
         /// <inheritdoc cref="StringsDocumentation.For_Hyphen" path="/summary"/>
         /// <remarks>
         /// <para>---</para>
@@ -298,6 +314,22 @@ namespace F10Y.L0000
 
         /// <inheritdoc cref="Pipe_Constant"/>
         string Pipe => IStrings.Pipe_Constant;
+
+        /// <inheritdoc cref="StringsDocumentation.For_Underscore" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Underscore_Constant"/></self-reference></para>
+        /// <para>Documentation: <documentation-reference><inheritdoc cref="StringsDocumentation.For_Underscore" path="descendant::self-reference"/></documentation-reference></para>
+        /// </remarks>
+        const string Underscore_Constant = "*";
+
+        /// <inheritdoc cref="Underscore_Constant" path="/summary"/>
+        /// <remarks>
+        /// <para>---</para>
+        /// <para><self-reference><see cref="Underscore"/></self-reference></para>
+        /// <para>Documentation: <inheritdoc cref="Underscore_Constant" path="descendant::documentation-reference"/></para>
+        /// </remarks>
+        string Underscore => Underscore_Constant;
 
         #endregion
 

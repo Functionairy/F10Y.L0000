@@ -20,7 +20,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Works for an enumeration value of a single flag.
         /// </summary>
-        public bool Has_Flag<TEnum>(TEnum value, TEnum flag)
+        bool Has_Flag<TEnum>(TEnum value, TEnum flag)
             where TEnum : Enum
         {
             // Use the standard library's implementation, it works for both flag and flags (since both are actually just an integer value).
@@ -34,7 +34,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Works for an enumeration value of combined flags.
         /// </summary>
-        public bool Has_Flags<TEnum>(TEnum value, TEnum flags)
+        bool Has_Flags<TEnum>(TEnum value, TEnum flags)
             where TEnum : Enum
         {
             // Use the standard library's implementation, it works for both flag and flags (since both are actually just an integer value).

@@ -13,7 +13,7 @@ namespace F10Y.L0000
         /// Gets the root element of the given document,
         /// throwing an exception if the document does not have a root element.
         /// </summary>
-        public XElement Get_Root(XDocument document)
+        XElement Get_Root(XDocument document)
         {
             var hasRoot = this.Has_Root(
                 document,
@@ -31,7 +31,7 @@ namespace F10Y.L0000
         /// Gets the root element of the given document,
         /// verifying that the root element exists and has the given name.
         /// </summary>
-        public XElement Get_Root(
+        XElement Get_Root(
             XDocument document,
             string rootName)
         {
@@ -47,10 +47,10 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets the root element of the document, or default if it does not exist.
         /// </summary>
-        public XElement Get_Root_OrDefault(XDocument document)
+        XElement Get_Root_OrDefault(XDocument document)
             => document.Root;
 
-        public bool Has_Root(
+        bool Has_Root(
             XDocument document,
             out XElement root_OrDefault)
         {
@@ -59,5 +59,8 @@ namespace F10Y.L0000
             var output = Instances.NullOperator.Is_NotNull(root_OrDefault);
             return output;
         }
+
+        XDocument New()
+            => new XDocument();
     }
 }

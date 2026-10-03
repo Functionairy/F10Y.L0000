@@ -14,13 +14,13 @@ namespace F10Y.L0000
         public string Environment => Instances.EnvironmentOperator.Get_NewLine();
 
         /// <summary>
-        /// <para><value>/r/n</value></para>
+        /// <para><value>\n</value></para>
         /// </summary>
-        public string NonWindows => "/n";
+        public string NonWindows => "\n";
 
         /// <summary>
         /// <para><value>/r/n</value></para>
         /// </summary>
-        public string Windows => "/r/n";
+        public string Windows => "\r\n";
     }
 }

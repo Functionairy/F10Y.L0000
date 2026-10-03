@@ -70,6 +70,11 @@ namespace F10Y.L0000
         string Get_NamespaceName(Type type)
             => type.Namespace;
 
+        TypeInfo Get_TypeInfo(Type type)
+            // Extension method in System.Reflection, that is hidden with the [EditorBrowsable(EditorBrowsableState.Never)] attribute, and available since .NET Framework 4.5/.NET Core 1.0.
+            => type.GetTypeInfo();
+
+        /// <inheritdoc cref="ITypeNameOperator.Get_TypeName_Full(Type)"/>
         string Get_TypeName_Full(Type type)
         {
             var output = Instances.TypeNameOperator.Get_TypeName_Full(type);
@@ -330,13 +335,31 @@ namespace F10Y.L0000
 
         /// <summary>
         /// Returns <see cref="Type.IsGenericParameter"/>,
-        /// whic is true for both generic type parameter types and generic method parameter types.
+        /// which is true for both generic type parameter types and generic method parameter types.
         /// </summary>
         bool Is_GenericParameter(Type type)
         {
             var output = type.IsGenericParameter;
             return output;
         }
+
+        /// <summary>
+        /// Returns true if the type is a generic type parameter of a generic method (parameters are not filled-in yet, and when they are filled in, become arguments).
+        /// </summary>
+        /// <remarks>
+        /// Note: there is no way to determine if a type is a generic type <em>argument</em>. When a type is provided as an argument to fill-in a generic type parameter, it just a regular type.
+        /// </remarks>
+        bool Is_GenericMethodParameter(Type type)
+            => type.IsGenericMethodParameter;
+
+        /// <summary>
+        /// Determines whether the given type is a generic type parameter of a generic type (parameters are not filled-in yet, and when they are filled in, become arguments).
+        /// </summary>
+        /// <remarks>
+        /// Note: there is no way to determine if a type is a generic type <em>argument</em>, because when a type is provided as an argument to fill-in a generic type parameter, it just a regular type.
+        /// </remarks>
+        bool Is_GenericTypeParameter(Type type)
+            => type.IsGenericTypeParameter;
 
         bool Is_ImplementationType(
             object @object,

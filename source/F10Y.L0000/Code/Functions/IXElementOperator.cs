@@ -561,6 +561,13 @@ namespace F10Y.L0000
             return output;
         }
 
+        XElement New(
+            string elementName,
+            params object[] contents)
+            => new XElement(
+                elementName,
+                contents);
+
         /// <summary>
         /// Creates a separate, but identical instance.
         /// <para>Same as <see cref="Deep_Copy(XElement)"/></para>
@@ -619,7 +626,7 @@ namespace F10Y.L0000
         Task<XElement> Load_PreserveWhitespace(string xmlFilePath)
             => this.Load(
                 xmlFilePath,
-                Instances.LoadOptionsSet.PreserveWhitespace);
+                Instances.LoadOptionsSets.PreserveWhitespace);
 
         /// <summary>
         /// Chooses <see cref="Load_PreserveWhitespace(string)"/> as the default.
@@ -631,7 +638,7 @@ namespace F10Y.L0000
             string xmlFilePath,
             LoadOptions loadOptions)
         {
-            var fileStream = Instances.FileStreamOperator.Open_Read(xmlFilePath);
+            using var fileStream = Instances.FileStreamOperator.Open_Read(xmlFilePath);
 
             var output = await XElement.LoadAsync(
                 fileStream,
@@ -644,7 +651,7 @@ namespace F10Y.L0000
         XElement Load_PreserveWhitespace_Synchronous(string xmlFilePath)
             => this.Load_Synchronous(
                 xmlFilePath,
-                Instances.LoadOptionsSet.PreserveWhitespace);
+                Instances.LoadOptionsSets.PreserveWhitespace);
 
         /// <summary>
         /// Chooses <see cref="Load_PreserveWhitespace_Synchronous(string)"/> as the default.
@@ -675,7 +682,7 @@ namespace F10Y.L0000
         XElement Parse_PreserveWhitespace(string text)
             => this.Parse(
                 text,
-                Instances.LoadOptionsSet.PreserveWhitespace);
+                Instances.LoadOptionsSets.PreserveWhitespace);
 
         /// <summary>
         /// Chooses <see cref="Parse_PreserveWhitespace(string)"/> as the default.

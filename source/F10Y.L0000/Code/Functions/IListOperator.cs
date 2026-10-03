@@ -118,6 +118,9 @@ namespace F10Y.L0000
             => new List<T>(capacity_Initial);
 
         List<T> New<T>(IEnumerable<T> items)
+            => this.New_FromEnumerable(items);
+
+        List<T> New_FromEnumerable<T>(IEnumerable<T> items)
             => new List<T>(items);
 
         List<T> New<T>(params T[] items)

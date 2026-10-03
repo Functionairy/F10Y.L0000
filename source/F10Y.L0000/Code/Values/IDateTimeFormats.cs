@@ -13,7 +13,12 @@ namespace F10Y.L0000
         /// <summary>
         /// <para><value>yyyyMMdd</value></para>
         /// </summary>
-        public string yyyyMMdd => "yyyyMMdd";
+        string yyyyMMdd => "yyyyMMdd";
+
+        /// <summary>
+        /// <para><value>yyyyMMdd</value></para>
+        /// </summary>
+        string yyyy_MM_dd_Dashed => "yyyy-MM-dd";
 
 #pragma warning restore IDE1006 // Naming Styles
     }

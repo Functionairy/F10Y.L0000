@@ -10,21 +10,24 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IMemoryStreamOperator
     {
-        public MemoryStream FromBytes(byte[] bytes)
+        MemoryStream From_Bytes(byte[] bytes)
         {
             var memoryStream = new MemoryStream(bytes);
             return memoryStream;
         }
 
-        public async Task<MemoryStream> FromFile(string filePath)
+        async Task<MemoryStream> From_File(string filePath)
         {
             var fileBytes = await Instances.FileOperator.Read_Bytes(filePath);
 
-            var memoryStream = this.FromBytes(fileBytes);
+            var memoryStream = this.From_Bytes(fileBytes);
             return memoryStream;
         }
 
-        public MemoryStream Get_New()
+        MemoryStream Get_New()
+            => this.New();
+
+        MemoryStream New()
             => new MemoryStream();
     }
 }

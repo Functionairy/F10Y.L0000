@@ -306,5 +306,17 @@ namespace F10Y.L0000
                 workingDirectory,
                 this.DataReceivedHandler_Default,
                 this.DataReceivedHandler_Default);
+
+        Process Start(
+            string commandName_OrExecutableFilePath,
+            string argumentsString)
+        {
+            // Ignore the output process.
+            var output = Process.Start(
+                commandName_OrExecutableFilePath,
+                argumentsString);
+
+            return output;
+        }
     }
 }

@@ -84,6 +84,19 @@ namespace F10Y.L0000
         /// <inheritdoc cref="From_KeepLast{T}(IEnumerable{T})" path="/summary"/>
         /// </summary>
         HashSet<T> From<T>(IEnumerable<T> values)
+            => this.From_Enumerable(values);
+
+        HashSet<T> From<T>(params T[] values)
+            => this.From_Values(values);
+
+        /// <summary>
+        /// <para>Chooses <see cref="From_KeepLast{T}(IEnumerable{T})"/> as the default.</para>
+        /// <inheritdoc cref="From_KeepLast{T}(IEnumerable{T})" path="/summary"/>
+        /// </summary>
+        HashSet<T> From_Enumerable<T>(IEnumerable<T> values)
+            => this.From_KeepLast(values);
+
+        HashSet<T> From_Values<T>(params T[] values)
             => this.From_KeepLast(values);
 
         /// <inheritdoc cref="Add_Range_KeepLast{T}(HashSet{T}, IEnumerable{T})"/>

@@ -13,11 +13,11 @@ namespace F10Y.L0000
         async Task<HttpResponseMessage> Get_Response(
             HttpClient client,
             string url,
-            bool ensureSuccessStatusCode = IValues.EnsureSuccessStatusCode_Default_Constant)
+            bool ensure_SuccessStatusCode = IValues.EnsureSuccessStatusCode_Default_Constant)
         {
             var response = await client.GetAsync(url);
 
-            if (ensureSuccessStatusCode)
+            if (ensure_SuccessStatusCode)
             {
                 response.EnsureSuccessStatusCode();
             }

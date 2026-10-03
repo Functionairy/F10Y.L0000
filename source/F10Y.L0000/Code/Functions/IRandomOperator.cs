@@ -9,13 +9,13 @@ namespace F10Y.L0000
     public partial interface IRandomOperator
     {
         /// <inheritdoc cref="Random()"/>
-        public Random New()
+        Random New()
         {
             var output = new Random();
             return output;
         }
 
-        public Random New_WithSeed(int seed)
+        Random New_WithSeed(int seed)
         {
             var output = new Random(seed);
             return output;
@@ -27,12 +27,18 @@ namespace F10Y.L0000
         /// <remarks>
         /// Uses the hashcode of the seed phrase as the seed of the random.
         /// </remarks>
-        public Random New_WithSeed(string seed_Phrase)
+        Random New_WithSeed(string seed_Phrase)
         {
             var hashcode = Instances.StringOperator.Get_HashCode_Deterministic(seed_Phrase);
 
             var output = this.New_WithSeed(hashcode);
             return output;
         }
+
+        int Next(
+            Random random,
+            int value_Minimum,
+            int value_Maximum)
+            => random.Next(value_Minimum, value_Maximum);
     }
 }

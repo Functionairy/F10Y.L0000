@@ -30,6 +30,9 @@ namespace F10Y.L0000
         IDefaultOperator<T> For<T>()
             => DefaultOperator<T>.Instance;
 
+        IDefaultOperator<T> For<T>(T value)
+            => this.For<T>();
+
         T Get_Default<T>()
         {
             T output = default;
@@ -103,6 +106,12 @@ namespace F10Y.L0000
             var output = !isDefault;
             return output;
         }
+
+        T Of<T>()
+            => default;
+
+        T Of<T>(T value)
+            => default;
 
         void Verify_NotDefault<T>(T value)
         {

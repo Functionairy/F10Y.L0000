@@ -23,5 +23,11 @@ namespace F10Y.L0000
         /// Returns <see cref="DateTime.MinValue"/>.
         /// </remarks>
         DateTime Minimum => DateTime.MinValue;
+
+        /// <inheritdoc cref="INowOperator.Get_Now_Local"/>
+        DateTime Now_Local => Instances.NowOperator.Get_Now_Local();
+
+        /// <inheritdoc cref="INowOperator.Get_Now_UTC"/>
+        DateTime Now_UTC => Instances.NowOperator.Get_Now_UTC();
     }
 }

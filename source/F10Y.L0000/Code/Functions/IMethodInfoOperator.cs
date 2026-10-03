@@ -20,6 +20,17 @@ namespace F10Y.L0000
             return output;
         }
 
+        MethodInfo Get_MethodOf<T>(Func<MethodInfo, bool> predicate)
+            => Instances.TypeInfoOperator.Get_Method<T>(predicate);
+
+        bool Has_MethodOf<T>(
+            string methodName,
+            Func<MethodInfo, bool> predicate,
+            out MethodInfo method_OrDefault)
+            => Instances.TypeInfoOperator.Has_Method<T>(
+                predicate,
+                out method_OrDefault);
+
         MethodInfo Get_MethodOf<T>(
             string methodName,
             params Type[] argumentTypes_InOrder)

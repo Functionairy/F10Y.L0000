@@ -182,5 +182,12 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        bool Try_Parse(
+            string value,
+            out Guid value_OrDefault)
+            => Guid.TryParse(
+                value,
+                out value_OrDefault);
     }
 }

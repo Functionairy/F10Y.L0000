@@ -18,7 +18,13 @@ namespace F10Y.L0000
         /// <inheritdoc cref="C_DriveName_Constant"/>
         string C_DriveName => C_DriveName_Constant;
 
+        /// <inheritdoc cref="Console.Out"/>
         TextWriter Console_Out => Console.Out;
+
+        /// <summary>
+        /// The Unix epoch starts on 1970-01-01 00:00 UTC.
+        /// </summary>
+        DateTime UnixEpoch_Start => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <inheritdoc cref="IStrings.Empty"/>
         string Empty_XAttribute_Value => Instances.Strings.Empty;

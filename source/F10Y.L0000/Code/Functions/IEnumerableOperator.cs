@@ -7,6 +7,12 @@ using F10Y.T0002;
 
 namespace F10Y.L0000
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// <inheritdoc cref="Documentation.Project_SelfDescription" path="/summary"/>
+    /// </remarks>
     [FunctionsMarker]
     public partial interface IEnumerableOperator
     {
@@ -75,6 +81,21 @@ namespace F10Y.L0000
         IEnumerable<T> Append_If<T>(
             IEnumerable<T> enumerable,
             bool condition,
+            Func<IEnumerable<T>> appendix_Provider)
+        {
+            var output = condition
+                ? this.Append_Many(
+                    enumerable,
+                    appendix_Provider())
+                : enumerable
+                ;
+
+            return output;
+        }
+
+        IEnumerable<T> Append_If<T>(
+            IEnumerable<T> enumerable,
+            bool condition,
             Func<IEnumerable<T>> get_Appendix_IfTrue,
             Func<IEnumerable<T>> get_Appendix_IfFalse)
         {
@@ -117,6 +138,10 @@ namespace F10Y.L0000
             return output;
         }
 
+        IEnumerable<TOut> Convert<TIn, TOut>(IEnumerable<TIn> enumerable,
+            Func<TIn, TOut> conversion)
+            => enumerable.Select(conversion);
+
         int Count<T>(IEnumerable<T> enumerable)
             => enumerable.Count();
 
@@ -152,7 +177,12 @@ namespace F10Y.L0000
         IEnumerable<T> Empty<T>()
             => Enumerable.Empty<T>();
 
-        public IEnumerable<T> Except<T>(
+        IEnumerable<T> Except<T>(
+            IEnumerable<T> items,
+            T item)
+            => this.Except_Item(items, item);
+
+        IEnumerable<T> Except_Item<T>(
             IEnumerable<T> items,
             T item)
         {
@@ -166,7 +196,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<T> Except<T>(
+        IEnumerable<T> Except<T>(
+            IEnumerable<T> items,
+            T item,
+            IEqualityComparer<T> equalityComparer)
+            => this.Except_Item(items, item, equalityComparer);
+
+        IEnumerable<T> Except_Item<T>(
             IEnumerable<T> items,
             T item,
             IEqualityComparer<T> equalityComparer)
@@ -462,6 +498,11 @@ namespace F10Y.L0000
             => this.Order_Ascending_With(
                 elements,
                 comparison);
+
+        IEnumerable<T> Order_With<T>(
+            IEnumerable<T> elements,
+            Func<IEnumerable<T>, IEnumerable<T>> orderer)
+            => orderer(elements);
 
         IOrderedEnumerable<T> Order_By<T, TKey>(
             IEnumerable<T> enumerable,

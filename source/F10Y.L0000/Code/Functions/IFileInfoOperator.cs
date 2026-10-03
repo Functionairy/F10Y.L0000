@@ -10,16 +10,16 @@ namespace F10Y.L0000
     public partial interface IFileInfoOperator
     {
         FileInfo From(string filePath)
-        {
-            var output = new FileInfo(filePath);
-            return output;
-        }
+            => this.New(filePath);
 
         string Get_FileName(FileInfo fileInfo)
         {
             var output = fileInfo.Name;
             return output;
         }
+
+        FileInfo Get_FileInfo(string filePath)
+            => this.New(filePath);
 
         string Get_FilePath(FileInfo fileInfo)
         {
@@ -43,5 +43,14 @@ namespace F10Y.L0000
             var output = Instances.DirectoryInfoOperator.Get_DirectoryPath(parent);
             return output;
         }
+
+        long Get_Size(FileInfo fileInfo)
+            => fileInfo.Length;
+
+        FileInfo New(string filePath)
+            => new FileInfo(filePath);
+
+        FileInfo Of(string filePath)
+            => this.New(filePath);
     }
 }

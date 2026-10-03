@@ -21,27 +21,40 @@ namespace F10Y.L0000
         }
 
         void Add<TKey, TValue>(
-            Dictionary<TKey, TValue> dictionary,
+            IDictionary<TKey, TValue> dictionary,
             IEnumerable<KeyValuePair<TKey, TValue>> pairs)
             => this.Add_KeyValuePairs(
                 dictionary,
                 pairs);
 
         void Add_KeyValuePair<TKey, TValue>(
-            Dictionary<TKey, TValue> dictionary,
+            IDictionary<TKey, TValue> dictionary,
             KeyValuePair<TKey, TValue> pair)
             => dictionary.Add(pair.Key, pair.Value);
 
-        void Add_KeyValuePairs<TKey, TValue>(
+        void Add<TKey, TValue>(
             Dictionary<TKey, TValue> dictionary,
+            KeyValuePair<TKey, TValue> pair)
+            => this.Add_KeyValuePair(
+                dictionary,
+                pair);
+
+        int Add_KeyValuePairs<TKey, TValue>(
+            IDictionary<TKey, TValue> dictionary,
             IEnumerable<KeyValuePair<TKey, TValue>> pairs)
         {
+            var counter = 0;
+
             foreach (var pair in pairs)
             {
                 this.Add_KeyValuePair(
                     dictionary,
                     pair);
+
+                counter++;
             }
+
+            return counter;
         }
 
         /// <summary>
@@ -56,6 +69,21 @@ namespace F10Y.L0000
             if (!wasAdded)
             {
                 dictionary[key] = value;
+            }
+        }
+
+        void Add_OrModify<TKey, TValue>(
+            IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            TValue value,
+            Func<TValue, TValue> modifier)
+        {
+            var wasAdded = dictionary.TryAdd(key, value);
+            if (!wasAdded)
+            {
+                var modified = modifier(value);
+
+                dictionary[key] = modified;
             }
         }
 
@@ -95,7 +123,7 @@ namespace F10Y.L0000
             => dictionary.Add(key, value);
 
         /// <summary>
-        /// 
+        /// Clones a <see cref="IDictionary{TKey, TValue}"/> to a <see cref="Dictionary{TKey, TValue}"/>.
         /// </summary>
         /// <remarks>
         /// Note: as of .NET 8.0, this is a built-in extension.
@@ -110,6 +138,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Quality-of-life override of <see cref="Clone_ToDictionary{TKey, TValue}(IDictionary{TKey, TValue})"/>
+        /// </summary>
         Dictionary<TKey, TValue> Clone<TKey, TValue>(
             IDictionary<TKey, TValue> dictionary)
             => this.Clone_ToDictionary(dictionary);
@@ -122,6 +153,13 @@ namespace F10Y.L0000
             IDictionary<TKey, TValue> dictionary,
             TKey key)
             => dictionary.ContainsKey(key);
+
+        int Copy_To<TKey, TValue>(
+            IDictionary<TKey, TValue> destination,
+            IDictionary<TKey, TValue> source)
+            => this.Add_KeyValuePairs(
+                destination,
+                source);
 
         /// <summary>
         /// Quality-of-life overload for <see cref="New{TKey, TValue}()"/>
@@ -138,6 +176,16 @@ namespace F10Y.L0000
                     keySelector,
                     comparer);
 
+        Dictionary<TKey, TValue> From_Tuples<TKey, TValue>(
+            params (TKey, TValue)[] tuples)
+            => tuples.ToDictionary(
+                tuple => tuple.Item1,
+                tuple => tuple.Item2);
+
+        Dictionary<TKey, TValue> From<TKey, TValue>(
+            params (TKey, TValue)[] tuples)
+            => this.From_Tuples(tuples);
+
         Dictionary<TKey, int> Get_Counts_ByKey<TKey, TValue>(IDictionary<TKey, TValue[]> arrays_ByKey)
             => arrays_ByKey.ToDictionary(
                 pair => pair.Key,
@@ -150,6 +198,9 @@ namespace F10Y.L0000
             IDictionary<TKey, TValue> dictionary,
             TKey key)
             => dictionary[key];
+
+        TValue[] Get_Values<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
+            => dictionary.Values.ToArray();
 
         TValue Get_Value_OrDefault<TKey, TValue>(
             TKey key,

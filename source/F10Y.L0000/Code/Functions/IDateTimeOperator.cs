@@ -28,6 +28,37 @@ namespace F10Y.L0000
         bool Are_Equal(DateTime a, DateTime b)
             => a == b;
 
+        /// <summary>
+        /// Chooses <see cref="From_UnixMilliseconds_AssumeUtc(long)"/> as the default.
+        /// </summary>
+        DateTime From_UnixMilliseconds(long unix_Milliseconds)
+            => this.From_UnixMilliseconds_AssumeUtc(unix_Milliseconds);
+
+        DateTime From_UnixMilliseconds_AssumeUtc(long unix_Milliseconds)
+            => Instances.DateTimeOffsetOperator.From_UnixMilliseconds(unix_Milliseconds)
+                .UtcDateTime;
+
+        DateTime From_UnixMilliseconds_AssumeLocal(long unix_Milliseconds)
+            => Instances.DateTimeOffsetOperator.From_UnixMilliseconds(unix_Milliseconds)
+                .LocalDateTime;
+
+        /// <summary>
+        /// Chooses <see cref="From_UnixMilliseconds_AssumeUtc(ulong)"/> as the default.
+        /// </summary>
+        DateTime From_UnixMilliseconds(ulong unix_Milliseconds)
+            => this.From_UnixMilliseconds_AssumeUtc(unix_Milliseconds);
+
+        DateTime From_UnixMilliseconds_AssumeUtc(ulong unix_Milliseconds)
+            => Instances.DateTimeOffsetOperator.From_UnixMilliseconds(unix_Milliseconds)
+                .UtcDateTime;
+
+        DateTime From_UnixMilliseconds_AssumeLocal(ulong unix_Milliseconds)
+            => Instances.DateTimeOffsetOperator.From_UnixMilliseconds(unix_Milliseconds)
+                .LocalDateTime;
+
+        DateTime From(string dateTime)
+            => this.Parse(dateTime);
+
         DateTime From(
             int year,
             int month,
@@ -127,12 +158,14 @@ namespace F10Y.L0000
             return tomorrowUtc;
         }
 
+        /// <inheritdoc cref="DateTime.Now"/>
         DateTime Get_Now_Local()
         {
             var output = DateTime.Now;
             return output;
         }
 
+        /// <inheritdoc cref="DateTime.UtcNow"/>
         DateTime Get_Now_Utc()
         {
             var output = DateTime.UtcNow;
@@ -196,6 +229,9 @@ namespace F10Y.L0000
                 dateTime,
                 format,
                 Instances.CultureInfos.Default);
+
+        DateTime Parse(string dateTime)
+            => DateTime.Parse(dateTime);
 
         DateTime To_Local(DateTime utc)
             => utc.ToLocalTime();

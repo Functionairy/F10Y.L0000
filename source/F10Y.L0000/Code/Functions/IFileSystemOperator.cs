@@ -128,6 +128,18 @@ namespace F10Y.L0000
         void Delete_Directory(string directoryPath)
             => this.Delete_Directory_Idempotent(directoryPath);
 
+        bool Delete_File(string filePath)
+        {
+            var exists = this.Exists_File(filePath);
+
+            if(exists)
+            {
+                File.Delete(filePath);
+            }
+
+            return exists;
+        }
+
         void Disable_ReadOnly(string directoryPath)
         {
             var directoryInfo = new DirectoryInfo(directoryPath);
@@ -186,6 +198,35 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
+        string[] Get_ChildFilePaths(string directoryPath)
+            => this.Enumerate_ChildFilePaths(directoryPath)
+                .Now();
+
+        IEnumerable<FileInfo> Enumerate_Files_Children(string directoryPath)
+            => Instances.DirectoryInfoOperator.Enumerate_Files_Children(directoryPath);
+
+        /// <summary>
+        /// Chooses <see cref="Enumerate_Files_Children(string)"/> as the default.
+        /// </summary>
+        IEnumerable<FileInfo> Enumerate_Files(string directoryPath)
+            => this.Enumerate_Files_Children(directoryPath);
+
+        IEnumerable<string> Enumerate_FilePaths_Children(
+            string directoryPath,
+            Func<IEnumerable<FileInfo>, IEnumerable<FileInfo>> transformer)
+            => this.Enumerate_Files_Children(directoryPath)
+                .Convert(transformer)
+                .Select(Instances.FileInfoOperator.Get_FilePath)
+                ;
+
+        IEnumerable<string> Enumerate_FilePaths(
+            string directoryPath,
+            Func<IEnumerable<FileInfo>, IEnumerable<FileInfo>> transformer)
+            => this.Enumerate_FilePaths_Children(
+                directoryPath,
+                transformer);
+
+        /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
         IEnumerable<string> Enumerate_ChildFilePaths(
             string directoryPath,
             string searchPattern)
@@ -197,6 +238,15 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
+        IEnumerable<string> Get_ChildFilePaths(
+            string directoryPath,
+            string searchPattern)
+            => this.Enumerate_ChildFilePaths(
+                directoryPath,
+                searchPattern)
+                .Now();
 
         /// <inheritdoc cref="Enumerate_ChildFilePaths(string)"/>
         IEnumerable<string> Enumerate_ChildFilePaths_ByFileExtension(
@@ -300,6 +350,35 @@ namespace F10Y.L0000
         bool Exists_Directory(string directoryPath)
         {
             var output = Directory.Exists(directoryPath);
+            return output;
+        }
+
+        string[] Get_FilePaths_Children(
+            string directoryPath,
+            Func<IEnumerable<FileInfo>, IEnumerable<FileInfo>> transformer)
+            => this.Enumerate_FilePaths_Children(
+                directoryPath,
+                transformer)
+                .Now();
+
+        string[] Get_FilePaths(
+            string directoryPath,
+            Func<IEnumerable<FileInfo>, IEnumerable<FileInfo>> transformer)
+            => this.Get_FilePaths_Children(
+                directoryPath,
+                transformer);
+
+        bool Move_File(
+            string filePath_Source,
+            string filePath_Destination,
+            bool overwrite = IValues.Overwrite_Default_Constant)
+        {
+            this.Copy_File(
+                filePath_Source,
+                filePath_Destination,
+                overwrite);
+
+            var output = this.Delete_File(filePath_Source);
             return output;
         }
 

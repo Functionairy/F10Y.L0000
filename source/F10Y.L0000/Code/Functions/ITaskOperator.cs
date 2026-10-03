@@ -14,9 +14,36 @@ namespace F10Y.L0000
         async Task<T> Await<T>(Task<T> task)
             => await task;
 
+        async Task<T> Continue_With<T>(
+            Task<T> task,
+            params Action<T>[] actions)
+        {
+            var output = await task;
+
+            Instances.ActionOperator.Run_Actions(
+                output,
+                actions);
+
+            return output;
+        }
+
+        async Task<TOut> Continue_With<TIn, TOut>(
+            Task<TIn> task,
+            Func<TIn, TOut> function)
+        {
+            var input = await task;
+
+            var output = function(input);
+            return output;
+        }
+
         /// <inheritdoc cref="Task.Delay(int)"/>
         Task Delay(int milliseconds)
             => Task.Delay(milliseconds);
+
+        /// <inheritdoc cref="Task.Delay(TimeSpan)"/>
+        Task Delay(TimeSpan timeSpan)
+            => Task.Delay(timeSpan);
 
         Task Delay_Infinite()
             => Task.Delay(Timeout.Infinite);

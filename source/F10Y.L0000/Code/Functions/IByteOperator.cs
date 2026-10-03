@@ -8,7 +8,7 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IByteOperator
     {
-        public bool Are_Equal(
+        bool Are_Equal(
             byte[] bytesA,
             byte[] bytesB)
         {
@@ -39,7 +39,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// This is useful in testing file byte-level equality.
         /// </remarks>
-        public void Verify_AreEqual(
+        void Verify_AreEqual(
             byte[] bytesA,
             byte[] bytesB)
         {

@@ -69,5 +69,11 @@ namespace F10Y.L0000
             var output = Instances.EqualityComparerOperator.Get_Default<T>();
             return output;
         }
+
+        /// <inheritdoc cref="INullOperator.NullCheckDeterminesEquality{T}(T, T, out bool)"/>
+        bool NullCheckDeterminesEquality_Else<T>(T a, T b,
+            Func<T, T, bool> equality)
+            where T : class
+            => Instances.EqualityOperator.NullCheckDeterminesEquality_Else(a, b, equality);
     }
 }

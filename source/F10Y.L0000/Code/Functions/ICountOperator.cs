@@ -29,6 +29,9 @@ namespace F10Y.L0000
         int Count<T>(ICollection<T> collection)
             => this.Get_Count(collection);
 
+        int Count_OrZeroIfDefault<T>(ICollection<T> collection)
+            => Get_Count_OrZeroIfDefault(collection);
+
         int Count<T>(IEnumerable<T> enumerable)
             => Instances.EnumerableOperator.Count(enumerable);
 
@@ -36,6 +39,9 @@ namespace F10Y.L0000
             => Instances.DictionaryOperator.Get_Counts_ByKey(arrays_ByKey);
 
         int Get_Count<T>(ICollection<T> collection)
+            => Instances.CollectionOperator.Get_Count(collection);
+
+        int Get_Count_OrZeroIfDefault<T>(ICollection<T> collection)
             => Instances.CollectionOperator.Get_Count(collection);
     }
 }

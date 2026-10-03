@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -296,6 +295,20 @@ namespace F10Y.L0000
             {
                 destination[i] = source[startIndex_Source + i];
             }
+        }
+
+        T[] Clone<T>(T[] array)
+        {
+            var length = this.Get_Length(array);
+
+            var output = this.New<T>(length);
+
+            Array.Copy(
+                array,
+                output,
+                length);
+
+            return output;
         }
 
         /// <summary>

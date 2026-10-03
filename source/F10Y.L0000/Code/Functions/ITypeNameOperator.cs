@@ -22,6 +22,7 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <inheritdoc cref="Type.FullName"/>
         string Get_TypeName_Full(Type type)
         {
             var output = type.FullName;
@@ -60,6 +61,12 @@ namespace F10Y.L0000
             var typeName = this.Get_TypeName_Short(type);
             return typeName;
         }
+
+        /// <summary>
+        /// Chooses <see cref="Get_TypeName_Short_OfImplementationType{T}(T)"/> as the default.
+        /// </summary>
+        string Get_TypeName_Short<T>(T value)
+            => this.Get_TypeName_Short_OfImplementationType(value);
 
         /// <inheritdoc cref="ITypeOperator.Get_Type_DeclaredType{T}()"/>
         string Get_TypeName_OfDeclaredType<T>()

@@ -16,5 +16,11 @@ namespace F10Y.L0000.Extensions
 
             return @object;
         }
+
+        public static TOut Convert<TIn, TOut>(this TIn @object,
+            Func<TIn, TOut> converter)
+            => Instances.ObjectOperator.Convert(
+                @object,
+                converter);
     }
 }

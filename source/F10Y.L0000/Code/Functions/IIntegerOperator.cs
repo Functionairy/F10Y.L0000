@@ -70,5 +70,8 @@ namespace F10Y.L0000
 
         string To_String(int integer)
             => integer.ToString();
+
+        int Parse(string value)
+            => Int32.Parse(value);
     }
 }

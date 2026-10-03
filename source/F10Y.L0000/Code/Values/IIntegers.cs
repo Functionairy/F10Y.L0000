@@ -9,35 +9,35 @@ namespace F10Y.L0000
     public partial interface IIntegers
     {
         /// <summary>
-        /// <para><value>01</value></para>
+        /// <para><value>-1</value></para>
         /// </summary>
-        public const int NegativeOne_Const = -1;
+        const int NegativeOne_Const = -1;
 
         /// <inheritdoc cref="NegativeOne_Const"/>
-        public int NegativeOne => NegativeOne_Const;
+        int NegativeOne => NegativeOne_Const;
 
         /// <summary>
         /// <para><value>0</value></para>
         /// </summary>
-        public const int Zero_Constant = 0;
+        const int Zero_Constant = 0;
 
         /// <inheritdoc cref="Zero_Constant"/>
-        public int Zero => Zero_Constant;
+        int Zero => Zero_Constant;
 
         /// <summary>
         /// <para><value>1</value></para>
         /// </summary>
-        public const int One_Constant = 1;
+        const int One_Constant = 1;
 
         /// <inheritdoc cref="One_Constant"/>
-        public int One => One_Constant;
+        int One => One_Constant;
 
         /// <summary>
-        /// <para><value>1</value></para>
+        /// <para><value>2</value></para>
         /// </summary>
-        public const int Two_Constant = 2;
+        const int Two_Constant = 2;
 
         /// <inheritdoc cref="Two_Constant"/>
-        public int Two => Two_Constant;
+        int Two => Two_Constant;
     }
 }

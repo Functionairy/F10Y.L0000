@@ -10,14 +10,14 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IXmlWriterOperator
     {
-        public XmlWriter Create(
+        XmlWriter Create(
             Stream stream,
             XmlWriterSettings xmlWriterSettings)
             => XmlWriter.Create(
                 stream,
                 xmlWriterSettings);
 
-        public XmlWriter Create(
+        XmlWriter Create(
             string xmlFilePath,
             XmlWriterSettings xmlWriterSettings)
             => XmlWriter.Create(

@@ -9,6 +9,11 @@ namespace F10Y.L0000
     [ValuesMarker]
     public partial interface IActions
     {
+        void Do_Nothing_Synchronous<T>(T input)
+        {
+            // Do nothing.
+        }
+
         Func<Task> Do_Nothing
             => Instances.ActionOperator.Do_Nothing;
 

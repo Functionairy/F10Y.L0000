@@ -7,6 +7,8 @@ using System.Linq;
 using F10Y.T0002;
 using F10Y.T0011;
 
+using F10Y.L0000.Extensions;
+
 
 namespace F10Y.L0000
 {
@@ -16,10 +18,10 @@ namespace F10Y.L0000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public Implementations.IStringOperator _Implementations => Implementations.StringOperator.Instance;
+        Implementations.IStringOperator _Implementations => Implementations.StringOperator.Instance;
 
         [Ignore]
-        public Unchecked.IStringOperator _Unchecked => Unchecked.StringOperator.Instance;
+        Unchecked.IStringOperator _Unchecked => Unchecked.StringOperator.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
@@ -72,15 +74,11 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Are_Equal_CaseSensitive(string, string)"/> as the default.
         /// </summary>
-        bool Are_Equal(
-            string a,
-            string b)
-            => this.Are_Equal_CaseSensitive(
-                a,
-                b);
+        bool Are_Equal(string a, string b)
+            => this.Are_Equal_CaseSensitive(a, b);
 
         /// <summary>
-        /// Chooses <see cref="Are_Equal_CaseSensitive(string, string)"/> as the default.
+        /// The inverse of <see cref="Are_Equal(string, string)"/>.
         /// </summary>
         bool Are_Equal_Not(
             string a,
@@ -108,6 +106,19 @@ namespace F10Y.L0000
 
         string Concatenate(IEnumerable<string> strings)
             => String.Concat(strings);
+
+        string Concatenate(params char[] characters)
+            => String.Concat(characters);
+
+        string Concatenate(IEnumerable<char> characters)
+            => String.Concat(characters);
+
+        string Concatenate_Using(
+            char separator,
+            IEnumerable<string> strings)
+            => this.Join(
+                separator,
+                strings);
 
         bool Contains(
             string @string,
@@ -259,6 +270,25 @@ namespace F10Y.L0000
             return output;
         }
 
+        string Filter_Characters(
+            string @string,
+            Func<char, bool> filter)
+        {
+            var output = @string
+                .Where(c => filter(c))
+                .Concatenate()
+                ;
+
+            return output;
+        }
+
+        string Filter(
+            string @string,
+            Func<char, bool> filter)
+            => this.Filter_Characters(
+                @string,
+                filter);
+
         string Format_WithTemplate(
             string template,
             params object[] objects)
@@ -299,7 +329,7 @@ namespace F10Y.L0000
         /// Returns the string, without the beginning.
         /// Strict in terms of the function throws an exception if the string does <strong>not</strong> start with the specified beginning.
         /// </summary>
-        public string Except_Beginning_Strict(
+        string Except_Beginning_Strict(
             string @string,
             string beginning)
         {
@@ -319,7 +349,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Quality-of-life overload for <see cref="Except_Beginning_Strict(string, string)"/>.
         /// </summary>
-        public string Except_Beginning(
+        string Except_Beginning(
             string @string,
             string beginning)
         {
@@ -411,6 +441,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        char Get_Last(string @string)
+            => this.Get_Character_Last(@string);
+
         char Get_Character_Last(string @string)
         {
             var lastIndex = this.Get_IndexOf_Last(@string);
@@ -478,6 +511,19 @@ namespace F10Y.L0000
             var lastIndex = _Unchecked.Get_IndexOf_Last_Unchecked(@string);
             return lastIndex;
         }
+
+        int Get_IndexOf(
+            string @string,
+            string value)
+            => @string.IndexOf(value);
+
+        int Get_IndexOf(
+            string @string,
+            char character,
+            int index_Start)
+            => @string.IndexOf(
+                character,
+                index_Start);
 
         int Get_IndexOf(
             string @string,
@@ -749,6 +795,23 @@ namespace F10Y.L0000
             return output;
         }
 
+        string Get_Substring_FromInclusive_ToExclusive(
+            int startIndex,
+            int endIndex,
+            string @string)
+        {
+            var length = Instances.IndexOperator.Get_Count_FromInclusive_ToExclusive(
+                startIndex,
+                endIndex);
+
+            var output = this.Get_Substring_FromInclusive(
+                startIndex,
+                length,
+                @string);
+
+            return output;
+        }
+
         string Get_Substring_FromInclusive_ToInclusive(
             int startIndex,
             int endIndex,
@@ -973,6 +1036,12 @@ namespace F10Y.L0000
         bool Is_NotNullOrEmpty(string @string)
             => !this.Is_NullOrEmpty(@string);
 
+        bool Is_NullOrWhitespace(string @string)
+            => String.IsNullOrWhiteSpace(@string);
+
+        bool Is_NotNullOrWhitespace(string @string)
+            => !this.Is_NullOrWhitespace(@string);
+
         string Join(
             char separator,
             IEnumerable<char> characters)
@@ -1008,7 +1077,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join(
+        string Join(
             string separator,
             IEnumerable<char> characters)
         {
@@ -1061,6 +1130,9 @@ namespace F10Y.L0000
             return output;
         }
 
+        /// <summary>
+        /// Joins characters into a list using a comma. (<inheritdoc cref="ICharacters.Comma" path="descendant::value"/>, <see cref="ICharacters.Comma"/>)
+        /// </summary>
         string Join_AsList(IEnumerable<char> characters)
         {
             var output = this.Join(
@@ -1076,11 +1148,37 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Join_ToString(params string[] strings)
+        string Join_ToString(params string[] strings)
         {
             var output = String.Concat(strings);
             return output;
         }
+
+        string Join_ToString(IEnumerable<char> characters)
+        {
+            var output = String.Concat(characters);
+            return output;
+        }
+
+        string Join_ToString(params char[] characters)
+        {
+            var output = String.Concat(characters);
+            return output;
+        }
+
+        string Keep(
+            string @string,
+            params char[] characters)
+            => this.Keep(
+                @string,
+                Instances.HashSetOperator.From(characters));
+
+        string Keep(
+            string @string,
+            HashSet<char> characters)
+            => this.Filter(
+                @string,
+                c => characters.Contains(c));
 
         bool Length_IsAtLeast(
             string @string,
@@ -1146,6 +1244,62 @@ namespace F10Y.L0000
 
             return output;
         }
+
+        string Remove_Character(
+            string @string,
+            char character)
+            => this.Remove_Characters(
+                @string,
+                c => c == character);
+
+        string Remove(
+            string @string,
+            char character)
+            => this.Remove_Character(
+                @string,
+                character);
+
+        string Remove_Characters(
+            string @string,
+            params char[] characters)
+            => this.Remove(
+                @string,
+                Instances.HashSetOperator.From(characters));
+
+        string Remove(
+            string @string,
+            params char[] characters)
+            => this.Remove(
+                @string,
+                Instances.HashSetOperator.From(characters));
+
+        string Remove_Characters(
+            string @string,
+            HashSet<char> characters)
+            => this.Remove(
+                @string,
+                c => characters.Contains(c));
+
+        string Remove(
+            string @string,
+            HashSet<char> characters)
+            => this.Remove_Characters(
+                @string,
+                characters);
+
+        string Remove_Characters(
+            string @string,
+            Func<char, bool> remove)
+            => this.Filter_Characters(
+                @string,
+                c => !remove(c));
+
+        string Remove(
+            string @string,
+            Func<char, bool> remove)
+            => this.Remove_Characters(
+                @string,
+                remove);
 
         string Repeat(char character, int count)
         {
@@ -1494,14 +1648,14 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="System.String.Trim()"/>
-        public string Trim(string @string)
+        string Trim(string @string)
         {
             var output = @string.Trim();
             return output;
         }
 
         /// <inheritdoc cref="Trim(string)"/>
-        public IEnumerable<string> Trim(IEnumerable<string> strings)
+        IEnumerable<string> Trim(IEnumerable<string> strings)
         {
             var output = strings
                 .Select(@string => this.Trim(@string))
@@ -1511,7 +1665,7 @@ namespace F10Y.L0000
         }
 
         /// <inheritdoc cref="System.String.Trim(char[])"/>
-        public string Trim(
+        string Trim(
             string @string,
             params char[] characters)
         {
@@ -1519,7 +1673,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public IEnumerable<string> Trim(
+        IEnumerable<string> Trim(
             IEnumerable<string> strings,
             params char[] characters)
         {
@@ -1533,7 +1687,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Trim_End(
+        string Trim_End(
             string value,
             params char[] characters)
         {
@@ -1546,7 +1700,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Trims the ending (if it exists) from the end of the provided value.
         /// </summary>
-        public string Trim_End(
+        string Trim_End(
             string value,
             string ending)
         {
@@ -1580,7 +1734,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Useful for creating string-literal code fragments on their own lines (meaning the new-lines between the start-line and end-line must be removed.
         /// </remarks>
-        public string Trim_NewLines(string value)
+        string Trim_NewLines(string value)
         {
             var output = value.Trim(
                 Instances.Characters.NewLine,
@@ -1589,7 +1743,13 @@ namespace F10Y.L0000
             return output;
         }
 
-        public string Trim_Start(
+        string Trim_Start(string value)
+        {
+            var output = value.TrimStart();
+            return output;
+        }
+
+        string Trim_Start(
             string value,
             params char[] trimCharacters)
         {
@@ -1602,7 +1762,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Trims the beginning (if it exists) from the start of the provided value.
         /// </summary>
-        public string Trim_Start(
+        string Trim_Start(
             string value,
             string beginning)
         {

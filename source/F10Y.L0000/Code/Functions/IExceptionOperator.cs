@@ -5,6 +5,12 @@ using F10Y.T0002;
 
 namespace F10Y.L0000
 {
+    /// <summary>
+    /// Exception (<see cref="Exception"/>) related functions.
+    /// </summary>
+    /// <remarks>
+    /// <inheritdoc cref="Documentation.Project_SelfDescription" path="/summary"/>
+    /// </remarks>
     [FunctionsMarker]
     public partial interface IExceptionOperator
     {
@@ -53,6 +59,13 @@ namespace F10Y.L0000
             var output = new Exception(message);
             return output;
         }
+
+        ArgumentException New_ArgumentException(
+            string message,
+            string parameterName)
+            => new ArgumentException(
+                message,
+                parameterName);
 
         ArgumentNullException New_ArgumentNullException(string argumentName)
             => new ArgumentNullException(argumentName);

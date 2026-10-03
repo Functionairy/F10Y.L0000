@@ -14,7 +14,7 @@ namespace F10Y.L0000
 #pragma warning disable IDE1006 // Naming Styles
 
         [Ignore]
-        public Checked.IIndexOperator _Checked => Checked.IndexOperator.Instance;
+        Checked.IIndexOperator _Checked => Checked.IndexOperator.Instance;
 
 #pragma warning restore IDE1006 // Naming Styles
 
@@ -23,7 +23,7 @@ namespace F10Y.L0000
         /// Exclusive in the sense that the element at the index is not included.
         /// (Basically, just return the index.)
         /// </summary>
-        public int Get_Count_Exclusive(int index)
+        int Get_Count_Exclusive(int index)
         {
             var output = index;
             return output;
@@ -34,7 +34,7 @@ namespace F10Y.L0000
         /// Inclusive in the sense that the element at the index is included.
         /// (Basically, just add one to the index.)
         /// </summary>
-        public int Get_Count_Inclusive(int index)
+        int Get_Count_Inclusive(int index)
         {
             var output = index + 1;
             return output;
@@ -43,7 +43,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Chooses <see cref="Get_Count_Inclusive(int)"/> as the default.
         /// </summary>
-        public int Get_Count(int index)
+        int Get_Count(int index)
         {
             var output = this.Get_Count_Inclusive(index);
             return output;
@@ -52,7 +52,7 @@ namespace F10Y.L0000
         /// <summary>
         /// The count corresponding to an index for a zero-based array is the index plus one.
         /// </summary>
-        public int Get_Count_FromIndex_ZeroBased(int index)
+        int Get_Count_FromIndex_ZeroBased(int index)
         {
             var output = index + 1;
             return output;
@@ -61,7 +61,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="Get_Count_FromIndex_ZeroBased(int)"/> (assumes a zero-based index).
         /// </summary>
-        public int Get_Count_FromIndex(int index)
+        int Get_Count_FromIndex(int index)
         {
             var output = this.Get_Count_FromIndex_ZeroBased(index);
             return output;
@@ -70,7 +70,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Gets the count of elements starting at the start index (inclusive) and ending at the end index (inclusive).
         /// </summary>
-        public int Get_Count_FromInclusive_ToInclusive(
+        int Get_Count_FromInclusive_ToInclusive(
             int startIndex,
             int endIndex)
         {
@@ -79,9 +79,20 @@ namespace F10Y.L0000
         }
 
         /// <summary>
+        /// Gets the count of elements starting at the start index (inclusive) and ending at one before the end index (exclusive).
+        /// </summary>
+        int Get_Count_FromInclusive_ToExclusive(
+            int startIndex,
+            int endIndex)
+        {
+            var output = endIndex - startIndex;
+            return output;
+        }
+
+        /// <summary>
         /// Gets the count of elements starting at the start index (but exclusive of the start index) and ending at the end index (but exclusive of the end index).
         /// </summary>
-        public int Get_Count_FromExclusive_ToExclusive(
+        int Get_Count_FromExclusive_ToExclusive(
             int startIndex,
             int endIndex)
         {
@@ -92,7 +103,7 @@ namespace F10Y.L0000
         /// <summary>
         /// The last index of a zero-based array the the length minus one.
         /// </summary>
-        public int Get_Index_FromLength_ZeroBased(int length)
+        int Get_Index_FromLength_ZeroBased(int length)
         {
             var output = length - 1;
             return output;
@@ -101,7 +112,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="Get_Index_FromLength_ZeroBased(int)"/> (assumes a zero-based index).
         /// </summary>
-        public int Get_Index_FromLength(int length)
+        int Get_Index_FromLength(int length)
         {
             var output = this.Get_Index_FromLength_ZeroBased(length);
             return output;
@@ -110,7 +121,7 @@ namespace F10Y.L0000
         /// <summary>
         /// The last index of a zero-based array the the length minus one.
         /// </summary>
-        public int Get_LastIndex_FromLength_ZeroBased(int length)
+        int Get_LastIndex_FromLength_ZeroBased(int length)
         {
             var output = this.Get_Index_FromLength_ZeroBased(length);
             return output;
@@ -119,7 +130,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="Get_LastIndex_FromLength_ZeroBased(int)"/> (assumes a zero-based index).
         /// </summary>
-        public int Get_LastIndex_FromLength(int length)
+        int Get_LastIndex_FromLength(int length)
         {
             var output = this.Get_LastIndex_FromLength_ZeroBased(length);
             return output;
@@ -128,7 +139,7 @@ namespace F10Y.L0000
         /// <summary>
         /// The length corresponding to an index for a zero-based array is the index plus one.
         /// </summary>
-        public int Get_Length_FromIndex_ZeroBased(int index)
+        int Get_Length_FromIndex_ZeroBased(int index)
         {
             var output = index + 1;
             return output;
@@ -137,7 +148,7 @@ namespace F10Y.L0000
         /// <summary>
         /// Uses <see cref="Get_Length_FromIndex_ZeroBased(int)"/> (assumes a zero-based index).
         /// </summary>
-        public int Get_Length_FromIndex(int index)
+        int Get_Length_FromIndex(int index)
         {
             var output = this.Get_Length_FromIndex_ZeroBased(index);
             return output;
@@ -147,7 +158,7 @@ namespace F10Y.L0000
         /// Gets an <inheritdoc cref="Glossary.For_Index.Exclusive" path="/name"/> index from an <inheritdoc cref="Glossary.For_Index.Inclusive" path="/name"/> index by adding one.
         /// <para><inheritdoc cref="Glossary.For_Index.ExclusiveInclusiveRelationship" path="/definition"/></para>
         /// </summary>
-        public int Get_ExclusiveIndex(int inclusiveIndex)
+        int Get_ExclusiveIndex(int inclusiveIndex)
         {
             var output = inclusiveIndex + 1;
             return output;
@@ -157,7 +168,7 @@ namespace F10Y.L0000
         /// Gets an <inheritdoc cref="Glossary.For_Index.Inclusive" path="/name"/> index from an <inheritdoc cref="Glossary.For_Index.Exclusive" path="/name"/> index by subtracting one.
         /// <para><inheritdoc cref="Glossary.For_Index.ExclusiveInclusiveRelationship" path="/definition"/></para>
         /// </summary>
-        public int Get_InclusiveIndex(int exclusiveIndex)
+        int Get_InclusiveIndex(int exclusiveIndex)
         {
             var output = exclusiveIndex - 1;
             return output;
@@ -166,13 +177,13 @@ namespace F10Y.L0000
         /// <summary>
         /// Returns true of the index is the first index in a zero-based indexing system (is <see cref="IIndices.Zero"/>).
         /// </summary>
-        public bool Is_First(int index)
+        bool Is_First(int index)
         {
             var output = Instances.Indices.Zero == index;
             return output;
         }
 
-        public bool Is_Found(int index)
+        bool Is_Found(int index)
         {
             var output = Instances.Indices.NotFound != index;
             return output;
@@ -181,7 +192,7 @@ namespace F10Y.L0000
         /// <summary>
         /// A valid length is greater-than-or-equal-to zero.
         /// </summary>
-        public bool Is_ValidLength(int length)
+        bool Is_ValidLength(int length)
         {
             var output = Instances.IntegerOperator.GreaterThan_OrEqualTo_Zero(length);
             return output;
@@ -192,7 +203,7 @@ namespace F10Y.L0000
         /// instead of just that the result of searching was not found.
         /// But here anyway.
         /// </summary>
-        public void Verify_IsFound(int index)
+        void Verify_IsFound(int index)
         {
             var isFound = this.Is_Found(index);
             if (!isFound)
@@ -201,7 +212,7 @@ namespace F10Y.L0000
             }
         }
 
-        public void Verify_IsValidLength(int length)
+        void Verify_IsValidLength(int length)
         {
             var is_ValidLength = this.Is_ValidLength(length);
             if(!is_ValidLength)
@@ -210,7 +221,7 @@ namespace F10Y.L0000
             }
         }
 
-        public bool Was_Found(int index)
+        bool Was_Found(int index)
         {
             var output = this.Is_Found(index);
             return output;

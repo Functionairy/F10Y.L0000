@@ -8,7 +8,7 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IDateTimeOffsetOperator
     {
-        public string Format(
+        string Format(
             DateTimeOffset dateTimeOffset,
             string template)
         {
@@ -19,7 +19,7 @@ namespace F10Y.L0000
             return output;
         }
 
-        public DateTimeOffset From_DateTime_Local(DateTime dateTimeLocal)
+        DateTimeOffset From_DateTime_Local(DateTime dateTimeLocal)
         {
             var localOffset = this.Get_LocalOffsetFromUtc();
 
@@ -28,17 +28,37 @@ namespace F10Y.L0000
             return dateTimeOffset;
         }
 
-        public TimeSpan Get_LocalOffsetFromUtc()
+        /// <summary>
+        /// Result is the time at UTC.
+        /// <para>
+        /// See: <see cref="DateTimeOffset.FromUnixTimeMilliseconds(long)"/>
+        /// </para>
+        /// </summary>
+        DateTimeOffset From_UnixMilliseconds(long unix_Milliseconds)
+        {
+            var output = DateTimeOffset.FromUnixTimeMilliseconds(unix_Milliseconds);
+            return output;
+        }
+
+        DateTimeOffset From_UnixMilliseconds(ulong unix_Milliseconds)
+        {
+            var unix_Milliseconds_Long = Instances.ConversionOperator.To_Long(unix_Milliseconds);
+
+            var output = this.From_UnixMilliseconds(unix_Milliseconds_Long);
+            return output;
+        }
+
+        TimeSpan Get_LocalOffsetFromUtc()
         {
             var currentOffset = Instances.TimeSpanOperator.Get_OffsetFromUtc();
             return currentOffset;
         }
 
-        public DateTime Get_Local(DateTimeOffset dateTimeOffset)
+        DateTime Get_Local(DateTimeOffset dateTimeOffset)
             => dateTimeOffset.LocalDateTime;
 
-        public DateTime Get_UTC(DateTimeOffset dateTimeOffset)
-            => dateTimeOffset.LocalDateTime;
+        DateTime Get_UTC(DateTimeOffset dateTimeOffset)
+            => dateTimeOffset.UtcDateTime;
 
         DateTimeOffset Get_DateTimeOffset_Of(DateTime dateTime)
             => new DateTimeOffset(dateTime);

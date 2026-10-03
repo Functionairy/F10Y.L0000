@@ -10,6 +10,11 @@ namespace F10Y.L0000
     [FunctionsMarker]
     public partial interface IActionOperator
     {
+        Action<T> Combine<T>(params Action<T>[] actions)
+            => value => this.Run_Actions(
+                value,
+                actions);
+
         /// <summary>
         /// The correct usage is:
         /// <code>Action&lt;RepositoryContext&gt; Default => Instances.ActionOperations.DoNothing_Synchronous;</code>
@@ -38,6 +43,20 @@ namespace F10Y.L0000
             return Task.CompletedTask;
         }
 
+        TValue Run_Function_OkIfDefault<TValue>(
+            TValue value,
+            Func<TValue, TValue> function)
+        {
+            var function_IsDefault = Instances.DefaultOperator.Is_Default(function);
+            if (function_IsDefault)
+            {
+                return value;
+            }
+
+            var output = function(value);
+            return output;
+        }
+
         void Run_Action_OkIfDefault<TValue>(
             TValue value,
             Action<TValue> action)
@@ -49,6 +68,22 @@ namespace F10Y.L0000
             }
 
             action(value);
+        }
+
+        TValue Run_Functions_OkIfDefault<TValue>(
+            TValue value,
+            IEnumerable<Func<TValue, TValue>> functions)
+        {
+            var output = value;
+
+            foreach (var function in functions)
+            {
+                output = this.Run_Function_OkIfDefault(
+                    output,
+                    function);
+            }
+
+            return output;
         }
 
         void Run_Actions_OkIfDefault<TValue>(

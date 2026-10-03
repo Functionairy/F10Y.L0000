@@ -11,184 +11,202 @@ namespace F10Y.L0000
         /// <summary>
         /// <para>',' (comma)</para>
         /// </summary>
-        public const char ArgumentListSeparator_Constant = ',';
+        const char ArgumentListSeparator_Constant = ',';
 
         /// <inheritdoc cref="ArgumentListSeparator_Constant"/>
-        public char ArgumentListSeparator => ArgumentListSeparator_Constant;
+        char ArgumentListSeparator => ArgumentListSeparator_Constant;
 
         /// <summary>
         /// <para>'[' (open brace)</para>
         /// </summary>
-        public const char ArrayOpenSeparator_Constant = '[';
+        const char ArrayOpenSeparator_Constant = '[';
 
         /// <inheritdoc cref="ArrayOpenSeparator_Constant"/>
-        public char ArrayOpenSeparator => ArrayOpenSeparator_Constant;
+        char ArrayOpenSeparator => ArrayOpenSeparator_Constant;
 
         /// <summary>
         /// <para>']' (close brace)</para>
         /// </summary>
-        public const char ArrayCloseSeparator_Constant = ']';
+        const char ArrayCloseSeparator_Constant = ']';
 
         /// <inheritdoc cref="ArrayCloseSeparator_Constant"/>
-        public char ArrayCloseSeparator => ArrayCloseSeparator_Constant;
+        char ArrayCloseSeparator => ArrayCloseSeparator_Constant;
 
         /// <summary>
         /// <para>'[' (open brace)</para>
         /// </summary>
-        public const char AttributeOpenSeparator_Constant = '[';
+        const char AttributeOpenSeparator_Constant = '[';
 
         /// <inheritdoc cref="AttributeOpenSeparator_Constant"/>
-        public char AttributeOpenSeparator => AttributeOpenSeparator_Constant;
+        char AttributeOpenSeparator => AttributeOpenSeparator_Constant;
 
         /// <summary>
         /// <para>']' (close brace)</para>
         /// </summary>
-        public const char AttributeCloseSeparator_Constant = ']';
+        const char AttributeCloseSeparator_Constant = ']';
 
         /// <inheritdoc cref="AttributeCloseSeparator_Constant"/>
-        public char AttributeCloseSeparator => AttributeCloseSeparator_Constant;
+        char AttributeCloseSeparator => AttributeCloseSeparator_Constant;
 
         /// <summary>
         /// <para>'#' (hash)</para>
         /// In the type input lists of explicitly implemented members, the namespaced token separator changes from '.' to '#'.
         /// </summary>
-        public const char ExplicitImplementationNamespaceTokenSeparator_Constant = '#';
+        const char ExplicitImplementationNamespaceTokenSeparator_Constant = '#';
 
         /// <inheritdoc cref="ExplicitImplementationNamespaceTokenSeparator_Constant"/>
-        public char ExplicitImplementationNamespaceTokenSeparator => ExplicitImplementationNamespaceTokenSeparator_Constant;
+        char ExplicitImplementationNamespaceTokenSeparator => ExplicitImplementationNamespaceTokenSeparator_Constant;
 
         /// <summary>
         /// <para>'@' (alphasand)</para>
         /// In the type input lists of explicitly implemented members, the type name separator changes from ',' to '@'.
         /// </summary>
-        public const char ExplicitImplementationArgumentListSeparator_Constant = '@';
+        const char ExplicitImplementationArgumentListSeparator_Constant = '@';
 
         /// <inheritdoc cref="ExplicitImplementationArgumentListSeparator_Constant"/>
-        public char ExplicitImplementationArgumentListSeparator => ExplicitImplementationArgumentListSeparator_Constant;
+        char ExplicitImplementationArgumentListSeparator => ExplicitImplementationArgumentListSeparator_Constant;
 
         /// <summary>
         /// <para>'&lt;' (open angle-bracket)</para>
         /// Used for both type parameter, and type argument lists.
         /// </summary>
-        public const char GenericTypeListOpenTokenSeparator_Constant = '<';
+        const char GenericTypeListOpenTokenSeparator_Constant = '<';
 
         /// <inheritdoc cref="GenericTypeListOpenTokenSeparator_Constant"/>
-        public char GenericTypeListOpenTokenSeparator => GenericTypeListOpenTokenSeparator_Constant;
+        char GenericTypeListOpenTokenSeparator => GenericTypeListOpenTokenSeparator_Constant;
 
         /// <summary>
         /// <para>'&gt;' (close angle-bracket)</para>
         /// </summary>
-        public const char GenericTypeListCloseTokenSeparator_Constant = '>';
+        const char GenericTypeListCloseTokenSeparator_Constant = '>';
 
         /// <inheritdoc cref="GenericTypeListCloseTokenSeparator_Constant"/>
-        public char GenericTypeListCloseTokenSeparator => GenericTypeListCloseTokenSeparator_Constant;
+        char GenericTypeListCloseTokenSeparator => GenericTypeListCloseTokenSeparator_Constant;
 
         /// <summary>
         /// <para>'`1' (two back-ticks)</para>
         /// </summary>
-        public const string MethodTypeParameterCountSeparator_Constant = "``";
+        const string MethodTypeParameterCountSeparator_Constant = "``";
 
         /// <inheritdoc cref="MethodTypeParameterCountSeparator_Constant"/>
-        public string MethodTypeParameterCountSeparator => MethodTypeParameterCountSeparator_Constant;
+        string MethodTypeParameterCountSeparator => MethodTypeParameterCountSeparator_Constant;
 
         /// <summary>
         /// <para><name>'.' (period)</name></para>
         /// Separates tokens in a namespace name (e.g. System.String) from each other.
         /// </summary>
-        public const char NamespaceNameTokenSeparator_Constant = ICharacters.Period_Constant;
+        const char NamespaceNameTokenSeparator_Constant = ICharacters.Period_Constant;
 
         /// <inheritdoc cref="NamespaceNameTokenSeparator_Constant"/>
-        public char NamespaceNameTokenSeparator => NamespaceNameTokenSeparator_Constant;
+        char NamespaceNameTokenSeparator => NamespaceNameTokenSeparator_Constant;
 
         /// <summary>
         /// <para><name>'.' (period)</name></para>
         /// Separates tokens in a namespace name (e.g. System.String) from each other.
         /// </summary>
-        public const string NamespaceNameTokenSeparator_String_Constant = IStrings.Period_Constant;
+        const string NamespaceNameTokenSeparator_String_Constant = IStrings.Period_Constant;
 
         /// <inheritdoc cref="NamespaceNameTokenSeparator_String_Constant"/>
-        public string NamespaceNameTokenSeparator_String => NamespaceNameTokenSeparator_String_Constant;
+        string NamespaceNameTokenSeparator_String => NamespaceNameTokenSeparator_String_Constant;
 
         /// <summary>
         /// <para><name>'+' (plus)</name></para>
         /// Separates tokens in a nested type name (parent type name, child type name) from each other.
         /// </summary>
-        public const char NestedTypeNameTokenSeparator_Constant = '+';
+        const char NestedTypeNameTokenSeparator_Constant = '+';
 
         /// <inheritdoc cref="NestedTypeNameTokenSeparator_Constant"/>
-        public char NestedTypeNameTokenSeparator => NestedTypeNameTokenSeparator_Constant;
+        char NestedTypeNameTokenSeparator => NestedTypeNameTokenSeparator_Constant;
 
         /// <inheritdoc cref="NestedTypeNameTokenSeparator_Constant"/>
-        public const string NestedTypeNameTokenSeparator_String_Constant = "+";
+        const string NestedTypeNameTokenSeparator_String_Constant = "+";
 
         /// <inheritdoc cref="NestedTypeNameTokenSeparator_String_Constant"/>
-        public string NestedTypeNameTokenSeparator_String => NestedTypeNameTokenSeparator_String_Constant;
+        string NestedTypeNameTokenSeparator_String => NestedTypeNameTokenSeparator_String_Constant;
 
         /// <summary>
         /// <para>')' (close-parenthesis)</para>
         /// Closes the parameter list for a method identity string.
         /// </summary>
-        public const char ParameterListCloseTokenSeparator_Constant = ')';
+        const char ParameterListCloseTokenSeparator_Constant = ')';
 
         /// <inheritdoc cref="ParameterListCloseTokenSeparator_Constant"/>
-        public char ParameterListCloseTokenSeparator => ParameterListCloseTokenSeparator_Constant;
+        char ParameterListCloseTokenSeparator => ParameterListCloseTokenSeparator_Constant;
 
         /// <summary>
         /// <para>'(' (open-parenthesis)</para>
         /// Separates the namespaced, typed, method name from its parameter list.
         /// </summary>
-        public const char ParameterListOpenTokenSeparator_Constant = '(';
+        const char ParameterListOpenTokenSeparator_Constant = '(';
 
         /// <inheritdoc cref="ParameterListOpenTokenSeparator_Constant"/>
-        public char ParameterListOpenTokenSeparator => ParameterListOpenTokenSeparator_Constant;
+        char ParameterListOpenTokenSeparator => ParameterListOpenTokenSeparator_Constant;
 
         /// <summary>
         /// <para>' ' (space)</para>
         /// Separates the namespaced type name of a parameter from the name of a parameter.
         /// </summary>
-        public const char ParameterNameTokenSeparator_Constant = ' ';
+        const char ParameterNameTokenSeparator_Constant = ' ';
 
         /// <inheritdoc cref="ParameterNameTokenSeparator_Constant"/>
-        public char ParameterNameTokenSeparator => ParameterNameTokenSeparator_Constant;
+        char ParameterNameTokenSeparator => ParameterNameTokenSeparator_Constant;
 
         /// <summary>
         /// <para>' ' (space)</para>
         /// Separates the namespaced type name of a parameter from the name of a parameter.
         /// </summary>
-        public const string ParameterNameTokenSeparator_String_Constant = " ";
+        const string ParameterNameTokenSeparator_String_Constant = " ";
 
         /// <inheritdoc cref="ParameterNameTokenSeparator_String_Constant"/>
-        public string ParameterNameTokenSeparator_String => ParameterNameTokenSeparator_String_Constant;
+        string ParameterNameTokenSeparator_String => ParameterNameTokenSeparator_String_Constant;
 
         /// <summary>
         /// <para><name>'&lt;' (open-angle bracket)</name></para>
         /// </summary>
-        public const char TypeArgumentListOpenTokenSeparator_Constant = '<';
+        const char TypeArgumentListOpenTokenSeparator_Constant = '<';
 
         /// <inheritdoc cref="TypeArgumentListOpenTokenSeparator_Constant"/>
-        public char TypeArgumentListOpenTokenSeparator => TypeArgumentListOpenTokenSeparator_Constant;
+        char TypeArgumentListOpenTokenSeparator => TypeArgumentListOpenTokenSeparator_Constant;
 
         /// <summary>
         /// <para><name>'>' (close-angle bracket)</name></para>
         /// </summary>
-        public const char TypeArgumentListCloseTokenSeparator_Constant = '>';
+        const char TypeArgumentListCloseTokenSeparator_Constant = '>';
 
         /// <inheritdoc cref="TypeArgumentListCloseTokenSeparator_Constant"/>
-        public char TypeArgumentListCloseTokenSeparator => TypeArgumentListCloseTokenSeparator_Constant;
+        char TypeArgumentListCloseTokenSeparator => TypeArgumentListCloseTokenSeparator_Constant;
+
+
+        /// <summary>
+        /// <para><name>'{' (open-brace)</name></para>
+        /// </summary>
+        const char TypeArgumentList_InParameterContext_OpenTokenSeparator_Constant = '{';
+
+        /// <inheritdoc cref="TypeArgumentList_InParameterContext_OpenTokenSeparator_Constant"/>
+        char TypeArgumentList_InParameterContext_OpenTokenSeparator => TypeArgumentList_InParameterContext_OpenTokenSeparator_Constant;
+
+        /// <summary>
+        /// <para><name>'}' (close-brace)</name></para>
+        /// </summary>
+        const char TypeArgumentList_InParameterContext_CloseTokenSeparator_Constant = '}';
+
+        /// <inheritdoc cref="TypeArgumentList_InParameterContext_CloseTokenSeparator_Constant"/>
+        char TypeArgumentList_InParameterContext_CloseTokenSeparator => TypeArgumentList_InParameterContext_CloseTokenSeparator_Constant;
+
 
         /// <summary>
         /// <para>'`' (back-tick)</para>
         /// Separates the namespaced type name for type names (or namespaced typed method name for method names)
         /// from the type parameter count and then the rest of the identity name value.
         /// </summary>
-        public const char TypeParameterCountSeparator_Constant = '`';
+        const char TypeParameterCountSeparator_Constant = '`';
 
         /// <inheritdoc cref="TypeParameterCountSeparator_Constant"/>
-        public char TypeParameterCountSeparator => TypeParameterCountSeparator_Constant;
+        char TypeParameterCountSeparator => TypeParameterCountSeparator_Constant;
 
-        public const string TypeParameterCountSeparator_String_Constant = "`";
+        const string TypeParameterCountSeparator_String_Constant = "`";
 
         /// <inheritdoc cref="TypeParameterCountSeparator_String_Constant"/>
-        public string TypeParameterCountSeparator_String => TypeParameterCountSeparator_String_Constant;
+        string TypeParameterCountSeparator_String => TypeParameterCountSeparator_String_Constant;
     }
 }
