@@ -9,10 +9,13 @@ namespace F10Y.L0000.Implementations
     /// <summary>
     /// Implementations for a stringly-typed path operator (NET Standard 2.1 Foundation Library).
     /// </summary>
+    /// <remarks>
+    /// <inheritdoc cref="Documentation.Project_SelfDescription" path="/summary"/>
+    /// </remarks>
     [FunctionsMarker]
     public partial interface IPathOperator
     {
-        public string Get_DirectoryName_ViaDirectoryInfo(string directoryPath)
+        string Get_DirectoryName_ViaDirectoryInfo(string directoryPath)
         {
             var directoryInfo = Instances.DirectoryInfoOperator.From(directoryPath);
 
@@ -20,13 +23,13 @@ namespace F10Y.L0000.Implementations
             return output;
         }
 
-        public string Get_DirectoryName_ViaLastPathPart(string directoryPath)
+        string Get_DirectoryName_ViaLastPathPart(string directoryPath)
         {
             var output = Instances.PathOperator.Get_PathPart_Last(directoryPath);
             return output;
         }
 
-        public string Get_FileName_ViaFileInfo(string filePath)
+        string Get_FileName_ViaFileInfo(string filePath)
         {
             var fileInfo = Instances.FileInfoOperator.From(filePath);
 
@@ -34,7 +37,7 @@ namespace F10Y.L0000.Implementations
             return output;
         }
 
-        public string Get_FileName_ViaLastPathPart(string filePath)
+        string Get_FileName_ViaLastPathPart(string filePath)
         {
             var output = Instances.PathOperator.Get_PathPart_Last(filePath);
             return output;
@@ -44,7 +47,7 @@ namespace F10Y.L0000.Implementations
         /// <remarks>
         /// Uses the <see cref="Path.GetFullPath(string)"/> method.
         /// </remarks>
-        public string Resolve_GetFullPath(string path_Unresolved)
+        string Resolve_GetFullPath(string path_Unresolved)
         {
             var output = Path.GetFullPath(path_Unresolved);
             return output;

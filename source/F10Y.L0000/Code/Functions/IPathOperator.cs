@@ -14,6 +14,7 @@ namespace F10Y.L0000
     /// </summary>
     /// <remarks>
     /// See F10Y.L0027 repository for tests and demonstrations.
+    /// <para><inheritdoc cref="Documentation.Project_SelfDescription" path="/summary"/></para>
     /// </remarks>
     [FunctionsMarker]
     public partial interface IPathOperator
@@ -212,13 +213,9 @@ namespace F10Y.L0000
         string Get_Path(
             string basePath,
             string path_RelativeToBasePath)
-        {
-            var output = Path.Combine(
+            => this.Combine_Simple(
                 basePath,
                 path_RelativeToBasePath);
-
-            return output;
-        }
 
         string Get_PathPart_Last(string path)
         {
