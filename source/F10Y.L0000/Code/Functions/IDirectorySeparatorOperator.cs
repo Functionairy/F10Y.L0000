@@ -16,7 +16,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the result of <see cref="Path.AltDirectorySeparatorChar"/>.
         /// </remarks>
-        public char Get_DirectorySeparator_ForEnvironment_Alternate()
+        char Get_DirectorySeparator_ForEnvironment_Alternate()
         {
             var output = Path.AltDirectorySeparatorChar;
             return output;
@@ -29,7 +29,7 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the result of <see cref="Path.AltDirectorySeparatorChar"/>.
         /// </remarks>
-        public char Get_DirectorySeparator_ForEnvironment_Opposite()
+        char Get_DirectorySeparator_ForEnvironment_Opposite()
         {
             var directorySeparator_Environment = this.Get_DirectorySeparator_ForEnvironment();
 
@@ -48,13 +48,13 @@ namespace F10Y.L0000
         /// <remarks>
         /// Returns the result of <see cref="Path.DirectorySeparatorChar"/>.
         /// </remarks>
-        public char Get_DirectorySeparator_ForEnvironment()
+        char Get_DirectorySeparator_ForEnvironment()
         {
             var output = Path.DirectorySeparatorChar;
             return output;
         }
 
-        public bool Is_DirectorySeparator(char character)
+        bool Is_DirectorySeparator(char character)
         {
             var directorySeparators = Instances.DirectorySeparators.Both;
 

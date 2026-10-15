@@ -96,6 +96,12 @@ namespace F10Y.L0000
             return output;
         }
 
+        string Ensure_UsesPathSeparator_Environment(string path)
+            => Instances.StringOperator.Replace_Character(
+                path,
+                Instances.DirectorySeparators.Environment_Opposite,
+                Instances.DirectorySeparators.Environment);
+
         string Get_DirectoryName(string directoryPath)
         {
             var directoryInfo = Instances.DirectoryInfoOperator.From(directoryPath);
@@ -111,6 +117,20 @@ namespace F10Y.L0000
             => this.Get_DirectoryName(directoryPath);
 
         string Get_DirectoryPath(
+            string base_DirectoryPath,
+            string relative_DirectoryPath)
+        {
+            var combined_DirectoryPath = this.Combine_Simple(
+                base_DirectoryPath,
+                relative_DirectoryPath);
+
+            var combinedAndEnvironmented_DirectoryPath = this.Ensure_UsesPathSeparator_Environment(combined_DirectoryPath);
+
+            var output = this.Ensure_IsDirectoryIndicated(combinedAndEnvironmented_DirectoryPath);
+            return output;
+        }
+
+        string Get_DirectoryPath_Simple(
             string baseDirectoryPath,
             string relativeDirectoryPath)
         {
@@ -169,6 +189,18 @@ namespace F10Y.L0000
         }
 
         string Get_FilePath(
+            string directoryPath,
+            string fileName)
+        {
+            var combined_Simple = this.Combine_Simple(
+                directoryPath,
+                fileName);
+
+            var output = this.Ensure_UsesPathSeparator_Environment(combined_Simple);
+            return output;
+        }
+
+        string Get_FilePath_Simple(
             string directoryPath,
             string fileName)
         {

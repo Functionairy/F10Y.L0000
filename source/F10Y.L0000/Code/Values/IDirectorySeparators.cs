@@ -24,16 +24,16 @@ namespace F10Y.L0000
         });
 
         /// <inheritdoc cref="zBoth"/>
-        public char[] Both => zBoth.Value;
+        char[] Both => zBoth.Value;
 
         /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment"/>
-        public char Environment => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment();
+        char Environment => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment();
 
         /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate"/>
-        public char Environment_Alternate => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate();
+        char Environment_Alternate => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Alternate();
 
         /// <inheritdoc cref="IDirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Opposite"/>
-        public char Environment_Opposite => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Opposite();
+        char Environment_Opposite => Instances.DirectorySeparatorOperator.Get_DirectorySeparator_ForEnvironment_Opposite();
 
         /// <summary>
         /// The non-Windows path directory separator.
@@ -44,7 +44,7 @@ namespace F10Y.L0000
         /// <para><self-reference><see cref="NonWindows_AsCharacter"/></self-reference></para>
         /// <para>Documentation: <inheritdoc cref="ICharacters.Slash" path="descendant::documentation-reference"/></para>
         /// </remarks>
-        public char NonWindows_AsCharacter => Instances.Characters.Slash;
+        char NonWindows_AsCharacter => Instances.Characters.Slash;
 
         /// <summary>
         /// The non-Windows path directory separator.
@@ -55,10 +55,10 @@ namespace F10Y.L0000
         /// <para><self-reference><see cref="NonWindows_AsString"/></self-reference></para>
         /// <para>Documentation: <inheritdoc cref="IStrings.Slash" path="descendant::documentation-reference"/></para>
         /// </remarks>
-        public string NonWindows_AsString => Instances.Strings.Slash;
+        string NonWindows_AsString => Instances.Strings.Slash;
 
         /// <inheritdoc cref="NonWindows_AsCharacter"/>
-        public char NonWindows => NonWindows_AsCharacter;
+        char NonWindows => NonWindows_AsCharacter;
 
         /// <summary>
         /// The Windows path directory separator.
@@ -69,7 +69,7 @@ namespace F10Y.L0000
         /// <para><self-reference><see cref="Windows_AsCharacter"/></self-reference></para>
         /// <para>Documentation: <inheritdoc cref="ICharacters.Backslash" path="descendant::documentation-reference"/></para>
         /// </remarks>
-        public char Windows_AsCharacter => Instances.Characters.Backslash;
+        char Windows_AsCharacter => Instances.Characters.Backslash;
 
         /// <summary>
         /// The Windows path directory separator.
@@ -80,9 +80,9 @@ namespace F10Y.L0000
         /// <para><self-reference><see cref="Windows_AsString"/></self-reference></para>
         /// <para>Documentation: <inheritdoc cref="IStrings.Backslash" path="descendant::documentation-reference"/></para>
         /// </remarks>
-        public string Windows_AsString => Instances.Strings.Backslash;
+        string Windows_AsString => Instances.Strings.Backslash;
 
         /// <inheritdoc cref="Windows_AsCharacter"/>
-        public char Windows => Windows_AsCharacter;
+        char Windows => Windows_AsCharacter;
     }
 }

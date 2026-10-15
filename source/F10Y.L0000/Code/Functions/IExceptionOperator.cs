@@ -1,5 +1,5 @@
 using System;
-
+using System.IO;
 using F10Y.T0002;
 
 
@@ -70,6 +70,12 @@ namespace F10Y.L0000
         ArgumentNullException New_ArgumentNullException(string argumentName)
             => new ArgumentNullException(argumentName);
 
+        FileNotFoundException New_FileNotFoundException()
+            => new FileNotFoundException();
+
+        FileNotFoundException New_FileNotFoundException(string message)
+            => new FileNotFoundException();
+
         void Throw(string message)
         {
             var exception = this.From(message);
@@ -81,6 +87,9 @@ namespace F10Y.L0000
         {
             throw exception;
         }
+
+        void Throw_FileNotFoundException(string message)
+            => throw this.New_FileNotFoundException(message);
 
         void Throw_NotImplementedException()
         {
